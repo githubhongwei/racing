@@ -5,24 +5,22 @@
 	<meta charset = "utf-8">
 </head>
 <style type="text/css">
-	.words{font-size: 100px;
-			letter-spacing: 10px;
+	.words{font-size: 500%;
 			position: absolute;
 			color: #0F0F0F;
 			font-family:Microsoft JhengHei;
 			top:82%;
 			left: 39%;}
-	.m_time{font-size: 100px;
-			letter-spacing: 10px;
+	.m_time{font-size: 500%;
 			position: absolute;
-			color: #fff;
+			color: #0F0F0F;
 			font-family:Microsoft JhengHei;
 			top:89%;
 			left: 39%;}
-	.s_time{font-size: 100px;
-			letter-spacing: 10px;
+	.s_time{font-size: 500%;
 			position: absolute;
-			color: #fff;
+			color: #0F0F0F;
+			font-family:Microsoft JhengHei;
 			top:89%;
 			left: 60%;}
 	.imgw{position: relative;}
@@ -48,8 +46,32 @@
 function ChangeString(){
     var id=Number(document.getElementById("app").innerHTML);
 	var UserString = [
-		["廖宏偉", "19", "03"],
-		["張倫華", "17", "05"]];	
+		["張倫華", "17", "05", "00"],
+		["  建忠", "17", "20", "01"],
+		["  大瑜", "17", "50", "02"],
+		["  郭喵", "18", "06", "03"],
+		["James ", "18", "18", "04"],
+		["Andy  ", "19", "02", "05"],
+		["廖宏偉", "19", "03", "06"],
+		["  建宗", "19", "40", "07"],
+		["Jacky ", "19", "48", "08"],
+		["Gavin ", "19", "49", "09"],
+		["  一力", "19", "57", "10"],
+		["  真真", "20", "16", "11"],
+		["Jimmy ", "20", "32", "12"],
+		["Chloe ", "20", "44", "13"],
+		["汪懂  ", "20", "44", "14"],
+		["翰青  ", "20", "51", "15"],
+		["Nick  ", "20", "52", "16"],
+		["智雄  ", "21", "08", "17"],
+		["Donnie", "21", "09", "18"],
+		["Justin", "21", "15", "19"],
+		["春利  ", "21", "16", "20"],
+		["小咪  ", "21", "18", "21"],
+		["美彤  ", "21", "38", "22"],
+		["Weiting", "23", "42", "23"],
+		["Steffi", "25", "00", "24"],
+		];	
     document.getElementById("NameString").innerHTML=UserString[id][0];
 	document.getElementById("MinuteString").innerHTML=UserString[id][1];
 	document.getElementById("SecondString").innerHTML=UserString[id][2];
