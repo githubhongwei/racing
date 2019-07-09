@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset = "utf-8">
+</head>
+<style type="text/css">
+	.words{font-size: 40px;
+			position: absolute;
+			color: #0F0F0F;
+			font-weight: 600;
+			font-family: Microsoft JhengHei;	
+			top: 396px;
+			left: 570px;			
+			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+			color: #0F0F0F;}
+	.m_time{font-size: 40px;
+			position: absolute;
+			color: #0F0F0F;
+			font-weight: 600;
+			font-family: Microsoft JhengHei;
+			top: 454px;
+			left: 548px;
+			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+			color: #0F0F0F;}
+	.s_time{font-size: 40px;
+			position: absolute;
+			color: #0F0F0F;
+			font-weight: 600;
+			font-family:Microsoft JhengHei;
+			top: 454px;
+			left: 665px;
+			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+			color: #0F0F0F;}
+	.imgw{position: relative;}
+</style>
+<body onload="ChangeString()">
+	<div class="imgw">
+		<img src="certificate-20190601.jpg" alt= "" width="800px">
+		<div class="words">
+			<div id="NameString"></div>
+		</div>
+		<div class="m_time">
+			<div id="MinuteString"></div>
+		</div>
+		<div class="s_time">
+			<div id="SecondString"></div>
+		</div>
+		<div id="app">
+			{{ id }}
+		</div>	
+	</div>
+	
+<script type="text/javascript">
+function ChangeString(){
+    var id=Number(document.getElementById("app").innerHTML);
+	var UserString = [
+		[" 姓名 ", "mm", "ss", "id"],
+		/* 第一組 01 ~ 20 */
+		["張倫華", "16", "47", "01"],
+		["王俊清", "17", "42", "02"],
+		["林鼎洋", "17", "46", "03"],
+		["黃俊豪", "17", "49", "04"],
+		["陶大瑜", "17", "51", "05"],
+		["胡凱傑", "17", "54", "06"],
+		["郭耀仁", "18", "01", "07"],
+		["深井亨", "18", "14", "08"],
+		["蔡朋憲", "18", "18", "09"],
+		["劉德凡", "18", "19", "10"],
+		["林祐萱", "18", "36", "11"],
+		["曹順智", "18", "40", "12"],
+		["廖宏偉", "18", "49", "13"],
+		["王柏勝", "19", "01", "14"],
+		[" 建宗 ", "19", "25", "15"],
+		["", "", "", "16"],
+		["", "", "", "17"],
+		["", "", "", "18"],
+		["", "", "", "19"],
+		["", "", "", "20"],		
+		/* 第二組 21 ~ 40 */
+		["趙士翔", "18", "18", "21"],
+		["潘進興", "19", "21", "22"],
+		["陳逸寧", "19", "45", "23"],
+		["李佳玫", "19", "57", "24"],
+		["蔡佳真", "20", "25", "25"],
+		["柯大吉", "20", "48", "26"],
+		["詹進銘", "20", "54", "27"],
+		["莊翰青", "21", "05", "28"],
+		[" 小咪 ", "21", "05", "29"],
+		[" Kory ", "21", "18", "30"],
+		["林建志", "21", "32", "31"],
+		[" 春利 ", "21", "37", "32"],
+		["楊盛合", "24", "20", "33"],
+		["Donnie", "24", "40", "34"],
+		[" 烏烏 ", "26", "26", "35"],
+		["林英衛", "26", "27", "36"],
+		["", "", "", "37"],
+		["", "", "", "38"],
+		["", "", "", "39"],
+		["", "", "", "40"],	
+		];	
+    document.getElementById("NameString").innerHTML=UserString[id][0];
+	document.getElementById("MinuteString").innerHTML=UserString[id][1];
+	document.getElementById("SecondString").innerHTML=UserString[id][2];
+}
+</script>
+	
+<script src="https://unpkg.com/vue"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            id: null
+        },
+        created () {
+            this.fetchData()
+        },      
+        methods: {
+            fetchData() {
+                this.id = window.location.search.slice(4);
+            }
+        }
+    })
+</script>
+	
+</body>
+</html>
