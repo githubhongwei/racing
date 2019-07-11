@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+	<meta charset="UTF-8">
+	<title>會員註冊</title>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script>
+        //init LIFF
+        function initializeApp(data) {
+            //取得QueryString
+            let urlParams = new URLSearchParams(window.location.search);
+            //顯示QueryString
+            $('#QueryString').val(urlParams.toString());
+            //顯示UserId
+            $('#userid').val(data.context.userId);
+        }
+        //ready
+        $(function () {
+            //init LIFF
+            liff.init(function (data) {
+                initializeApp(data);
+            });
+            //ButtonGetProfile
+            $('#ButtonGetProfile').click(function () {
+                //取得User Proile
+                liff.getProfile().then(
+                    profile=> {
+                        //顯示在text box中
+                        $('#UserInfo').val(profile.displayName);
+                        //居然可以alert
+                        alert('done');
+                    }
+                );
+            });
+            //ButtonSendMsg
+            $('#ButtonSendMsg').click(function () {
+                liff.sendMessages([
+                 {
+                     type: 'text',
+                     text: $('#msg').val()
+                 }
+                ])
+               .then(() => {
+                   alert('done');
+               })
+            });
+        });
+    </script>
+	<style>
+		input {
+		width: 300px;
+		font-size: 15px;
+		margin: 2px 0;
+		padding: 2px 5px;
+		}
+
+		td {
+		border: 1px solid #aaa;
+		padding:2px 5px;
+		}
+	</style>
+</head>
+
+<body>
+	寫入方式：
+	<select id="type">
+		<option value="top">從上寫入</option>
+		<option value="bottom">寫入在最後一列</option>
+	</select><br/> 
+	Parameter 1: <input id="parameter1"><br/> 
+	Parameter 2: <input id="parameter2"><br/>
+	Parameter 2: <input id="parameter3"><br/>
+  
+	<button id="sendBtn">寫入</button><br/>
+	
+	<script>
+		var type = $('#type'),
+			sendBtn = $('#sendBtn'),
+			show = $('#show');
+		var parameter = {};
+		sendBtn.on('click', function() {
+			var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+			parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "工作表1",
+				data: data.toString(),
+				row: data.length,
+				column: data[0].length,
+				insertType: type.val()
+			};
+			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
+		});
+	</script>
+	<div class="row">
+		<div class="col-md-6" style="margin:5px">
+			<label>user id:</label>
+			<input class="form-control" type="text" id="userid" />   <br />
+			<label>QueryString:</label>
+			<input class="form-control" type="text" id="QueryString" /><br />
+			<button class="btn btn-primary" id="ButtonGetProfile">Get Profile</button>
+			<input class="form-control" type="text" id="UserInfo" /><br />
+			<label>要傳送的訊息:</label>
+			<input class="form-control" type="text" id="msg" value="測試" /><br />
+			<button class="btn btn-primary" id="ButtonSendMsg"  >要傳送的訊息</button>
+		</div>
+	</div>
+	
+</body>
+</html>
