@@ -43,7 +43,7 @@
 			liff.getProfile().then(function (profile) {
 				$('#parameter1').val(profile.userId);
 				$('#parameter2').val(profile.displayName);
-				$('#parameter1').val(profile.statusMessage);
+				$('#parameter3').val(profile.statusMessage);
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});
