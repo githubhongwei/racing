@@ -46,6 +46,9 @@
 				//data = [[profile.userId, profile.displayName, $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
 				data.push(profile.userId);
 				data.push(profile.displayName);
+				
+				alert("data: " + JSON.stringify(data));
+				
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});
