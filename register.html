@@ -29,7 +29,7 @@
 	</select><br/> 
 	Parameter 1: <input id="parameter1"><br/> 
 	Parameter 2: <input id="parameter2"><br/>
-	Parameter 2: <input id="parameter3"><br/>
+	Parameter 3: <input id="parameter3"><br/>
   
 	<button id="sendBtn">寫入</button><br/>
 	
@@ -55,7 +55,7 @@
 				data: data.toString(),
 				row: data.length,
 				column: data[0].length,
-				insertType: type.val()
+				insertType: "bottom"
 			};
 			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 		});
