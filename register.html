@@ -34,12 +34,18 @@
 			show = $('#show');
 		var parameter = {};
 		sendBtn.on('click', function() {
-			var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+			//var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+			let data = [];
 			liff.getProfile().then(function (profile) {
-				//$('#parameter1').val(profile.userId);
-				//$('#parameter2').val(profile.displayName);
+				$('#parameter1').val(profile.userId);
+				$('#parameter2').val(profile.displayName);
 				//$('#parameter3').val(profile.statusMessage);
-				data = [[profile.userId.val(), profile.displayName.val(), $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+				
+				const usrId = profile.userId;
+				
+				//data = [[profile.userId, profile.displayName, $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+				data.push(profile.userId);
+				data.push(profile.displayName);
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});
