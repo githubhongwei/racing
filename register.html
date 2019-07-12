@@ -22,11 +22,6 @@
 </head>
 
 <body>
-	寫入方式：
-	<select id="type">
-		<option value="top">從上寫入</option>
-		<option value="bottom">寫入在最後一列</option>
-	</select><br/> 
 	Parameter 1: <input id="parameter1"><br/> 
 	Parameter 2: <input id="parameter2"><br/>
 	Parameter 3: <input id="parameter3"><br/>
@@ -41,9 +36,10 @@
 		sendBtn.on('click', function() {
 		
 			liff.getProfile().then(function (profile) {
-				$('#parameter1').val(profile.userId);
-				$('#parameter2').val(profile.displayName);
-				$('#parameter3').val(profile.statusMessage);
+				//$('#parameter1').val(profile.userId);
+				//$('#parameter2').val(profile.displayName);
+				//$('#parameter3').val(profile.statusMessage);
+				var data = [profile.userId, profile.displayName, [$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});
