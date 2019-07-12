@@ -34,17 +34,17 @@
 			show = $('#show');
 		var parameter = {};
 		sendBtn.on('click', function() {
-		
+			var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
 			liff.getProfile().then(function (profile) {
 				//$('#parameter1').val(profile.userId);
 				//$('#parameter2').val(profile.displayName);
 				//$('#parameter3').val(profile.statusMessage);
-				var data = [[profile.userId, profile.displayName, $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+				data = [[profile.userId, profile.displayName, $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});
 		
-			var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+			//var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
 			parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 				name: "工作表1",
