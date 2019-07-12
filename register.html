@@ -22,11 +22,11 @@
 </head>
 
 <body>
-	Parameter 1: <input id="parameter1"><br/> 
-	Parameter 2: <input id="parameter2"><br/>
-	Parameter 3: <input id="parameter3"><br/>
+	姓名: <input id="parameter1"><br/> 
+	暱稱: <input id="parameter2"><br/>
+	手機: <input id="parameter3"><br/>
   
-	<button id="sendBtn">寫入</button><br/>
+	<button id="sendBtn">註冊</button><br/>
 	
 	<script>
 		var type = $('#type'),
@@ -40,7 +40,7 @@
 				//alert("data: " + JSON.stringify(data));
 				parameter = {
 					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-					name: "工作表1",
+					name: "會員註冊",
 					data: data.toString(),
 					row: data.length,
 					column: data[0].length,
