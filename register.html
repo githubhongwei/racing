@@ -46,7 +46,7 @@
 					column: data[0].length,
 					insertType: "bottom"
 				};
-				$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
+				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});			
