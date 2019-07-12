@@ -43,26 +43,27 @@
 				
 				const usrId = profile.userId;
 				
-				//data = [[profile.userId, profile.displayName, $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
-				data.push(profile.userId);
-				data.push(profile.displayName);
+				data = [[profile.userId, profile.displayName, $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
+				//data.push(profile.userId);
+				//data.push(profile.displayName);
 				
 				alert("data: " + JSON.stringify(data));
 				
+				parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: "工作表1",
+					data: data.toString(),
+					row: data.length,
+					column: data[0].length,
+					insertType: "bottom"
+				};
+				$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});
 		
 			//var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
-			parameter = {
-				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "工作表1",
-				data: data.toString(),
-				row: data.length,
-				column: data[0].length,
-				insertType: "bottom"
-			};
-			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
+			
 		});
 	</script>
 	<div class="row">
