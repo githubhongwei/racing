@@ -6,48 +6,6 @@
 	<title>會員註冊</title>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <script>
-        //init LIFF
-        function initializeApp(data) {
-            //取得QueryString
-            let urlParams = new URLSearchParams(window.location.search);
-            //顯示QueryString
-            $('#QueryString').val(urlParams.toString());
-            //顯示UserId
-            $('#userid').val(data.context.userId);
-        }
-        //ready
-        $(function () {
-            //init LIFF
-            liff.init(function (data) {
-                initializeApp(data);
-            });
-            //ButtonGetProfile
-            $('#ButtonGetProfile').click(function () {
-                //取得User Proile
-                liff.getProfile().then(
-                    profile=> {
-                        //顯示在text box中
-                        $('#UserInfo').val(profile.displayName);
-                        //居然可以alert
-                        alert('done');
-                    }
-                );
-            });
-            //ButtonSendMsg
-            $('#ButtonSendMsg').click(function () {
-                liff.sendMessages([
-                 {
-                     type: 'text',
-                     text: $('#msg').val()
-                 }
-                ])
-               .then(() => {
-                   alert('done');
-               })
-            });
-        });
-    </script>
 	<style>
 		input {
 		width: 300px;
@@ -81,6 +39,15 @@
 			show = $('#show');
 		var parameter = {};
 		sendBtn.on('click', function() {
+		
+			liff.getProfile().then(function (profile) {
+				$('#parameter1').val(profile.userId);
+				$('#parameter2').val(profile.displayName);
+				$('#parameter1').val(profile.statusMessage);
+			}).catch(function (error) {
+				window.alert("Error getting profile: " + error);
+			});
+		
 			var data = [[$('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
 			parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
@@ -103,9 +70,49 @@
 			<input class="form-control" type="text" id="UserInfo" /><br />
 			<label>要傳送的訊息:</label>
 			<input class="form-control" type="text" id="msg" value="測試" /><br />
-			<button class="btn btn-primary" id="ButtonSendMsg"  >要傳送的訊息</button>
+			<button class="btn btn-primary" id="ButtonSendMsg" >要傳送的訊息</button>
 		</div>
 	</div>
+	<script>
+        //init LIFF
+        function initializeApp(data) {
+            //取得QueryString
+            let urlParams = new URLSearchParams(window.location.search);
+            //顯示QueryString
+            $('#QueryString').val(urlParams.toString());
+            //顯示UserId
+            $('#userid').val(data.context.userId);
+        }
+        //ready
+        $(function () {
+            //init LIFF
+            liff.init(function (data) {
+                initializeApp(data);
+            });
+            //ButtonGetProfile
+            $('#ButtonGetProfile').click(function () {
+                //取得User Proile
+                liff.getProfile().then(
+                    profile=> {
+                        //顯示在text box中
+                        $('#UserInfo').val(profile.displayName);
+                    }
+                );
+            });
+            //ButtonSendMsg
+            $('#ButtonSendMsg').click(function () {
+                liff.sendMessages([
+                 {
+                     type: 'text',
+                     text: $('#msg').val()
+                 }
+                ])
+               .then(() => {
+                   alert('done');
+               })
+            });
+        });
+    </script>
 	
 </body>
 </html>
