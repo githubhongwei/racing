@@ -49,7 +49,9 @@
 				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
-			});			
+			});	
+			
+			liff.closeWindow();
 		});
 	</script>	
 </body>
