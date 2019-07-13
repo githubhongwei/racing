@@ -22,57 +22,64 @@
 </head>
 
 <body>
-	姓名: <input id="parameter1"><br/> 
-	暱稱: <input id="parameter2"><br/>
-	手機: <input id="parameter3"><br/>
+	姓名: <input id="name"><br/> 
+	暱稱: <input id="nickname"><br/>
+	手機: <input id="phone"><br/>
   
 	<button id="sendBtn">註冊</button><br/>
 	
 	<script>
-		var type = $('#type'),
-			sendBtn = $('#sendBtn'),
-			show = $('#show');
-		var parameter = {};
-		
-		sendBtn.on('click', function() {
-			if ($('#parameter1').val() == null) {
-				alert('還有資料沒填喔!!');
-			} else {
-				let data = [];
-				liff.getProfile().then(function (profile) {
-					data = [[profile.userId, profile.displayName, $('#parameter1').val(), $('#parameter2').val(), $('#parameter3').val()]];
-					//alert("data: " + JSON.stringify(data));
-					parameter = {
-						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-						name: "會員註冊",
-						data: data.toString(),
-						row: data.length,
-						column: data[0].length,
-						insertType: "bottom"
-					};
-					$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
-				}).catch(function (error) {
-					window.alert("Error getting profile: " + error);
-				});	
-				
-				/* 完成會員註冊, 關閉視窗 */
-				alert('會員資訊已送出');
-								
-				/* 完成會員註冊並傳送訊息			
-				liff.sendMessages([
-				{
-					type: 'text',
-					text: '會員資訊已送出'
-				}
-				]).then(() => {
-					alert('done');
-				}) 
-				*/
-			}
+	var type = $('#type'),
+		sendBtn = $('#sendBtn'),
+		show = $('#show');
+	var parameter = {};
+	
+	sendBtn.on('click', function() {
+        if($("#name").val()==""){
+            alert("你尚未填寫姓名");
+            eval("document.form1['name'].focus()");       
+        }else if($("#nickname").val()==""){
+            alert("你尚未填寫暱稱");
+            eval("document.form1['nickname'].focus()");    
+        }else if($("#phone").val()==""){
+            alert("你尚未填寫手機");
+            eval("document.form1['phone'].focus()");			
+		} else {
+			let data = [];
+			liff.getProfile().then(function (profile) {
+				data = [[profile.userId, profile.displayName, $('#name').val(), $('#nickname').val(), $('#phone').val()]];
+				//alert("data: " + JSON.stringify(data));
+				parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: "會員註冊",
+					data: data.toString(),
+					row: data.length,
+					column: data[0].length,
+					insertType: "bottom"
+				};
+				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
+			}).catch(function (error) {
+				window.alert("Error getting profile: " + error);
+			});	
 			
-			/* 關閉視窗 */
-			liff.closeWindow();
-		});
+			/* 完成會員註冊, 關閉視窗 */
+			alert('會員資訊已送出');
+							
+			/* 完成會員註冊並傳送訊息			
+			liff.sendMessages([
+			{
+				type: 'text',
+				text: '會員資訊已送出'
+			}
+			]).then(() => {
+				alert('done');
+			}) 
+			*/
+		}
+		
+		/* 關閉視窗 */
+		liff.closeWindow();
+	});
 	</script>	
 </body>
 </html>
