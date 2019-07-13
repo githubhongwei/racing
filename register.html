@@ -33,6 +33,7 @@
 			sendBtn = $('#sendBtn'),
 			show = $('#show');
 		var parameter = {};
+		
 		sendBtn.on('click', function() {
 			let data = [];
 			liff.getProfile().then(function (profile) {
@@ -50,7 +51,18 @@
 			}).catch(function (error) {
 				window.alert("Error getting profile: " + error);
 			});	
+			                
+			/* 完成會員註冊並傳送訊息 */			
+			liff.sendMessages([
+			{
+				type: 'text',
+				text: '會員資訊已送出'
+			}
+			]).then(() => {
+				alert('done');
+			})
 			
+			/* 完成會員註冊, 關閉視窗 */
 			liff.closeWindow();
 		});
 	</script>	
