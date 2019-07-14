@@ -55,7 +55,7 @@
 	function getRegisterInfo(){
 		alert("getRegisterInfo()");
 		liff.getProfile().then(function (profile) {
-			alert("liff.getProfile()");
+			alert(profile.displayName);
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 				name: "會員註冊",
@@ -63,18 +63,16 @@
 			};
 			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
 					alert("e.username: " + JSON.stringify(e.username));
-					document.getElementById("username").innerHTML=e.username;
-					document.getElementById("nickname").innerHTML=e.nickname;
-					document.getElementById("phone").innerHTML=e.phone;
+					$('#username').val(e.username);
+					$('#nickname').val(e.nickname);
+					$('#phone').val(e.phone);
 			});
 		});
 	}
 	</script>
 	
 	<script>
-	var type = $('#type'),
-		sendBtn = $('#sendBtn'),
-		show = $('#show');
+	var sendBtn = $('#sendBtn');
 	var parameter = {};
 	
 	sendBtn.on('click', function() {
