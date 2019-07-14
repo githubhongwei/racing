@@ -89,14 +89,14 @@
 				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 			//}).catch(function (error) {
 			//	alert("Error getting profile: " + error);
+				
+				/* 完成會員註冊, 關閉視窗 */
+				alert('註冊的會員資訊已送出');		
+				
+				/* 關閉視窗 */
+				liff.closeWindow();
 			});	
-			
-			/* 完成會員註冊, 關閉視窗 */
-			alert('註冊的會員資訊已送出');
 		}
-		
-		/* 關閉視窗 */
-		liff.closeWindow();
 	});
 	</script>	
 </body>
