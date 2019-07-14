@@ -3,12 +3,12 @@
 <html lang="zh-TW">
 <head>
 	<meta charset="UTF-8">
-	<title>會員註冊</title>
+	<title>BQ 會員註冊</title>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 	<style>
 		input {
-			width: 80%;
+			width: 90%;
 			font-size: 50px;
 			margin: 2px 0;
 			padding: 2px 5px;
@@ -16,23 +16,22 @@
 		}
 		
 		button {
-			width: 80%;
+			width: 90%;
 			font-size: 50px;
 			font-family:Microsoft JhengHei;	
 			margin: 2px 0;
-			padding: 2px 5px;
-			align:center;			
+			padding: 2px 5px;		
 		}
-
 	</style>
 </head>
 
 <body>
-
-	<input id="name" maxlength="5" placeholder="姓名"><br/> 
-	<input id="nickname" maxlength="5" placeholder="暱稱"><br/>
-	<input id="phone" maxlength="10" placeholder="手機"><br/>
-  	<button id="sendBtn">送出</button><br/>
+	<div style="text-align:center;">
+		<input id="name" maxlength="5" placeholder="姓名"><br/> 
+		<input id="nickname" maxlength="5" placeholder="暱稱"><br/>
+		<input id="phone" maxlength="10" placeholder="手機"><br/>
+		<button id="sendBtn">送出</button><br/>
+	</div>
 	
 	<script>
 	var type = $('#type'),
