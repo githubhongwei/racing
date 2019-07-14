@@ -41,7 +41,7 @@
 	</style>
 </head>
 
-<body>
+<body onload="getRegisterInfo()">
 	<div style="text-align:center;">
 		<h1>BQ 運動傷害預防專家</h1>
 		<h2>@bqline</h2>
@@ -51,6 +51,26 @@
 		<button id="sendBtn">送出</button><br/>
 	</div>
 	
+	<script type="text/javascript">
+	function getRegisterInfo(){
+		alert("getRegisterInfo()");
+		liff.getProfile().then(function (profile) {
+			alert("liff.getProfile()");
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "會員註冊",
+				uuid: profile.userId,
+			};
+			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
+					alert("e.username: " + JSON.stringify(e.username));
+					document.getElementById("username").innerHTML=e.username;
+					document.getElementById("nickname").innerHTML=e.nickname;
+					document.getElementById("phone").innerHTML=e.phone;
+			});
+		});
+	}
+	</script>
+	
 	<script>
 	var type = $('#type'),
 		sendBtn = $('#sendBtn'),
@@ -58,9 +78,6 @@
 	var parameter = {};
 	
 	sendBtn.on('click', function() {
-		liff.getProfile().then(function (profile) {
-			alert(profile.userId);
-		});
 		/* 表單驗證 */
         if($("#username").val()==""){
             alert("你尚未填寫姓名");
@@ -75,7 +92,6 @@
 			alert("liff.getProfile() start");
 			let data = [];
 			liff.getProfile().then(function (profile) {
-				alert("liff.getProfile()");
 				data = [[profile.userId, profile.displayName, $('#username').val(), $('#nickname').val(), $('#phone').val()]];
 				alert("data: " + JSON.stringify(data));
 				parameter = {
