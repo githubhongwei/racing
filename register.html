@@ -58,6 +58,9 @@
 	var parameter = {};
 	
 	sendBtn.on('click', function() {
+		liff.getProfile().then(function (profile) {
+			alert(profile.userId);
+		}
 		/* 表單驗證 */
         if($("#username").val()==""){
             alert("你尚未填寫姓名");
@@ -69,6 +72,7 @@
             alert("你尚未填寫手機");
             eval("document.form1['phone'].focus()");			
 		} else {
+			alert("liff.getProfile() start");
 			let data = [];
 			liff.getProfile().then(function (profile) {
 				alert("liff.getProfile()");
