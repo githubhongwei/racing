@@ -8,25 +8,31 @@
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 	<style>
 		input {
-		width: 300px;
-		font-size: 15px;
-		margin: 2px 0;
-		padding: 2px 5px;
+			width: 80%;
+			font-size: 15px;
+			margin: 2px 0;
+			padding: 2px 5px;
+			font-family:Microsoft JhengHei;
+		}
+		
+		button {
+			width: 80%;
+			font-size: 15px;
+			font-family:Microsoft JhengHei;	
+			margin: 2px 0;
+			padding: 2px 5px;
+			align:center;			
 		}
 
-		td {
-		border: 1px solid #aaa;
-		padding:2px 5px;
-		}
 	</style>
 </head>
 
 <body>
-	姓名: <input id="name"><br/> 
-	暱稱: <input id="nickname"><br/>
-	手機: <input id="phone"><br/>
-  
-	<button id="sendBtn">註冊</button><br/>
+
+	<input id="name" maxlength="5" placeholder="姓名"><br/> 
+	<input id="nickname" maxlength="5" placeholder="暱稱"><br/>
+	<input id="phone" maxlength="10" placeholder="手機"><br/>
+  	<button id="sendBtn">送出</button><br/>
 	
 	<script>
 	var type = $('#type'),
@@ -35,6 +41,7 @@
 	var parameter = {};
 	
 	sendBtn.on('click', function() {
+		/* 表單驗證 */
         if($("#name").val()==""){
             alert("你尚未填寫姓名");
             eval("document.form1['name'].focus()");       
@@ -63,18 +70,7 @@
 			});	
 			
 			/* 完成會員註冊, 關閉視窗 */
-			alert('會員資訊已送出');
-							
-			/* 完成會員註冊並傳送訊息			
-			liff.sendMessages([
-			{
-				type: 'text',
-				text: '會員資訊已送出'
-			}
-			]).then(() => {
-				alert('done');
-			}) 
-			*/
+			alert('註冊的會員資訊已送出');
 		}
 		
 		/* 關閉視窗 */
