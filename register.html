@@ -56,6 +56,17 @@
 		alert("getRegisterInfo()");
 		liff.init(function (data) {
 			alert(data.context.userId);
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "會員註冊",
+				uuid: data.context.userId,
+			};
+			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
+					//alert("e.username: " + JSON.stringify(e.username));
+					$('#username').val(e.username);
+					$('#nickname').val(e.nickname);
+					$('#phone').val(e.phone);
+			});
         });
 		liff.getProfile().then(function (profile) {
 			alert(profile.userId);
