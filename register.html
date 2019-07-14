@@ -54,6 +54,9 @@
 	<script type="text/javascript">
 	function getRegisterInfo(){
 		alert("getRegisterInfo()");
+		liff.init(function (data) {
+			alert(data.context.userId);
+        });
 		liff.getProfile().then(function (profile) {
 			alert(profile.userId);
 		});
@@ -90,7 +93,6 @@
             alert("你尚未填寫手機");
             eval("document.form1['phone'].focus()");			
 		} else {
-			alert("liff.getProfile() start");
 			let data = [];
 			liff.getProfile().then(function (profile) {
 				data = [[profile.userId, profile.displayName, $('#username').val(), $('#nickname').val(), $('#phone').val()]];
