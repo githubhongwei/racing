@@ -29,24 +29,15 @@
 			font-family:Microsoft JhengHei;
 			text-align:center
 		}
-		.button-disabled {
-			width:90%;
-			font-size:50px;
-			font-family:Microsoft JhengHei;	
-			margin: 15px 0px;
-			padding: 10px 5px;
-			color: #FFFFFF;
-			background-color:#00A599;			
-		}
-		
+
 		.button-show {
 			width:90%;
 			font-size:50px;
 			font-family:Microsoft JhengHei;	
 			margin: 15px 0px;
 			padding: 10px 5px;
-			color: #000000;
-			background-color:#00A599;			
+			color: #FFFFFF;
+			background-color:#00A599;	
 		}
 	</style>
 </head>
@@ -58,12 +49,12 @@
 		<input id="username" maxlength="5" placeholder="姓名"><br/> 
 		<input id="nickname" maxlength="5" placeholder="暱稱"><br/>
 		<input id="phone" maxlength="10" placeholder="手機"><br/>
-		<button id="sendBtn" class="button-disabled" disabled="disabled">送出</button><br/>
+		<button id="sendBtn" class="button-show" hidden>送出</button><br/>
 	</div>
 	
 	<script type="text/javascript">
 	function getRegisterInfo(){
-		alert("getRegisterInfo()");
+		alert("getRegisterInfo");
 		liff.init(function (data) {
 			alert(data.context.userId);
 			var parameter = {
@@ -72,17 +63,15 @@
 				uuid: data.context.userId,
 			};
 			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
-				$('#username').val(e.username);
-				
-				$('#nickname').val(e.nickname);
-				$('#phone').val(e.phone);
-				if(e.usernam.indexOf("??????") < 0){
-					$('#sendBtn').addClass("button-show").prop('disabled',false);
+				if(username.indexOf("??????") < 0){
+					$('#sendBtn').show();
+				} else {
+					$('#username').val(e.username);
+					$('#nickname').val(e.nickname);
+					$('#phone').val(e.phone);						
 				}
-		}
 			});
         });
-		
 	}
 	</script>
 	
