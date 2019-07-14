@@ -60,7 +60,7 @@
 	sendBtn.on('click', function() {
 		liff.getProfile().then(function (profile) {
 			alert(profile.userId);
-		}
+		});
 		/* 表單驗證 */
         if($("#username").val()==""){
             alert("你尚未填寫姓名");
