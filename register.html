@@ -29,13 +29,23 @@
 			font-family:Microsoft JhengHei;
 			text-align:center
 		}
-		button {
+		.button-disabled {
 			width:90%;
 			font-size:50px;
 			font-family:Microsoft JhengHei;	
 			margin: 15px 0px;
 			padding: 10px 5px;
 			color: #FFFFFF;
+			background-color:#00A599;			
+		}
+		
+		.button-show {
+			width:90%;
+			font-size:50px;
+			font-family:Microsoft JhengHei;	
+			margin: 15px 0px;
+			padding: 10px 5px;
+			color: #000000;
 			background-color:#00A599;			
 		}
 	</style>
@@ -48,7 +58,7 @@
 		<input id="username" maxlength="5" placeholder="姓名"><br/> 
 		<input id="nickname" maxlength="5" placeholder="暱稱"><br/>
 		<input id="phone" maxlength="10" placeholder="手機"><br/>
-		<button id="sendBtn">送出</button><br/>
+		<button id="sendBtn" class="button-disabled" disabled="disabled">送出</button><br/>
 	</div>
 	
 	<script type="text/javascript">
@@ -62,29 +72,12 @@
 				uuid: data.context.userId,
 			};
 			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
-					//alert("e.username: " + JSON.stringify(e.username));
-					$('#username').val(e.username);
-					$('#nickname').val(e.nickname);
-					$('#phone').val(e.phone);
+				$('#username').val(e.username);
+				$('#nickname').val(e.nickname);
+				$('#phone').val(e.phone);
 			});
         });
-		liff.getProfile().then(function (profile) {
-			alert(profile.userId);
-		});
-		liff.getProfile().then(function (profile) {
-			alert(profile.displayName);
-			var parameter = {
-				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "會員註冊",
-				uuid: profile.userId,
-			};
-			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
-					//alert("e.username: " + JSON.stringify(e.username));
-					$('#username').val(e.username);
-					$('#nickname').val(e.nickname);
-					$('#phone').val(e.phone);
-			});
-		});
+		$('#sendBtn').addClass("button-show")
 	}
 	</script>
 	
