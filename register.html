@@ -64,7 +64,7 @@
 			};
 			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
 				alert(e.username);
-				if(username.indexOf("??????") < 0){
+				if(e.username.indexOf("??????") < 0){
 					$('#username').val(e.username);
 					$('#nickname').val(e.nickname);
 					$('#phone').val(e.phone);
