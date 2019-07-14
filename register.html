@@ -3,7 +3,7 @@
 <html lang="zh-TW">
 <head>
 	<meta charset="UTF-8">
-	<title>BQ會員註冊</title>
+	<title>BQ 會員註冊</title>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 	<style>
@@ -29,7 +29,6 @@
 			font-family:Microsoft JhengHei;
 			text-align:center
 		}
-		
 		button {
 			width:90%;
 			font-size:50px;
@@ -42,16 +41,32 @@
 	</style>
 </head>
 
-<body>
-
+<body onload="getRegisterInfo()">
 	<div style="text-align:center;">
 		<h1>BQ 運動傷害預防專家</h1>
 		<h2>@bqline</h2>
-		<input id="name" maxlength="5" placeholder="姓名"><br/> 
+		<input id="username" maxlength="5" placeholder="姓名"><br/> 
 		<input id="nickname" maxlength="5" placeholder="暱稱"><br/>
 		<input id="phone" maxlength="10" placeholder="手機"><br/>
 		<button id="sendBtn">送出</button><br/>
 	</div>
+	
+	<script type="text/javascript">
+	function getRegisterInfo(){
+		liff.getProfile().then(function (profile) {
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "會員註冊",
+				uuid: profile.userId,
+			};
+			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
+					document.getElementById("username").innerHTML=e.username;
+					document.getElementById("nickname").innerHTML=e.nickname;
+					document.getElementById("phone").innerHTML=e.phone;
+			});
+		}
+	}
+	</script>
 	
 	<script>
 	var type = $('#type'),
@@ -61,9 +76,9 @@
 	
 	sendBtn.on('click', function() {
 		/* 表單驗證 */
-        if($("#name").val()==""){
+        if($("#username").val()==""){
             alert("你尚未填寫姓名");
-            eval("document.form1['name'].focus()");       
+            eval("document.form1['username'].focus()");       
         }else if($("#nickname").val()==""){
             alert("你尚未填寫暱稱");
             eval("document.form1['nickname'].focus()");    
@@ -73,7 +88,7 @@
 		} else {
 			let data = [];
 			liff.getProfile().then(function (profile) {
-				data = [[profile.userId, profile.displayName, $('#name').val(), $('#nickname').val(), $('#phone').val()]];
+				data = [[profile.userId, profile.displayName, $('#username').val(), $('#nickname').val(), $('#phone').val()]];
 				//alert("data: " + JSON.stringify(data));
 				parameter = {
 					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
