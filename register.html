@@ -46,9 +46,9 @@
 	<div style="text-align:center;">
 		<h1>BQ 運動傷害預防專家</h1>
 		<h2>@bqline</h2>
-		<input id="username" maxlength="5" placeholder="姓名"><br/> 
-		<input id="nickname" maxlength="5" placeholder="暱稱"><br/>
-		<input id="phone" maxlength="10" placeholder="手機"><br/>
+		<input id="username" maxlength="5" placeholder="姓名" disabled><br/> 
+		<input id="nickname" maxlength="5" placeholder="暱稱" disabled><br/>
+		<input id="phone" maxlength="10" placeholder="手機" disabled><br/>
 		<button id="sendBtn" class="button-show" hidden>送出</button><br/>
 	</div>
 	
@@ -69,7 +69,10 @@
 					$('#nickname').val(e.nickname);
 					$('#phone').val(e.phone);
 				} else {
-					$('#sendBtn').show();	
+					$('#sendBtn').show();
+					$('#username').removeAttr('disabled');
+					$('#nickname').removeAttr('disabled');
+					$('#phone').removeAttr('disabled');
 				}
 			});
         });
