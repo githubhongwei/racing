@@ -46,7 +46,9 @@
 	<div style="text-align:center;">
 		<h1>大苑子盃 20190706</h1>
 		<h2>城中実業団</h2>
-		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/> 
+		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/>
+		<input id="groupname" maxlength="5" placeholder="組別" disabled hidden><br/>
+		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
 		<button id="sendBtn" class="button-show" hidden>送出報到資料</button><br/>
 	</div>
 	
@@ -65,6 +67,10 @@
 				//alert(e.username);
 				if(e.username.indexOf("??????") < 0){
 					$('#username').val(e.username);
+					$('#groupname').val(e.groupname);
+					$('#finishtime').val("完成時間 : " + e.minute + " 分 " + e.second + " 秒");
+					$('#groupname').show();
+					$('#finishtime').show();
 					alert("您已完成報到");
 				} else {
 					$('#sendBtn').show();
