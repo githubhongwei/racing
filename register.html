@@ -86,18 +86,18 @@
 	
 	sendBtn.on('click', function() {
 		/* 表單驗證 */
-        if($("#username").val()==""){
+        if ($("#username").val()==""){
             alert("你尚未填寫姓名");
             eval("document.form1['username'].focus()");       
-        }else if($("#nickname").val()==""){
+        }else if ($("#nickname").val()==""){
             alert("你尚未填寫暱稱");
             eval("document.form1['nickname'].focus()");    
-        }else if($("#phone").val()==""){
+        }else if ($("#phone").val()==""){
             alert("你尚未填寫手機");
             eval("document.form1['phone'].focus()");			
-		} else {
+		} else if (confirm("是否確認送出?")) {
 			let data = [];
-			var datetime=new Date();
+			var datetime = new Date();
 			liff.getProfile().then(function (profile) {
 				data = [[profile.userId, profile.displayName, $('#username').val(), $('#nickname').val(), $('#phone').val(), datetime]];
 				//alert("data: " + JSON.stringify(data));
@@ -112,7 +112,7 @@
 				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 				
 				/* 完成會員註冊, 關閉視窗 */
-				alert('註冊的會員資訊已送出');		
+				alert('會員註冊資訊已送出, 將關閉視窗!');		
 				
 				/* 關閉視窗 */
 				liff.closeWindow();
