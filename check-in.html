@@ -93,6 +93,7 @@
 				uuid: $("#username").val(),
 				method: "signUp",
 			};
+			alert(parameter.uuid);
 			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
 				//alert(e.username);
 				if(e.username.indexOf("??????") < 0){
@@ -100,7 +101,7 @@
 					alert(e.username);
 				}  else {
 					alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
-					return;
+					//return;
 				}
 			});
 			
