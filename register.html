@@ -68,16 +68,16 @@
 			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
 				//alert(e.username);
 				if(e.username.indexOf("??????") < 0){
-					alert("您已經是 BQ 會員。");
 					$('#username').val(e.username);
 					$('#nickname').val(e.nickname);
 					$('#phone').val(e.phone);
+					alert("您已完成 BQ LINE 會員註冊");
 				} else {
-					alert("您還沒成為 BQ 會員，請填下您的個人資料，並加入會員。");
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
 					$('#nickname').removeAttr('disabled');
 					$('#phone').removeAttr('disabled');
+					alert("您還沒成為 BQ 會員，請填下您的個人資料，並加入會員。");
 				}
 			});
         });
