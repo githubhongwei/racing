@@ -6,6 +6,8 @@
 	<title>BQ 會員註冊</title>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+	<!--引用SweetAlert2.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.0.0/sweetalert2.all.js"></script>
 	<style>
 		h1 {
 			font-size: 60px;
@@ -49,7 +51,7 @@
 		<input id="username" maxlength="5" placeholder="姓名" disabled><br/> 
 		<input id="nickname" maxlength="5" placeholder="暱稱" disabled><br/>
 		<input id="phone" maxlength="10" placeholder="手機" disabled><br/>
-		<button id="sendBtn" class="button-show" hidden>送出</button><br/>
+		<button id="sendBtn" class="button-show" hidden>送出會員資料</button><br/>
 	</div>
 	
 	<script type="text/javascript">
@@ -66,10 +68,12 @@
 			$.get("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter, function(e){
 				//alert(e.username);
 				if(e.username.indexOf("??????") < 0){
+					alert("您已經是 BQ 會員。");
 					$('#username').val(e.username);
 					$('#nickname').val(e.nickname);
 					$('#phone').val(e.phone);
 				} else {
+					alert("您還沒成為 BQ 會員，請填下您的個人資料，並加入會員。");
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
 					$('#nickname').removeAttr('disabled');
@@ -87,13 +91,13 @@
 	sendBtn.on('click', function() {
 		/* 表單驗證 */
         if ($("#username").val()==""){
-            alert("你尚未填寫姓名");
+            alert("您尚未填寫姓名");
             eval("document.form1['username'].focus()");       
         }else if ($("#nickname").val()==""){
-            alert("你尚未填寫暱稱");
+            alert("您尚未填寫暱稱");
             eval("document.form1['nickname'].focus()");    
         }else if ($("#phone").val()==""){
-            alert("你尚未填寫手機");
+            alert("您尚未填寫手機");
             eval("document.form1['phone'].focus()");			
 		} else if (confirm("是否確認送出?")) {
 			let data = [];
@@ -110,6 +114,8 @@
 					insertType: "bottom"
 				};
 				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
+				
+				liff.sendMessages([{type: 'text', text: "會員註冊資訊已送出"}]);
 				
 				/* 完成會員註冊, 關閉視窗 */
 				alert('會員註冊資訊已送出, 將關閉視窗!');		
