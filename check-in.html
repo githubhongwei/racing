@@ -42,7 +42,7 @@
 	</style>
 </head>
 
-<body onload="getRegisterInfo()">
+<body onload="getCheckInInfo()">
 	<div style="text-align:center;">
 		<h1>大苑子盃 20190706</h1>
 		<h2>城中実業団</h2>
@@ -52,7 +52,7 @@
 	
 	<script type="text/javascript">
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
-	function getRegisterInfo(){
+	function getCheckInInfo(){
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
@@ -73,6 +73,32 @@
 				}
 			});
         });
+	}
+	
+	function postCheckInInfo() {
+		let data = [];
+		var datetime = new Date();
+		liff.getProfile().then(function (profile) {
+			data = [[profile.userId, profile.displayName, $('#username').val(), datetime]];
+			//alert("data: " + JSON.stringify(data));
+			parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "報到資訊",
+				data: data.toString(),
+				row: data.length,
+				column: data[0].length,
+				insertType: "bottom"
+			};
+			$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
+			
+			liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
+			
+			/* 完成會員註冊, 關閉視窗 */
+			alert('活動報到資訊已送出，確定後將關閉視窗');		
+			
+			/* 關閉視窗 */
+			liff.closeWindow();
+		});	
 	}
 	</script>
 	
@@ -99,36 +125,12 @@
 				if(e.username.indexOf("??????") < 0){
 					/* 可顯示報名相關資訊 */
 					alert("e.username: " + e.username);
+					/* 將使用者填妥的[報到資訊]存到數據庫 */
+					postCheckInInfo();
 				}  else {
 					alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
-					//return;
 				}
 			});
-			
-			/* 將使用者填妥的[報到資訊]存到數據庫 */
-			let data = [];
-			var datetime = new Date();
-			liff.getProfile().then(function (profile) {
-				data = [[profile.userId, profile.displayName, $('#username').val(), datetime]];
-				//alert("data: " + JSON.stringify(data));
-				parameter = {
-					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-					name: "報到資訊",
-					data: data.toString(),
-					row: data.length,
-					column: data[0].length,
-					insertType: "bottom"
-				};
-				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
-				
-				liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
-				
-				/* 完成會員註冊, 關閉視窗 */
-				alert('活動報到資訊已送出，確定後將關閉視窗');		
-				
-				/* 關閉視窗 */
-				liff.closeWindow();
-			});	
 		}
 	});
 	</script>	
