@@ -55,9 +55,19 @@
 	</div>
 	
 	<script type="text/javascript">
+	
+	window.alert = function(name){
+		var iframe = document.createElement("IFRAME");
+		iframe.style.display="none";
+		iframe.setAttribute("src", 'data:text/plain,');
+		document.documentElement.appendChild(iframe);
+		window.frames[0].window.alert(name);
+		iframe.parentNode.removeChild(iframe);
+	}
+
 	function getRegisterInfo(){
-		//var datetime=new Date();
-		//alert(datetime);
+		var datetime = new Date();
+		alert(datetime);
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
@@ -77,7 +87,7 @@
 					$('#username').removeAttr('disabled');
 					$('#nickname').removeAttr('disabled');
 					$('#phone').removeAttr('disabled');
-					alert("您還沒成為 BQ 會員，請填下您的個人資料，並加入會員。");
+					alert("您還沒成為 BQ 會員，請填下您的個人資料，並加入會員。	");
 				}
 			});
         });
