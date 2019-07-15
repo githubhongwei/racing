@@ -54,7 +54,8 @@
 	
 	<script type="text/javascript">
 	function getRegisterInfo(){
-		//alert("getRegisterInfo");
+		//var datetime=new Date();
+		//alert(datetime);
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
@@ -96,8 +97,9 @@
             eval("document.form1['phone'].focus()");			
 		} else {
 			let data = [];
+			var datetime=new Date();
 			liff.getProfile().then(function (profile) {
-				data = [[profile.userId, profile.displayName, $('#username').val(), $('#nickname').val(), $('#phone').val()]];
+				data = [[profile.userId, profile.displayName, $('#username').val(), $('#nickname').val(), $('#phone').val(), datetime]];
 				//alert("data: " + JSON.stringify(data));
 				parameter = {
 					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
