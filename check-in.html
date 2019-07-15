@@ -11,14 +11,14 @@
 			font-size: 60px;
 			margin: 2px 0px;
 			padding: 2px 5px;
-			color:#00A599;
+			color:#143F4F;
 			font-family:Microsoft JhengHei;
 		}
 		h2 {
 			font-size: 50px;
 			margin: 2px 0px;
 			padding: 2px 5px;
-			color:#00A599;
+			color:#143F4F;
 			font-family:Microsoft JhengHei;
 		}
 		input {
@@ -37,7 +37,7 @@
 			margin: 15px 0px;
 			padding: 10px 5px;
 			color: #FFFFFF;
-			background-color:#00A599;	
+			background-color:##176394;	
 		}
 	</style>
 </head>
@@ -103,10 +103,10 @@
 				};
 				$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 				
-				liff.sendMessages([{type: 'text', text: "會員註冊資訊已送出"}]);
+				liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
 				
 				/* 完成會員註冊, 關閉視窗 */
-				alert('會員註冊資訊已送出，確定後將關閉視窗');		
+				alert('活動報到資訊已送出，確定後將關閉視窗');		
 				
 				/* 關閉視窗 */
 				liff.closeWindow();
