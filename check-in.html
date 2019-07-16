@@ -120,6 +120,12 @@
 			
 			liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
 			
+			/* 使用 Push Message 送出報到專區訊息, 提供使用者確認報到資訊 */
+			var parameter = {
+				uuid: profile.userId,
+			};
+			$.get("https://script.google.com/macros/s/AKfycbzCTmJEIAkFmcfLLLXrdnohkY4SABEBzacllmph81vfQp0do52I/exec", parameter);
+			
 			/* 完成會員註冊, 關閉視窗 */
 			alert('活動報到資訊已送出，確定後將關閉視窗');		
 			
