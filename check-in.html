@@ -3,7 +3,9 @@
 <html lang="zh-TW">
 <head>
 	<meta charset="UTF-8">
-	<title>活動報到</title>
+	<title>報到專區</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 	<style>
@@ -55,6 +57,11 @@
 	<script type="text/javascript">
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
 	function getCheckInInfo(){
+		$.alert({
+			title: 'Alert!',
+			content: 'Simple alert!',
+		});
+		alert("test");
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
@@ -118,7 +125,7 @@
 			};
 			$.post("https://script.google.com/macros/s/AKfycbwsGWXKGHnV-qclDuYqJxeyHrJluU0U0_zlcsHQxDeqmDAnLlE/exec", parameter);
 			
-			/* 系統回應報到狀況, 對策一: 透過幫使用者送出文字, 取得關鍵字回覆, 但目前無法透過 QRCode 送出 */
+			/* 系統回應報到狀況, 對策一: 透過幫使用者送出文字, 取得關鍵字回覆, 但實測透過 QRCode 掃 LIFF 連結時會無法送出 */
 			//liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
 			
 			/* 系統回應報到狀況, 對策二: 使用 Push Message 送出報到專區訊息, 提供使用者確認報到資訊, 但會耗用免費訊息則數 */
