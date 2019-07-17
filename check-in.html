@@ -52,6 +52,7 @@
 		<input id="groupname" maxlength="5" placeholder="組別" disabled hidden><br/>
 		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
 		<button id="sendBtn" class="button-show" hidden>送出報到資料</button><br/>
+		<button id="certificateBtn" class="button-show" hidden>成績證明</button><br/>
 	</div>
 	
 	<script type="text/javascript">
@@ -74,6 +75,7 @@
 				//alert(e.username);
 				if(e.username.indexOf("??????") < 0){
 					$('#username').val(e.username);
+					$('#certificateBtn').show();
 					getSignUpInfo();
 					alert("您已完成報到");
 				} else {
@@ -144,6 +146,11 @@
 	</script>
 	
 	<script>
+	var certificateBtn = $('#certificateBtn');
+	certificateBtn.on('click', function() {
+		window.open('https://githubhongwei.github.io/racing/certificate-20190706.html?id=0');
+	});
+	
 	var sendBtn = $('#sendBtn');
 	var parameter = {};
 	
