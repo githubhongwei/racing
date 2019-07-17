@@ -103,7 +103,7 @@
 				$('#finishtime').val(e.minute + " 分 " + e.second + " 秒");
 				$('#groupname').show();
 				$('#finishtime').show();
-				alert(e.status.toString());
+				id = e.ranking;
 				if(e.status == "順利完賽"){
 					$('#certificateBtn').show();
 				}
@@ -150,8 +150,9 @@
 	
 	<script>
 	var certificateBtn = $('#certificateBtn');
+	var id = 0;
 	certificateBtn.on('click', function() {
-		window.open('https://githubhongwei.github.io/racing/certificate-20190706.html?id=' + 0);
+		window.open('https://githubhongwei.github.io/racing/certificate-20190706.html?id=' + id);
 	});
 	
 	var sendBtn = $('#sendBtn');
