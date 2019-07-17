@@ -67,7 +67,7 @@
 			//alert(data.context.userId);
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "20190706",
+				name: "報到資訊",
 				uuid: data.context.userId,
 				method: "checkIn",
 			};
@@ -75,13 +75,7 @@
 				//alert(e.username);
 				if(e.username.indexOf("??????") < 0){
 					$('#username').val(e.username);
-					$('#certificateBtn').show();
-					//getSignUpInfo();
-					/* 可顯示報名相關資訊 */
-					$('#groupname').val(e.groupname);
-					$('#finishtime').val(e.minute + " 分 " + e.second + " 秒");
-					$('#groupname').show();
-					$('#finishtime').show();
+					getSignUpInfo();
 					alert("您已完成報到");
 				} else {
 					$('#sendBtn').show();
@@ -164,39 +158,23 @@
         if ($("#username").val()==""){
             alert("您尚未填寫姓名");
             eval("document.form1['username'].focus()");	
-		} else if (confirm("是否確認送出?")) {
-			let data = [];
-			var datetime = new Date();
-			liff.getProfile().then(function (profile) {
-				data = [[profile.userId, profile.displayName, $('#username').val(), datetime]];
-				/* 檢查此姓名是否在[活動報名]數據庫中 */
-				var parameter = {
-					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-					name: "20190706",
-					uuid: $("#username").val(),
-					method: "signUp",
-					data: data.toString(),
-					row: data.length,
-					column: data[0].length,
-				};
-				//alert("uuid: " + parameter.uuid);
-				$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
-					//alert(e.username);
-					if(e.username.indexOf("??????") < 0){
-						/* 將使用者填妥的[報到資訊]存到數據庫 */
-						//postCheckInInfo();
-						/* 系統回應報到狀況 */
-						liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
-						
-						/* 完成會員註冊, 關閉視窗 */
-						alert('活動報到資訊已送出，確定後將關閉視窗');	
-						
-						/* 關閉視窗 */
-						liff.closeWindow();
-					}  else {
-						alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
-					}
-				});
+		} else if (confirm("是否確認送出?")) {		
+			/* 檢查此姓名是否在[活動報名]數據庫中 */
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "20190706",
+				uuid: $("#username").val(),
+				method: "signUp",
+			};
+			//alert("uuid: " + parameter.uuid);
+			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+				//alert(e.username);
+				if(e.username.indexOf("??????") < 0){
+					/* 將使用者填妥的[報到資訊]存到數據庫 */
+					postCheckInInfo();
+				}  else {
+					alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+				}
 			});
 		}
 	});
