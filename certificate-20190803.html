@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset = "utf-8">
+</head>
+<style type="text/css">
+	.words{font-size: 60px;
+			position: absolute;
+			color: #0F0F0F;
+			font-weight: 600;
+			font-family: Microsoft JhengHei;	
+			top:930px;
+			left: 350px;			
+			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+			color: #0F0F0F;}
+	.m_time{font-size: 60px;
+			position: absolute;
+			color: #0F0F0F;
+			font-weight: 600;
+			font-family: Microsoft JhengHei;
+			top: 1010px;
+			left: 320px;
+			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+			color: #0F0F0F;}
+	.s_time{font-size: 60px;
+			position: absolute;
+			color: #0F0F0F;
+			font-weight: 600;
+			font-family:Microsoft JhengHei;
+			top: 1010px;
+			left: 490px;
+			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+			color: #0F0F0F;}
+	.imgw{position: relative;}
+</style>
+<body onload="ChangeString()">
+	<div class="imgw">
+		<img src="certificate-20190706.jpg" alt= "" width="800px">
+		<div class="words">
+			<div id="NameString"></div>
+		</div>
+		<div class="m_time">
+			<div id="MinuteString"></div>
+		</div>
+		<div class="s_time">
+			<div id="SecondString"></div>
+		</div>
+		<div id="app">
+			{{ id }}
+		</div>	
+	</div>
+	
+<script type="text/javascript">
+function ChangeString(){
+    var id = Number(document.getElementById("app").innerHTML);
+	//var id = document.getElementById("app").innerHTML;
+	var parameter = {
+		url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+		name: "20190803",
+		ranking: id,
+		method: "record",
+	};
+	$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", 
+		parameter, function(e){
+			//alert("姓名: " + e.username + "\n完成時間: " + e.minute + " 分 " + e.second + " 秒");
+			document.getElementById("NameString").innerHTML=e.username;
+			document.getElementById("MinuteString").innerHTML=e.minute;
+			document.getElementById("SecondString").innerHTML=e.second;
+	});
+}
+</script>
+	
+<script src="https://unpkg.com/vue"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            id: null
+        },
+        created () {
+            this.fetchData()
+        },      
+        methods: {
+            fetchData() {
+                this.id = window.location.search.slice(4);
+            }
+        }
+    })
+</script>
+	
+</body>
+</html>
