@@ -7,6 +7,7 @@
 </head>
 <body>
 
+
     <input type="button" value="click me" />
 
     <!--引用jQuery-->
@@ -14,6 +15,18 @@
     <!--引用SweetAlert2.js-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
     <script type="text/javascript">
+		swal({
+		  title: 'Custom width, padding, background.',
+		  width: 600,
+		  padding: '3em',
+		  background: '#fff url(/images/trees.png)',
+		  backdrop: `
+			rgba(0,0,123,0.4)
+			url("/images/nyan-cat.gif")
+			center left
+			no-repeat
+		  `
+		})
         $(function () {
             $("input:button").click(function () {
                 //alert範例
