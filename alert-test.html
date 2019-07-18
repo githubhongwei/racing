@@ -14,11 +14,16 @@
 			color: #FFFFFF;
 			background-color:#176394;	
 		}
+		.myClass{
+            width:400px;
+            height:200px;
+        }
+		.swal-overlay {
+		  background-color: rgba(43, 165, 137, 0.45);
+		}
 	</style>	
 </head>
 <body>
-
-
     <input type="button" value="click me" class="button-show" />
 
     <!--引用jQuery-->
@@ -45,7 +50,8 @@
 				  showCancelButton: true, 
 				  confirmButtonColor: "#DD6B55",
 				  confirmButtonText: "确定删除！", 
-				  closeOnConfirm: false
+				  closeOnConfirm: false,
+				  className: "swal-overlay",
 				},
 				function(){
 				  swal("删除！", "你的虚拟文件已经被删除。", "success"); 
