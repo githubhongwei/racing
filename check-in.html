@@ -88,7 +88,7 @@
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
 					//alert("您還沒完成報到，請填報名時相同的姓名");
-					swal({type: 'success', title: '您還沒完成報到，請填報名時相同的姓名', customClass: 'swal-wide'});
+					swal({type: 'warning', title: '您還沒完成報到', text: '請填報名時相同的姓名', customClass: 'swal-wide'});
 				}
 			});
         });
