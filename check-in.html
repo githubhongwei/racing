@@ -88,7 +88,7 @@
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
 					//alert("您還沒完成報到，請填報名時相同的姓名");
-					swal({type: 'warning', title: '您還沒完成報到', text: '請填與報名時相同的姓名，確認後送出', customClass: 'swal-wide'});
+					swal({type: 'warning', title: '您還沒完成報到', text: '請填與報名時相同的姓名', customClass: 'swal-wide'});
 				}
 			});
         });
@@ -159,6 +159,7 @@
 				confirmButtonText: '確認',
 				text: '點選確認後將關閉視窗',
 				showLoaderOnConfirm: true,
+				customClass: 'swal-wide',
 				preConfirm: function () {
 					/* 關閉視窗 */
 					liff.closeWindow();
@@ -182,7 +183,8 @@
 	sendBtn.on('click', function() {
 		/* 表單驗證 */
         if ($("#username").val()==""){
-            alert("您尚未填寫姓名");
+            //alert("您尚未填寫姓名");
+			swal({type: 'warning', title: '您尚未填寫姓名', customClass: 'swal-wide'});
             eval("document.form1['username'].focus()");	
 		} else if (confirm("是否確認送出?")) {		
 			/* 檢查此姓名是否在[活動報名]數據庫中 */
@@ -199,7 +201,8 @@
 					/* 將使用者填妥的[報到資訊]存到數據庫 */
 					postCheckInInfo();
 				}  else {
-					alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+					//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+					swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'swal-wide'});
 				}
 			});
 		}
