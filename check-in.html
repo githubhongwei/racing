@@ -70,7 +70,7 @@
 			//alert(data.context.userId);
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "報到資訊",
+				name: "checkin",
 				uuid: data.context.userId,
 				method: "checkIn",
 			};
@@ -125,7 +125,7 @@
 			//alert("data: " + JSON.stringify(data));
 			parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "報到資訊",
+				name: "checkin",
 				data: data.toString(),
 				row: data.length,
 				column: data[0].length,
