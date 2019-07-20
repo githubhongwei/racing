@@ -43,7 +43,7 @@
 			background-color:#176394;	
 		}
 		.swal-wide{
-			zoom: 1.5 !important;
+			zoom: 1.6 !important;
 		}
 	</style>
 </head>
@@ -88,7 +88,7 @@
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
 					//alert("您還沒完成報到，請填報名時相同的姓名");
-					swal({type: 'warning', title: '您還沒完成報到', text: '請填報名時相同的姓名', customClass: 'swal-wide'});
+					swal({type: 'warning', title: '您還沒完成報到', text: '請填與報名時相同的姓名，確認後送出', customClass: 'swal-wide'});
 				}
 			});
         });
@@ -116,7 +116,8 @@
 					$('#certificateBtn').show();
 				}
 			}  else {
-				alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+				//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+				swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'swal-wide'});
 			}
 		});	
 	}
@@ -148,10 +149,22 @@
 			$.get("https://script.google.com/macros/s/AKfycbwZkujtVPZYhRdsox1_N_IQHcpLSVpAjz57Es0vN0K9oUZd9eEP/exec", parameter);
 			
 			/* 完成會員註冊, 關閉視窗 */
-			alert('活動報到資訊已送出，確定後將關閉視窗');	
+			//alert('活動報到資訊已送出，確定後將關閉視窗');	
 			
 			/* 關閉視窗 */
-			liff.closeWindow();
+			//liff.closeWindow();
+			
+			swal.queue([{
+				title: '活動報到資訊已送出',
+				confirmButtonText: '確認',
+				text: '點選確認後將關閉視窗',
+				showLoaderOnConfirm: true,
+				preConfirm: function () {
+					/* 關閉視窗 */
+					liff.closeWindow();
+				}
+			}]);
+			
 		});	
 	}
 	</script>
