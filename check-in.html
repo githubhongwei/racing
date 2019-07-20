@@ -42,6 +42,9 @@
 			color: #FFFFFF;
 			background-color:#176394;	
 		}
+		.swal-wide{
+			width:80% !important;
+		}
 	</style>
 </head>
 
@@ -79,7 +82,11 @@
 				if(e.username.indexOf("??????") < 0){
 					$('#username').val(e.username);
 					getSignUpInfo();
-					alert("您已完成報到");
+					//alert("您已完成報到");
+					swal({
+					title: '您已完成報到',
+					customClass: 'swal-wide',
+					});
 				} else {
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');

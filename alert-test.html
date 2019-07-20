@@ -22,7 +22,8 @@
 		  background-color: rgba(43, 165, 137, 0.45);
 		}
 		.swal-wide{
-			width:850px !important;
+			width:80% !important;
+			font-size: 50px !important;
 		}
 	</style>	
 </head>
@@ -38,8 +39,7 @@
 		//const Swal = require('sweetalert2');
 		swal({
 		  title: 'Custom width, padding, background.',
-		  //width: 900,
-		  background: '#fff url(/images/trees.png)',
+			customClass: 'swal-wide',
 		})
         $(function () {
             $("input:button").click(function () {
