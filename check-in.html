@@ -83,15 +83,12 @@
 					$('#username').val(e.username);
 					getSignUpInfo();
 					//alert("您已完成報到");
-					swal({
-						type: 'success',
-						title: '您已完成報到',
-						customClass: 'swal-wide',
-					});
+					swal({type: 'success', title: '您已完成報到', customClass: 'swal-wide'});
 				} else {
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
-					alert("您還沒完成報到，請填報名時相同的姓名，並送出報到資料");
+					//alert("您還沒完成報到，請填報名時相同的姓名");
+					swal({type: 'success', title: '您還沒完成報到，請填報名時相同的姓名', customClass: 'swal-wide'});
 				}
 			});
         });
