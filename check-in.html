@@ -84,8 +84,9 @@
 					getSignUpInfo();
 					//alert("您已完成報到");
 					swal({
-					title: '您已完成報到',
-					customClass: 'swal-wide',
+						type: 'success',
+						title: '您已完成報到',
+						customClass: 'swal-wide',
 					});
 				} else {
 					$('#sendBtn').show();
