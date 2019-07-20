@@ -51,14 +51,13 @@
 	
 <script type="text/javascript">
 function ChangeString(){
-	//alert(QueryUsername());
 	var parameter = {
 		url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 		name: "20190803",
 		uuid: QueryUsername(),
 		method: "record",
 	};
-	alert(parameter.uuid);
+	//alert(parameter.uuid);
 	$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", 
 		parameter, function(e){
 			//alert("姓名: " + e.username + "\n完成時間: " + e.minute + " 分 " + e.second + " 秒");
