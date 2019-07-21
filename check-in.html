@@ -80,13 +80,19 @@
 						type: 'success', 
 						title: '您已完成報到', 
 						customClass: 'my-swal',
-						confirmButtonText: '<i class="my-button"></i>確認',
+						confirmButtonText: '確認',
 					});
 				} else {
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
 					//alert("您還沒完成報到，請填報名時相同的姓名");
-					swal({type: 'warning', title: '您還沒完成報到', text: '請填與報名時相同的姓名', customClass: 'my-swal'});
+					swal({
+						type: 'warning', 
+						title: '您還沒完成報到', 
+						text: '請填與報名時相同的姓名', 
+						customClass: 'my-swal',
+						confirmButtonText: '確認',
+					});
 				}
 			});
         });
@@ -115,7 +121,13 @@
 				}
 			}  else {
 				//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
-				swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'my-swal'});
+				swal({
+					type: 'warning', 
+					title: '查無您的報名資訊', 
+					text: '請確認填妥報名時相同的姓名，或請工作人員協助', 
+					customClass: 'my-swal',
+					confirmButtonText: '確認',
+				});
 			}
 		});	
 	}
@@ -177,12 +189,17 @@
 		/* 表單驗證 */
         if ($("#username").val()==""){
             //alert("您尚未填寫姓名");
-			swal({type: 'warning', title: '您尚未填寫姓名', customClass: 'my-swal'});
+			swal({
+				type: 'warning', 
+				title: '您尚未填寫姓名', 
+				customClass: 'my-swal',
+				confirmButtonText: '確認',
+			});
             eval("document.form1['username'].focus()");
 		} else {
 			swal({
-				title: '是否確認送出？', 
 				type: 'question',
+				title: '是否確認送出？', 
 				showCancelButton: true, 
 				confirmButtonText: '確認', 
 				cancelButtonText: '取消',
@@ -203,7 +220,13 @@
 						postCheckInInfo();
 					}  else {
 						//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
-						swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'my-swal'});
+						swal({
+							type: 'warning', 
+							title: '查無您的報名資訊', 
+							text: '請確認填妥報名時相同的姓名，或請工作人員協助', 
+							customClass: 'my-swal',
+							confirmButtonText: '確認',
+						});
 					}
 				});
 			});
