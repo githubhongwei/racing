@@ -77,7 +77,11 @@
 					$('#username').val(e.username);
 					getSignUpInfo();
 					//alert("您已完成報到");
-					swal({type: 'success', title: '您已完成報到', customClass: 'my-swal'});
+					swal({
+						type: 'success', 
+						title: '<i class="my-button"></i>您已完成報到', 
+						customClass: 'my-swal'
+					});
 				} else {
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
