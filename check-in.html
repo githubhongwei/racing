@@ -62,13 +62,6 @@
 	<script type="text/javascript">
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
 	function getCheckInInfo(){
-		/*	$.alert({
-			title: 'Alert!',
-			content: 'Simple alert!',
-		}); 
-		alert("test"); */
-		//swal('Any fool can use a computer');
-		//swal("已寄出新密碼", "請至您的信箱查收新的登入密碼", "success");
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
@@ -149,11 +142,6 @@
 			$.get("https://script.google.com/macros/s/AKfycbwZkujtVPZYhRdsox1_N_IQHcpLSVpAjz57Es0vN0K9oUZd9eEP/exec", parameter);
 			
 			/* 完成會員註冊, 關閉視窗 */
-			//alert('活動報到資訊已送出，確定後將關閉視窗');	
-			
-			/* 關閉視窗 */
-			//liff.closeWindow();
-			
 			swal.queue([{
 				title: '活動報到資訊已送出',
 				confirmButtonText: '確認',
@@ -165,12 +153,12 @@
 					liff.closeWindow();
 				}
 			}]);
-			
 		});	
 	}
 	</script>
 	
 	<script>
+	/* 開啟成績證明頁面 */
 	var certificateBtn = $('#certificateBtn');
 	var username = 0;
 	certificateBtn.on('click', function() {
