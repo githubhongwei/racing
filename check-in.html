@@ -173,7 +173,39 @@
         if ($("#username").val()==""){
             //alert("您尚未填寫姓名");
 			swal({type: 'warning', title: '您尚未填寫姓名', customClass: 'swal-wide'});
-            eval("document.form1['username'].focus()");	
+            eval("document.form1['username'].focus()");
+		} else if (1) {
+			swal({
+				title: '是否確認送出？', 
+				type: 'question',
+				showCancelButton: true, 
+				//confirmButtonColor: '#3085d6',
+				//cancelButtonColor: '#d33',
+				confirmButtonText: '確認', 
+				cancelButtonText: '取消',
+				customClass: 'swal-wide',
+				//buttonsStyling: false
+			}).then(function() {
+				/* 檢查此姓名是否在[活動報名]數據庫中 */
+				var parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: "20190803",
+					uuid: $("#username").val(),
+					method: "signUp",
+				};
+				//alert("uuid: " + parameter.uuid);
+				$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+					//alert(e.username);
+					if(e.username.indexOf("??????") < 0){
+						/* 將使用者填妥的[報到資訊]存到數據庫 */
+						postCheckInInfo();
+					}  else {
+						//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+						swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'swal-wide'});
+					}
+				});
+			});
+
 		} else if (confirm("是否確認送出?")) {		
 			/* 檢查此姓名是否在[活動報名]數據庫中 */
 			var parameter = {
