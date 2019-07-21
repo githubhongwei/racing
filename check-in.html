@@ -78,9 +78,9 @@
 					//alert("您已完成報到");
 					swal({
 						type: 'success', 
-						title: e.username + '，您已完成報到', 
+						title: e.username + '，您已完成報到！', 
 						customClass: 'my-swal',
-						confirmButtonText: '確認',
+						confirmButtonText: '　確認　',
 					});
 				} else {
 					$('#sendBtn').show();
@@ -88,10 +88,10 @@
 					//alert("您還沒完成報到，請填報名時相同的姓名");
 					swal({
 						type: 'warning', 
-						title: '您還沒完成報到', 
-						text: '請填與報名時相同的姓名', 
+						title: e.username + '，您還沒完成報到！', 
+						text: '請填與報名時相同的姓名。', 
 						customClass: 'my-swal',
-						confirmButtonText: '確認',
+						confirmButtonText: '　確認　',
 					});
 				}
 			});
@@ -123,10 +123,10 @@
 				//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
 				swal({
 					type: 'warning', 
-					title: '查無您的報名資訊', 
-					text: '請確認填妥報名時相同的姓名，或請工作人員協助', 
+					title: '查無您的報名資訊！', 
+					text: '請確認填妥報名時相同的姓名，或請工作人員協助。', 
 					customClass: 'my-swal',
-					confirmButtonText: '確認',
+					confirmButtonText: '　確認　',
 				});
 			}
 		});	
@@ -160,9 +160,9 @@
 			
 			/* 完成會員註冊, 關閉視窗 */
 			swal.queue([{
-				title: '活動報到資訊已送出',
-				confirmButtonText: '確認',
-				text: '點選確認後將關閉視窗',
+				title: '活動報到資訊已送出！',
+				confirmButtonText: '　確認　',
+				text: '點選確認後將關閉視窗。',
 				showLoaderOnConfirm: true,
 				customClass: 'my-swal',
 				preConfirm: function () {
@@ -191,9 +191,9 @@
             //alert("您尚未填寫姓名");
 			swal({
 				type: 'warning', 
-				title: '您尚未填寫姓名', 
+				title: '您尚未填寫姓名！', 
 				customClass: 'my-swal',
-				confirmButtonText: '確認',
+				confirmButtonText: '　確認　',
 			});
             eval("document.form1['username'].focus()");
 		} else {
@@ -201,8 +201,8 @@
 				type: 'question',
 				title: '是否確認送出？', 
 				showCancelButton: true, 
-				confirmButtonText: '確認', 
-				cancelButtonText: '取消',
+				confirmButtonText: '　確認　', 
+				cancelButtonText: '　取消　',
 				customClass: 'my-swal',
 			}).then(function() {
 				/* 檢查此姓名是否在[活動報名]數據庫中 */
@@ -222,10 +222,10 @@
 						//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
 						swal({
 							type: 'warning', 
-							title: '查無您的報名資訊', 
-							text: '請確認填妥報名時相同的姓名，或請工作人員協助', 
+							title: '查無您的報名資訊！', 
+							text: '請確認填妥報名時相同的姓名，或請工作人員協助。', 
 							customClass: 'my-swal',
-							confirmButtonText: '確認',
+							confirmButtonText: '　確認　',
 						});
 					}
 				});

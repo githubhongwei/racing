@@ -41,6 +41,20 @@
 		  title: 'Custom width, padding, background.',
 			customClass: 'swal-wide',
 		})
+		swal({
+		  title: '<i>HTML</i> <u>示例</u>',
+		  type: 'info',
+		  html:
+			'你可以使用<b>粗体文本</b>, ' +
+			'<a href="//github.com">链接</a> ' +
+			'和其它的HTML标签',
+		  showCloseButton: true,
+		  showCancelButton: true,
+		  confirmButtonText:
+			'<i class="fa fa-thumbs-up"></i>　太棒了！　　',
+		  cancelButtonText:
+			'<i width: 100px>取消</i>'
+		})
         $(function () {
             $("input:button").click(function () {
                 //alert範例
