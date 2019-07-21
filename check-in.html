@@ -44,7 +44,6 @@
 		}
 		.my-swal{
 			zoom: 1.6 !important;
-			confirmButtonText: '確認' !important;
 		}
 	</style>
 </head>
@@ -79,8 +78,9 @@
 					//alert("您已完成報到");
 					swal({
 						type: 'success', 
-						title: '<i class="my-button"></i>您已完成報到', 
-						customClass: 'my-swal'
+						title: '您已完成報到', 
+						customClass: 'my-swal',
+						confirmButtonText: '<i class="my-button"></i>確認',
 					});
 				} else {
 					$('#sendBtn').show();
