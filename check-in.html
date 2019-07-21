@@ -42,9 +42,8 @@
 			color: #FFFFFF;
 			background-color:#176394;	
 		}
-		.swal-wide{
-			zoom: 1.7 !important;
-			confirmButtonText: '確認' !important;
+		.my-swal{
+			zoom: 1.6 !important;
 		}
 	</style>
 </head>
@@ -77,12 +76,12 @@
 					$('#username').val(e.username);
 					getSignUpInfo();
 					//alert("您已完成報到");
-					swal({type: 'success', title: '您已完成報到', customClass: 'swal-wide'});
+					swal({type: 'success', title: '您已完成報到', customClass: 'my-swal'});
 				} else {
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
 					//alert("您還沒完成報到，請填報名時相同的姓名");
-					swal({type: 'warning', title: '您還沒完成報到', text: '請填與報名時相同的姓名', customClass: 'swal-wide'});
+					swal({type: 'warning', title: '您還沒完成報到', text: '請填與報名時相同的姓名', customClass: 'my-swal'});
 				}
 			});
         });
@@ -111,7 +110,7 @@
 				}
 			}  else {
 				//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
-				swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'swal-wide'});
+				swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'my-swal'});
 			}
 		});	
 	}
@@ -148,7 +147,7 @@
 				confirmButtonText: '確認',
 				text: '點選確認後將關閉視窗',
 				showLoaderOnConfirm: true,
-				customClass: 'swal-wide',
+				customClass: 'my-swal',
 				preConfirm: function () {
 					/* 關閉視窗 */
 					liff.closeWindow();
@@ -173,7 +172,7 @@
 		/* 表單驗證 */
         if ($("#username").val()==""){
             //alert("您尚未填寫姓名");
-			swal({type: 'warning', title: '您尚未填寫姓名', customClass: 'swal-wide'});
+			swal({type: 'warning', title: '您尚未填寫姓名', customClass: 'my-swal'});
             eval("document.form1['username'].focus()");
 		} else {
 			swal({
@@ -184,7 +183,7 @@
 				//cancelButtonColor: '#d33',
 				confirmButtonText: '確認', 
 				cancelButtonText: '取消',
-				customClass: 'swal-wide',
+				customClass: 'my-swal',
 				//buttonsStyling: false
 			}).then(function() {
 				/* 檢查此姓名是否在[活動報名]數據庫中 */
@@ -202,7 +201,7 @@
 						postCheckInInfo();
 					}  else {
 						//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
-						swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'swal-wide'});
+						swal({type: 'warning', title: '查無您的報名資訊', text: '請確認填妥報名時相同的姓名，或請工作人員協助', customClass: 'my-swal'});
 					}
 				});
 			});
