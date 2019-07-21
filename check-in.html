@@ -33,7 +33,7 @@
 			text-align:center
 		}
 
-		.button-show {
+		.my-button {
 			width:90%;
 			font-size:50px;
 			font-family:Microsoft JhengHei;	
@@ -55,8 +55,8 @@
 		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/>
 		<input id="groupname" maxlength="5" placeholder="組別" disabled hidden><br/>
 		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
-		<button id="sendBtn" class="button-show" hidden>送出報到資料</button><br/>
-		<button id="certificateBtn" class="button-show" hidden>成績證明</button><br/>
+		<button id="sendBtn" class="my-button" hidden>送出報到資料</button><br/>
+		<button id="certificateBtn" class="my-button" hidden>成績證明</button><br/>
 	</div>
 	
 	<script type="text/javascript">
@@ -76,7 +76,7 @@
 					$('#username').val(e.username);
 					getSignUpInfo();
 					//alert("您已完成報到");
-					swal({type: 'success', title: '您已完成報到', customClass: 'my-swal'});
+					swal({type: 'success', title: '您已完成報到', customClass: 'my-swal', confirmButtonText: '確認'});
 				} else {
 					$('#sendBtn').show();
 					$('#username').removeAttr('disabled');
@@ -179,12 +179,9 @@
 				title: '是否確認送出？', 
 				type: 'question',
 				showCancelButton: true, 
-				//confirmButtonColor: '#3085d6',
-				//cancelButtonColor: '#d33',
 				confirmButtonText: '確認', 
 				cancelButtonText: '取消',
 				customClass: 'my-swal',
-				//buttonsStyling: false
 			}).then(function() {
 				/* 檢查此姓名是否在[活動報名]數據庫中 */
 				var parameter = {
