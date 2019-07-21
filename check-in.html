@@ -88,7 +88,7 @@
 					//alert("您還沒完成報到，請填報名時相同的姓名");
 					swal({
 						type: 'warning', 
-						title: e.username + '，您還沒完成報到！', 
+						title: '您還沒完成報到！', 
 						text: '請填與報名時相同的姓名。', 
 						customClass: 'my-swal',
 						confirmButtonText: '　確認　',
@@ -160,6 +160,7 @@
 			
 			/* 完成會員註冊, 關閉視窗 */
 			swal.queue([{
+				type: 'success', 
 				title: '活動報到資訊已送出！',
 				confirmButtonText: '　確認　',
 				text: '點選確認後將關閉視窗。',
