@@ -114,7 +114,8 @@ function QueryUsername(){
 		}).then(function (result) {
 			swal({
 				type: 'success',
-				html: '你輸入的姓名是：' + result
+				html: '你輸入的姓名是：' + result,
+				customClass: 'my-swal',
 			})
 			ChangeString(result);
 		})
