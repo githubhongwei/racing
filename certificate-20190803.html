@@ -71,6 +71,16 @@ function ChangeString(username){
 	//alert(parameter.uuid);
 	$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", 
 		parameter, function(e){
+			if (e.username != username) {
+				//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+				swal({
+					type: 'warning', 
+					title: '查無您的報名資訊！', 
+					text: '請確認填妥報名時相同的姓名，或請工作人員協助。', 
+					customClass: 'my-swal',
+					confirmButtonText: '　確認　',
+				});
+			}
 			//alert("姓名: " + e.username + "\n完成時間: " + e.minute + " 分 " + e.second + " 秒");
 			document.getElementById("NameString").innerHTML=e.username;
 			document.getElementById("MinuteString").innerHTML=e.minute;
