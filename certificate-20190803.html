@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>	
 </head>
 <style type="text/css">
-	.words{font-size: 46px;
+	.words{font-size: 42px;
 			position: absolute;
 			color: #0F0F0F;
 			font-weight: 600;
@@ -18,16 +18,16 @@
 			left: 530px;			
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
-	.group{font-size: 46px;
+	.group{font-size: 42px;
 			position: absolute;
 			color: #0F0F0F;
 			font-weight: 600;
 			font-family: Microsoft JhengHei;	
 			top:1122px;
-			left: 530px;			
+			left: 455px;			
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
-	.m_time{font-size: 46px;
+	.m_time{font-size: 42px;
 			position: absolute;
 			color: #0F0F0F;
 			font-weight: 600;
@@ -36,13 +36,13 @@
 			left: 480px;
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
-	.s_time{font-size: 46px;
+	.s_time{font-size: 42px;
 			position: absolute;
 			color: #0F0F0F;
 			font-weight: 600;
 			font-family:Microsoft JhengHei;
 			top: 1204px;
-			left: 607px;
+			left: 595px;
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
 	.imgw{
@@ -97,7 +97,11 @@ function ChangeString(username){
 			document.getElementById("NameString").innerHTML=e.username;
 			document.getElementById("MinuteString").innerHTML=e.minute + " 分";
 			document.getElementById("SecondString").innerHTML=e.second + " 秒";
-			document.getElementById("GroupString").innerHTML=e.groupname;
+			if (e.groupname == "第三組") {
+				document.getElementById("GroupString").innerHTML=e.groupname + "(測三千)";
+			} else {
+				document.getElementById("GroupString").innerHTML=e.groupname + "(測五千)";
+			}
 	});
 }
 
