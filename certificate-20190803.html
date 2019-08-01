@@ -9,31 +9,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>	
 </head>
 <style type="text/css">
-	.words{font-size: 60px;
+	.words{font-size: 50px;
 			position: absolute;
 			color: #0F0F0F;
 			font-weight: 600;
 			font-family: Microsoft JhengHei;	
-			top:930px;
-			left: 350px;			
+			top:1090px;
+			left: 550px;			
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
-	.m_time{font-size: 60px;
+	.group{font-size: 50px;
+			position: absolute;
+			color: #0F0F0F;
+			font-weight: 600;
+			font-family: Microsoft JhengHei;	
+			top:1177px;
+			left: 550px;			
+			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+			color: #0F0F0F;}
+	.m_time{font-size: 50px;
 			position: absolute;
 			color: #0F0F0F;
 			font-weight: 600;
 			font-family: Microsoft JhengHei;
-			top: 1010px;
-			left: 320px;
+			top: 1260px;
+			left: 500px;
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
-	.s_time{font-size: 60px;
+	.s_time{font-size: 50px;
 			position: absolute;
 			color: #0F0F0F;
 			font-weight: 600;
 			font-family:Microsoft JhengHei;
-			top: 1010px;
-			left: 490px;
+			top: 1260px;
+			left: 635px;
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
 	.imgw{
@@ -48,9 +57,12 @@
 </style>
 <body onload="QueryUsername()">
 	<div class="imgw">
-		<img src="certificate-20190706.jpg" alt= "" width="800px">
+		<img src="certificate-20190803.jpg" alt= "" width="1000px">
 		<div class="words">
 			<div id="NameString"></div>
+		</div>
+		<div class="group">
+			<div id="GroupString"></div>
 		</div>
 		<div class="m_time">
 			<div id="MinuteString"></div>
@@ -83,8 +95,9 @@ function ChangeString(username){
 			}
 			//alert("姓名: " + e.username + "\n完成時間: " + e.minute + " 分 " + e.second + " 秒");
 			document.getElementById("NameString").innerHTML=e.username;
-			document.getElementById("MinuteString").innerHTML=e.minute;
-			document.getElementById("SecondString").innerHTML=e.second;
+			document.getElementById("MinuteString").innerHTML=e.minute + " 分";
+			document.getElementById("SecondString").innerHTML=e.second + " 秒";
+			document.getElementById("GroupString").innerHTML=e.groupname;
 	});
 }
 
