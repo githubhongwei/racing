@@ -28,7 +28,10 @@ function ChgangeGroup(group) {
 	gGroup = group;
 	LoadPages();
 	ShowTime();
-	//setTimeout('ShowTime()',100);
+}
+
+function GetStartTime() {
+
 }
 
 function LoadPages() {
@@ -75,7 +78,8 @@ function LoadPages() {
 			vTable = vTable + "</td>";
 			/* 序號 */
 			vTable = vTable + "<td>";
-			vTable = vTable + 序號;
+			//vTable = vTable + 序號;
+			vTable = vTable + "<label id='item"+i+"' text='"+序號+"'>"+序號+" </>";
 			vTable = vTable + "</td>";
 			/* 圈數 */
 			vTable = vTable + "<td>";
@@ -99,12 +103,19 @@ function LoadPages() {
 				$(this).val(lap -1);
 				var nowTime = new Date();
 				gLapTimeArray[id] = nowTime.getTime();
-				//alert($(this).val());
-				//alert($(this).attr('id'));
-				//alert(id);
-			} 
+				data = [[$(this).val(), gLapTimeArray[id]]];
+				parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: "20190803",
+					method: "timer",
+					uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
+					data: data.toString(),
+					row: data.length,
+					column: data[0].length,
+				};
+				$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+			}
 		});
-		
 		//setTimeout('LoadPages()',1000);
 	});
 }
@@ -154,7 +165,22 @@ function ShowTime(){
 		for ( var i = 0; i < gLength; i++) {
 			document.getElementById('rumtime'+i).innerHTML = sTime; 
 			document.getElementById('laptime'+i).innerHTML = sTime;
-			$("#lap"+i).val(13);
+			if ($("#lap"+i).val() != 13) {
+				$("#lap"+i).val(13);
+				
+				data = [[$("#lap"+i).val(	), 0]];
+				parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: "20190803",
+					method: "timer",
+					uuid: document.getElementById('item'+i).innerHTML.replace(/\s+/g, ""),
+					data: data.toString(),
+					row: data.length,
+					column: data[0].length,
+				};
+				$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+			
+			}
 		}	
 	} else {
 		timeString('showStartTime', gStartTime);
