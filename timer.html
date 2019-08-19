@@ -76,7 +76,8 @@
 	
 	function start() {
 		setGroup();
-		ShowTime();
+		showTime();
+		//updateLapInfo();
 	}
 
 	function setGroup() {
@@ -101,6 +102,25 @@
 			LoadPages();
 		});
 
+	}
+	
+	function updateLapInfo() {
+		$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gQuery, 
+		function(json){
+			var e = json.feed.entry,
+			entry, i, 序號, 成績, 圈數;
+			gLength = e.length;
+			for (i = 0; i < gLength; i++) {
+				entry = e[i];
+				序號 = entry.gsx$序號.$t;
+				圈數 = entry.gsx$圈數.$t;
+				成績 = entry.gsx$成績.$t;
+				$("#item"+i).val(序號);
+				$("#lap"+i).val(圈數);
+				$("#laptime"+i).val(成績);
+			}
+		});
+		setTimeout('updateLapInfo()',1000);
 	}
 
 	function LoadPages() {
@@ -229,10 +249,13 @@
 			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
 			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
 			db.ref("/timer/"+gGroupName+"/status").set("開始");
+			
+			db.ref("/laptime/"+gGroupName+"/status").set("開始");
+			
 		}
 	}
 
-	function ShowTime(){
+	function showTime(){
 		var nowTime = new Date();
 		var runTime = new Date();
 		var lapTime = new Date();
@@ -283,7 +306,7 @@
 			}
 		}
 
-		setTimeout('ShowTime()',100);
+		setTimeout('showTime()',100);
 	}
 
 	</script>
