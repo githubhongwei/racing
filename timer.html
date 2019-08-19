@@ -25,14 +25,23 @@
 	
 	<style>
 	.hitLap {
-		width:100px;
-		font-size: 50px;
+		width:100%;
+		font-size: 20px;
 		font-family:Microsoft JhengHei;	
 	}
-	
+	.switch {
+		width: 50%;
+		text-align:center;
+		font-size: 20px;
+		font-family:Microsoft JhengHei;	
+	}	
 	.default {
-		min-width: 100px;
-		font-size: 50px;
+		font-size: 20px;
+		font-family:Microsoft JhengHei;	
+	}
+	.table {
+		font-size: 20px;
+		text-align:center;
 		font-family:Microsoft JhengHei;	
 	}
 	
@@ -40,28 +49,28 @@
 </head>
 
 <body onload="start()">
-	<div style="width:100%;">
-		<select name="groupName" id="groupID" class ="default" onchange="setGroup()">
-		<option value="groupA">第一組</option>
-		<option value="groupB">第二組</option>
-		<option value="groupC">第三組</option>
-		
-		<div>
-			<input type="button" id="startBtn" class ="default" onclick="switchStatus();" value="起跑"></input>
-		</div>
-		<div id="showNowTime" class ="default"></div>
-		<div id="showStartTime" class ="default"></div>
-		<div id="showFinishTime" class ="default"></div>
-		<div id="runTimeAll" class ="default"></div>
-		<div id="showTable" class ="default">Loading...</div>
-	</div>
+	<select name="groupName" id="groupID" class ="switch" onchange="setGroup()">
+	<option value="groupA">第一組</option>
+	<option value="groupB">第二組</option>
+	<option value="groupC">第三組</option>
+	
+	<input type="button" id="startBtn" class ="switch" onclick="switchStatus()" value="切換模式"></input>
+
+	<div id="showStatus" class ="default"></div>
+	<div id="showNowTime" class ="default"></div>
+	<div id="showStartTime" class ="default"></div>
+	<div id="showFinishTime" class ="default"></div>
+	<div id="runTimeAll" class ="default"></div>
+	<div id="showTable" class ="table">Loading...</div>
 
 	<script>
 	var gLapTimeArray = new Array();
 	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
+	var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gLength;
 	var gGroupName;
+	var gGroupStatus;
 	var db = firebase.database();
 	
 	function start() {
@@ -75,8 +84,16 @@
 		db.ref("/timer/"+gGroupName+"/startTime").on('value', function (snapshot) {
 			gStartTime.setTime(snapshot.val());
 		});
+		db.ref("/timer/"+gGroupName+"/finishTime").on('value', function (snapshot) {
+			gFinishTime.setTime(snapshot.val());
+		});
 		db.ref("/timer/"+gGroupName+"/status").on('value', function (snapshot) {
-			$("#startBtn").val(snapshot.val());
+			gGroupStatus = snapshot.val();
+			//$("#startBtn").val(snapshot.val());
+			if (gGroupStatus == "開始")			document.getElementById("showStatus").innerHTML = '目前狀態: 已重置';
+			else if (gGroupStatus == "結束")	document.getElementById("showStatus").innerHTML = '目前狀態: 競賽中';
+			else if (gGroupStatus == "重置")	document.getElementById("showStatus").innerHTML = '目前狀態: 已結束';
+			
 		});
 		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
 			gQuery = snapshot.val();
@@ -89,7 +106,7 @@
 		$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gQuery, 
 		function(json){
 			var vTable = "";
-			vTable = vTable + "<table border=1>";
+			vTable = vTable + "<table border=1 width=100%>";
 			vTable = vTable + "<tr class='divTableHeading'>";
 			vTable = vTable + "<td class='divTableHead'>";
 			vTable = vTable + "姓名";
@@ -153,6 +170,7 @@
 					$(this).val(lap -1);
 					var nowTime = new Date();
 					gLapTimeArray[id] = nowTime.getTime();
+					
 					data = [[$(this).val(), gLapTimeArray[id]]];
 					parameter = {
 						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
@@ -181,6 +199,8 @@
 		ms = ms < 10 ? ('0' + ms) : ms;
 		if (id == 'showStartTime') {
 			document.getElementById(id).innerHTML = '起跑時間: '+hh+':'+mm+':'+ss+'.'+ms;
+		} else if (id == 'showFinishTime') {
+			document.getElementById(id).innerHTML = '結束時間: '+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id == 'showNowTime') {
 			document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id.startsWith("laptime")) {
@@ -193,14 +213,21 @@
 
 	function switchStatus () {
 		gGroupName = document.getElementById("groupID").value;
-		if ($("#startBtn").val() == "起跑") {
+
+		if (gGroupStatus == "開始") {
 			gStartTime = new Date();
 			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+			db.ref("/timer/"+gGroupName+"/status").set("結束");
+		} else if (gGroupStatus == "結束") {
+			gFinishTime = new Date();
+			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
 			db.ref("/timer/"+gGroupName+"/status").set("重置");
 		} else {
 			gStartTime = gResetTime;
+			gFinishTime = gResetTime;
 			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-			db.ref("/timer/"+gGroupName+"/status").set("起跑");
+			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
+			db.ref("/timer/"+gGroupName+"/status").set("開始");
 		}
 	}
 
@@ -210,9 +237,10 @@
 		var lapTime = new Date();
 
 		timeString('showNowTime', nowTime);
+		timeString('showFinishTime', gFinishTime);
 
 		if (gStartTime.getTime() == gResetTime.getTime()) {
-			timeString('showStartTime', nowTime);
+			timeString('showStartTime', gStartTime);
 			var sTime = timeString('runTimeAll', gResetTime);
 			for ( var i = 0; i < gLength; i++) {
 				document.getElementById('rumtime'+i).innerHTML = sTime; 
@@ -220,6 +248,8 @@
 				if ($("#lap"+i).val() != 13) {
 					$("#lap"+i).val(13);
 					
+					
+					/* 
 					data = [[$("#lap"+i).val(), 0]];
 					parameter = {
 						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
@@ -230,7 +260,8 @@
 						row: data.length,
 						column: data[0].length,
 					};
-					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter); 
+					*/
 				}
 			}	
 		} else {
