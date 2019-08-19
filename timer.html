@@ -22,46 +22,67 @@
 	  // Initialize Firebase
 	  firebase.initializeApp(firebaseConfig);
 	</script>
+	
+	<style>
+	.hitLap {
+		width:100px;
+		font-family:Microsoft JhengHei;	
+	}
+	
+	.default {
+		font-family:Microsoft JhengHei;	
+	}
+	
+	</style>
 </head>
 
-<body onload="ChgangeGroup(gGroupA)">
-	<input type="button" onclick="ChgangeGroup(gGroupA)" value="第一組"></input>
-	<input type="button" onclick="ChgangeGroup(gGroupB)" value="第二組"></input>
-	<input type="button" onclick="ChgangeGroup(gGroupC)" value="第三組"></input>
+<body onload="start()">
+
+	<select name="groupName" id="groupID" class ="default" onchange="setGroup()">
+	<option value="groupA">第一組</option>
+	<option value="groupB">第二組</option>
+	<option value="groupC">第三組</option>
 	
 	<div>
-		<input type="button" id="startBtn" onclick="switchStatus();" value="起跑"></input>
+		<input type="button" id="startBtn" class ="default" onclick="switchStatus();" value="起跑"></input>
 	</div>
-	<div id="showStartTime"></div>
-	<div id="showNowTime"></div>
-	<div id="runTimeAll"></div>
-	<div id="TABLE">Loading...</div>
+	<div id="showNowTime" class ="default"></div>
+	<div id="showStartTime" class ="default"></div>
+	<div id="showFinishTime" class ="default"></div>
+	<div id="runTimeAll" class ="default"></div>
+	<div id="showTable" class ="default">Loading...</div>
 
 	<script>
 	var gLapTimeArray = new Array();
 	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gLength;
-	var gGroupA = "&sq=序號>=A01 and 序號<=A20";
-	var gGroupB = "&sq=序號>=B01 and 序號<=B20";
-	var gGroupC = "&sq=序號>=C01 and 序號<=C20";
-	var gGroup = gGroupA;
+	var gGroupName;
 	var db = firebase.database();
-
-	function ChgangeGroup(group) {
-		gGroup = group;
-		LoadPages();
+	
+	function start() {
+		setGroup();
 		ShowTime();
-		db.ref("/timer/groupA/startTime").on('value', function (snapshot) {
+	}
+
+	function setGroup() {
+		gGroupName = document.getElementById("groupID").value;
+
+		db.ref("/timer/"+gGroupName+"/startTime").on('value', function (snapshot) {
 			gStartTime.setTime(snapshot.val());
 		});
-		db.ref("/timer/groupA/status").on('value', function (snapshot) {
+		db.ref("/timer/"+gGroupName+"/status").on('value', function (snapshot) {
 			$("#startBtn").val(snapshot.val());
 		});
+		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
+			gQuery = snapshot.val();
+			LoadPages();
+		});
+
 	}
 
 	function LoadPages() {
-		$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gGroup, 
+		$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gQuery, 
 		function(json){
 			var vTable = "";
 			vTable = vTable + "<table border=1>";
@@ -110,12 +131,12 @@
 				vTable = vTable + "<td>";
 				vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
 				vTable = vTable + "</td>";
-				/* 區間 */
+				/* 區間秒數 */
 				vTable = vTable + "<td>";
 				vTable = vTable + "<label id='laptime"+i+ "'/>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
-				var vDiv = document.all("TABLE");
+				var vDiv = document.all("showTable");
 				vDiv.innerHTML = vTable;
 				gLapTimeArray.push(gStartTime);
 			}
@@ -167,14 +188,15 @@
 
 
 	function switchStatus () {
+		gGroupName = document.getElementById("groupID").value;
 		if ($("#startBtn").val() == "起跑") {
 			gStartTime = new Date();
-			db.ref("/timer/groupA/startTime").set(gStartTime.getTime());
-			db.ref("/timer/groupA/status").set("重置");
+			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+			db.ref("/timer/"+gGroupName+"/status").set("重置");
 		} else {
 			gStartTime = gResetTime;
-			db.ref("/timer/groupA/startTime").set(gResetTime.getTime());
-			db.ref("/timer/groupA/status").set("起跑");
+			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+			db.ref("/timer/"+gGroupName+"/status").set("起跑");
 		}
 	}
 
@@ -190,7 +212,7 @@
 			var sTime = timeString('runTimeAll', gResetTime);
 			for ( var i = 0; i < gLength; i++) {
 				document.getElementById('rumtime'+i).innerHTML = sTime; 
-				document.getElementById('laptime'+i).innerHTML = sTime;
+				document.getElementById('laptime'+i).innerHTML = "0s";
 				if ($("#lap"+i).val() != 13) {
 					$("#lap"+i).val(13);
 					
