@@ -1,3 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
+	
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+	<script>
+	  // Your web app's Firebase configuration
+	  var firebaseConfig = {
+		apiKey: "AIzaSyAReWVyHupYjqvDOVw7y4iQ-4raNrccASA",
+		authDomain: "racing-86f50.firebaseapp.com",
+		databaseURL: "https://racing-86f50.firebaseio.com",
+		projectId: "racing-86f50",
+		storageBucket: "racing-86f50.appspot.com",
+		messagingSenderId: "73612947849",
+		appId: "1:73612947849:web:ca1d6ae60943949f"
+	  };
+	  // Initialize Firebase
+	  firebase.initializeApp(firebaseConfig);
+	</script>
+</head>
+
 <body onload="ChgangeGroup(gGroupA)">
 	<input type="button" onclick="ChgangeGroup(gGroupA)" value="第一組"></input>
 	<input type="button" onclick="ChgangeGroup(gGroupB)" value="第二組"></input>
@@ -10,198 +36,199 @@
 	<div id="showNowTime"></div>
 	<div id="runTimeAll"></div>
 	<div id="TABLE">Loading...</div>
-</body>
 
-<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script><div id="test"></div>
-<script>
-var gLapTimeArray = new Array();
-var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
-var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
-var gLength;
-var gGroupA = "&sq=序號>=A01 and 序號<=A20";
-var gGroupB = "&sq=序號>=B01 and 序號<=B20";
-var gGroupC = "&sq=序號>=C01 and 序號<=C20";
-var gGroup = gGroupA;
-//LoadPages(gGroupA);
+	<script>
+	var gLapTimeArray = new Array();
+	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
+	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
+	var gLength;
+	var gGroupA = "&sq=序號>=A01 and 序號<=A20";
+	var gGroupB = "&sq=序號>=B01 and 序號<=B20";
+	var gGroupC = "&sq=序號>=C01 and 序號<=C20";
+	var gGroup = gGroupA;
+	var db = firebase.database();
 
-function ChgangeGroup(group) {
-	gGroup = group;
-	LoadPages();
-	ShowTime();
-}
+	function ChgangeGroup(group) {
+		gGroup = group;
+		LoadPages();
+		ShowTime();
+		db.ref("/timer/groupA/startTime").on('value', function (snapshot) {
+			gStartTime.setTime(snapshot.val());
+		});
+		db.ref("/timer/groupA/status").on('value', function (snapshot) {
+			$("#startBtn").val(snapshot.val());
+		});
+	}
 
-function GetStartTime() {
-
-}
-
-function LoadPages() {
-	$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gGroup, 
-	function(json){
-		var vTable = "";
-		vTable = vTable + "<table border=1>";
-		vTable = vTable + "<tr class='divTableHeading'>";
-		vTable = vTable + "<td class='divTableHead'>";
-		vTable = vTable + "姓名";
-		vTable = vTable + "</td>";
-		vTable = vTable + "<td class='divTableHead'>";
-		vTable = vTable + "成績";
-		vTable = vTable + "</td>";
-		vTable = vTable + "<td class='divTableHead'>";
-		vTable = vTable + "序號";
-		vTable = vTable + "</td>";
-		vTable = vTable + "<td class='divTableHead'>";
-		vTable = vTable + "圈數";
-		vTable = vTable + "</td>";
-		vTable = vTable + "<td class='divTableHead'>";
-		vTable = vTable + "秒數";
-		vTable = vTable + "</td>";
-		vTable = vTable + "</tr>";
-		
-		var e = json.feed.entry,
-		html = "",
-		entry, i, 序號, 姓名, 成績, 圈數 ;
-		gLength = e.length;
-
-		for (i = 0; i < gLength; i++) {
-			entry = e[i];
-			序號 = entry.gsx$序號.$t;
-			姓名 = entry.gsx$姓名.$t;
-			圈數 = entry.gsx$圈數.$t;
-			成績 = entry.gsx$成績.$t;
-			vTable = vTable + "<tr>";
-			vTable = vTable + "<td>";
-			vTable = vTable + 姓名;
+	function LoadPages() {
+		$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gGroup, 
+		function(json){
+			var vTable = "";
+			vTable = vTable + "<table border=1>";
+			vTable = vTable + "<tr class='divTableHeading'>";
+			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "姓名";
 			vTable = vTable + "</td>";
-			/* 成績 */		
-			vTable = vTable + "<td>";
-			vTable = vTable + "<label id='rumtime"+i+ "'/>";
+			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "成績";
 			vTable = vTable + "</td>";
-			/* 序號 */
-			vTable = vTable + "<td>";
-			//vTable = vTable + 序號;
-			vTable = vTable + "<label id='item"+i+"' text='"+序號+"'>"+序號+" </>";
+			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "序號";
 			vTable = vTable + "</td>";
-			/* 圈數 */
-			vTable = vTable + "<td>";
-			vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
+			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "圈數";
 			vTable = vTable + "</td>";
-			/* 區間 */
-			vTable = vTable + "<td>";
-			vTable = vTable + "<label id='laptime"+i+ "'/>";
+			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "秒數";
 			vTable = vTable + "</td>";
 			vTable = vTable + "</tr>";
-			var vDiv = document.all("TABLE");
-			vDiv.innerHTML = vTable;
-			gLapTimeArray.push(gStartTime);
+			
+			var e = json.feed.entry,
+			//html = "",
+			entry, i, 序號, 姓名, 成績, 圈數 ;
+			gLength = e.length;
+
+			for (i = 0; i < gLength; i++) {
+				entry = e[i];
+				序號 = entry.gsx$序號.$t;
+				姓名 = entry.gsx$姓名.$t;
+				圈數 = entry.gsx$圈數.$t;
+				成績 = entry.gsx$成績.$t;
+				vTable = vTable + "<tr>";
+				vTable = vTable + "<td>";
+				vTable = vTable + 姓名;
+				vTable = vTable + "</td>";
+				/* 成績 */		
+				vTable = vTable + "<td>";
+				vTable = vTable + "<label id='rumtime"+i+ "'/>";
+				vTable = vTable + "</td>";
+				/* 序號 */
+				vTable = vTable + "<td>";
+				vTable = vTable + "<label id='item"+i+"' text='"+序號+"'>"+序號+" </>";
+				vTable = vTable + "</td>";
+				/* 圈數 */
+				vTable = vTable + "<td>";
+				vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
+				vTable = vTable + "</td>";
+				/* 區間 */
+				vTable = vTable + "<td>";
+				vTable = vTable + "<label id='laptime"+i+ "'/>";
+				vTable = vTable + "</td>";
+				vTable = vTable + "</tr>";
+				var vDiv = document.all("TABLE");
+				vDiv.innerHTML = vTable;
+				gLapTimeArray.push(gStartTime);
+			}
+			
+			//$("#test").html(html);
+			$('.hitLap').on('click',function(){
+				var lap = $(this).val().replace(/\s+/g, "");
+				var id = $(this).attr('id').replace("lap", "");
+				if (gStartTime.getTime() != gResetTime.getTime() && lap != 0) {
+					$(this).val(lap -1);
+					var nowTime = new Date();
+					gLapTimeArray[id] = nowTime.getTime();
+					data = [[$(this).val(), gLapTimeArray[id]]];
+					parameter = {
+						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+						name: "20190803",
+						method: "timer",
+						uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
+						data: data.toString(),
+						row: data.length,
+						column: data[0].length,
+					};
+					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+				}
+			});
+		});
+	}
+
+	function timeString(id, time) {
+		var hh = time.getHours();
+		var mm = time.getMinutes();
+		var ss = time.getSeconds();
+		var ms = Math.floor((time.getMilliseconds()+1)/10);
+		var lapSeconds = mm * 60 + ss;
+		hh = hh < 10 ? ('0' + hh) : hh;
+		mm = mm < 10 ? ('0' + mm) : mm;
+		ss = ss < 10 ? ('0' + ss) : ss;
+		ms = ms < 10 ? ('0' + ms) : ms;
+		if (id == 'showStartTime') {
+			document.getElementById(id).innerHTML = '起跑時間: '+hh+':'+mm+':'+ss+'.'+ms;
+		} else if (id == 'showNowTime') {
+			document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
+		} else if (id.startsWith("laptime")) {
+			document.getElementById(id).innerHTML = lapSeconds+'s';	
 		}
 		
-		$("#test").html(html);
-		$('.hitLap').on('click',function(){
-			var lap = $(this).val().replace(/\s+/g, "");
-			var id = $(this).attr('id').replace("lap", "");
-			if (gStartTime.getTime() != gResetTime.getTime() && lap != 0) {
-				$(this).val(lap -1);
-				var nowTime = new Date();
-				gLapTimeArray[id] = nowTime.getTime();
-				data = [[$(this).val(), gLapTimeArray[id]]];
-				parameter = {
-					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-					name: "20190803",
-					method: "timer",
-					uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
-					data: data.toString(),
-					row: data.length,
-					column: data[0].length,
-				};
-				$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
-			}
-		});
-		//setTimeout('LoadPages()',1000);
-	});
-}
-
-function timeString(id, time) {
-	var hh = time.getHours();
-	var mm = time.getMinutes();
-	var ss = time.getSeconds();
-	var ms = Math.floor((time.getMilliseconds()+1)/10);
-	var lapSeconds = mm * 60 + ss;
-	hh = hh < 10 ? ('0' + hh) : hh;
-	mm = mm < 10 ? ('0' + mm) : mm;
-	ss = ss < 10 ? ('0' + ss) : ss;
-	ms = ms < 10 ? ('0' + ms) : ms;
-	if (id == 'showStartTime') {
-		document.getElementById(id).innerHTML = '起跑時間: '+hh+':'+mm+':'+ss+'.'+ms;
-	} else if (id == 'showNowTime') {
-		document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
-	} else if (id.startsWith("laptime")) {
-		document.getElementById(id).innerHTML = mm+':'+ss+'.'+ms+' ('+lapSeconds+'s)';	
+		return (mm+':'+ss+'.'+ms);
 	}
-	
-	return (mm+':'+ss+'.'+ms);
-	
-}
 
-function switchStatus () {
-	if ($("#startBtn").val() == "起跑") {
-		gStartTime = new Date();
-		$("#startBtn").val("重置");		
-	} else {
-		gStartTime = gResetTime;
-		$("#startBtn").val("起跑");	
-	}
-}
 
-function ShowTime(){
-	var nowTime = new Date();
-	var runTime = new Date();
-	var lapTime = new Date();
-
-	timeString('showNowTime', nowTime);
-
-	if (gStartTime.getTime() == gResetTime.getTime()) {
-		timeString('showStartTime', nowTime);
-		var sTime = timeString('runTimeAll', gResetTime);
-		for ( var i = 0; i < gLength; i++) {
-			document.getElementById('rumtime'+i).innerHTML = sTime; 
-			document.getElementById('laptime'+i).innerHTML = sTime;
-			if ($("#lap"+i).val() != 13) {
-				$("#lap"+i).val(13);
-				
-				data = [[$("#lap"+i).val(	), 0]];
-				parameter = {
-					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-					name: "20190803",
-					method: "timer",
-					uuid: document.getElementById('item'+i).innerHTML.replace(/\s+/g, ""),
-					data: data.toString(),
-					row: data.length,
-					column: data[0].length,
-				};
-				$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
-			
-			}
-		}	
-	} else {
-		timeString('showStartTime', gStartTime);
-		runTime.setTime(nowTime.getTime() - gStartTime.getTime());
-		var sTime = timeString('runTimeAll', runTime);
-		for ( var i = 0; i < gLength; i++) {
-			if ($("#lap"+i).val() != 0) {	
-				document.getElementById('rumtime'+i).innerHTML = sTime; 
-
-				if ($("#lap"+i).val() == 13) {
-					lapTime.setTime(nowTime.getTime() - gStartTime.getTime());
-				} else {
-					lapTime.setTime(nowTime.getTime() - gLapTimeArray[i]);
-				}
-				timeString('laptime'+i, lapTime);
-			}
+	function switchStatus () {
+		if ($("#startBtn").val() == "起跑") {
+			gStartTime = new Date();
+			db.ref("/timer/groupA/startTime").set(gStartTime.getTime());
+			db.ref("/timer/groupA/status").set("重置");
+		} else {
+			gStartTime = gResetTime;
+			db.ref("/timer/groupA/startTime").set(gResetTime.getTime());
+			db.ref("/timer/groupA/status").set("起跑");
 		}
 	}
 
-	setTimeout('ShowTime()',100);
-}
+	function ShowTime(){
+		var nowTime = new Date();
+		var runTime = new Date();
+		var lapTime = new Date();
 
-</script>
+		timeString('showNowTime', nowTime);
 
+		if (gStartTime.getTime() == gResetTime.getTime()) {
+			timeString('showStartTime', nowTime);
+			var sTime = timeString('runTimeAll', gResetTime);
+			for ( var i = 0; i < gLength; i++) {
+				document.getElementById('rumtime'+i).innerHTML = sTime; 
+				document.getElementById('laptime'+i).innerHTML = sTime;
+				if ($("#lap"+i).val() != 13) {
+					$("#lap"+i).val(13);
+					
+					data = [[$("#lap"+i).val(), 0]];
+					parameter = {
+						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+						name: "20190803",
+						method: "timer",
+						uuid: document.getElementById('item'+i).innerHTML.replace(/\s+/g, ""),
+						data: data.toString(),
+						row: data.length,
+						column: data[0].length,
+					};
+					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+				}
+			}	
+		} else {
+			timeString('showStartTime', gStartTime);
+			runTime.setTime(nowTime.getTime() - gStartTime.getTime());
+			var sTime = timeString('runTimeAll', runTime);
+			for ( var i = 0; i < gLength; i++) {
+				if ($("#lap"+i).val() != 0) {	
+					document.getElementById('rumtime'+i).innerHTML = sTime; 
+
+					if ($("#lap"+i).val() == 13) {
+						lapTime.setTime(nowTime.getTime() - gStartTime.getTime());
+					} else {
+						lapTime.setTime(nowTime.getTime() - gLapTimeArray[i]);
+					}
+					timeString('laptime'+i, lapTime);
+				}
+			}
+		}
+
+		setTimeout('ShowTime()',100);
+	}
+
+	</script>
+
+</body>
+</html>
