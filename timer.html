@@ -26,10 +26,13 @@
 	<style>
 	.hitLap {
 		width:100px;
+		font-size: 50px;
 		font-family:Microsoft JhengHei;	
 	}
 	
 	.default {
+		min-width: 100px;
+		font-size: 50px;
 		font-family:Microsoft JhengHei;	
 	}
 	
@@ -37,20 +40,21 @@
 </head>
 
 <body onload="start()">
-
-	<select name="groupName" id="groupID" class ="default" onchange="setGroup()">
-	<option value="groupA">第一組</option>
-	<option value="groupB">第二組</option>
-	<option value="groupC">第三組</option>
-	
-	<div>
-		<input type="button" id="startBtn" class ="default" onclick="switchStatus();" value="起跑"></input>
+	<div style="width:100%;">
+		<select name="groupName" id="groupID" class ="default" onchange="setGroup()">
+		<option value="groupA">第一組</option>
+		<option value="groupB">第二組</option>
+		<option value="groupC">第三組</option>
+		
+		<div>
+			<input type="button" id="startBtn" class ="default" onclick="switchStatus();" value="起跑"></input>
+		</div>
+		<div id="showNowTime" class ="default"></div>
+		<div id="showStartTime" class ="default"></div>
+		<div id="showFinishTime" class ="default"></div>
+		<div id="runTimeAll" class ="default"></div>
+		<div id="showTable" class ="default">Loading...</div>
 	</div>
-	<div id="showNowTime" class ="default"></div>
-	<div id="showStartTime" class ="default"></div>
-	<div id="showFinishTime" class ="default"></div>
-	<div id="runTimeAll" class ="default"></div>
-	<div id="showTable" class ="default">Loading...</div>
 
 	<script>
 	var gLapTimeArray = new Array();
