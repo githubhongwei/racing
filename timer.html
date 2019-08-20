@@ -68,7 +68,6 @@
 	<select name="groupName" id="groupID" class ="switch_group" onchange="setGroup()">
 	<option value="groupA">第一組</option>
 	<option value="groupB">第二組</option>
-	<option value="groupC">第三組</option>
 	
 	<input type="button" id="startBtn" class ="switch_mode" onclick="switchStatus()" value="切換(開始/結束/重置)模式"></input>
 
@@ -85,6 +84,7 @@
 	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gLength;
+	var gSpreadsheetsLink;
 	var gGroupName;
 	var gGroupStatus;
 	var db = firebase.database();
@@ -97,7 +97,7 @@
 
 	function setGroup() {
 		gGroupName = document.getElementById("groupID").value;
-
+		
 		db.ref("/timer/"+gGroupName+"/startTime").on('value', function (snapshot) {
 			gStartTime.setTime(snapshot.val());
 		});
@@ -110,6 +110,10 @@
 			else if (gGroupStatus == "結束")	document.getElementById("showStatus").innerHTML = '目前狀態: 競賽中';
 			else if (gGroupStatus == "重置")	document.getElementById("showStatus").innerHTML = '目前狀態: 已結束';	
 		});
+
+		db.ref("/timer/setting/spreadsheetLink").once('value', function (snapshot) {
+			gSpreadsheetsLink = snapshot.val();
+		});
 		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
 			gQuery = snapshot.val();
 			LoadPages();
@@ -118,8 +122,7 @@
 	}
 	
 	function updateLapInfo() {
-		$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gQuery, 
-		function(json){
+		$.getJSON(gSpreadsheetsLink+gQuery, function(json){
 			var e = json.feed.entry,
 			entry, i, 序號, 成績, 圈數;
 			gLength = e.length;
@@ -137,8 +140,7 @@
 	}
 
 	function LoadPages() {
-		$.getJSON("https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/7/public/values?alt=json-in-script&callback=?"+gQuery, 
-		function(json){
+		$.getJSON(gSpreadsheetsLink+gQuery, function(json){
 			var vTable = "";
 			vTable = vTable + "<table border=1 width=100%>";
 			vTable = vTable + "<tr class='divTableHeading'>";
@@ -191,8 +193,7 @@
 				vTable = vTable + "<label id='laptime"+i+ "'/>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
-				var vDiv = document.all("showTable");
-				vDiv.innerHTML = vTable;
+				var vDiv = document.all("showTable").innerHTML = vTable;
 				gLapTimeArray.push(gStartTime);
 			}
 			
@@ -204,11 +205,11 @@
 					$(this).val(lap -1);
 					var nowTime = new Date();
 					gLapTimeArray[id] = nowTime.getTime();
-					
+					//timeString('test', gLapTimeArray[id]);
 					data = [[$(this).val(), gLapTimeArray[id]]];
 					parameter = {
 						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-						name: "20190803",
+						name: "20190901",
 						method: "timer",
 						uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
 						data: data.toString(),
@@ -239,6 +240,8 @@
 			document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id.startsWith("laptime")) {
 			document.getElementById(id).innerHTML = lapSeconds+'s';	
+		} else if (id == 'test') {
+			alert(mm+':'+ss+'.'+ms);
 		}
 		
 		return (mm+':'+ss+'.'+ms);
@@ -324,7 +327,7 @@
 					data = [[$("#lap"+i).val(), 0]];
 					parameter = {
 						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-						name: "20190803",
+						name: "20190901",
 						method: "timer",
 						uuid: document.getElementById('item'+i).innerHTML.replace(/\s+/g, ""),
 						data: data.toString(),
