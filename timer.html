@@ -92,7 +92,6 @@
 	function start() {
 		setGroup();
 		showTime();
-		//updateLapInfo();
 	}
 
 	function setGroup() {
@@ -121,24 +120,6 @@
 
 	}
 	
-	function updateLapInfo() {
-		$.getJSON(gSpreadsheetsLink+gQuery, function(json){
-			var e = json.feed.entry,
-			entry, i, 序號, 成績, 圈數;
-			gLength = e.length;
-			for (i = 0; i < gLength; i++) {
-				entry = e[i];
-				序號 = entry.gsx$序號.$t;
-				圈數 = entry.gsx$圈數.$t;
-				成績 = entry.gsx$成績.$t;
-				$("#item"+i).val(序號);
-				$("#lap"+i).val(圈數);
-				$("#laptime"+i).val(成績);
-			}
-		});
-		setTimeout('updateLapInfo()',1000);
-	}
-
 	function LoadPages() {
 		$.getJSON(gSpreadsheetsLink+gQuery, function(json){
 			var vTable = "";
@@ -192,11 +173,11 @@
 				/* 區間秒數 */
 				vTable = vTable + "<td>";
 				//vTable = vTable + "<label id='laptime"+i+ "'/>";
-				vTable = vTable + "<label id='laptime"+i+"' text='"+圈數+"'>0s</>";
+				vTable = vTable + "<label id='laptime"+i+"' text='"+成績+"'>0s</>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
-				gLapTimeArray.push(gStartTime);
+				gLapTimeArray[i] = 成績;
 			}
 			
 			//$("#test").html(html);
@@ -228,6 +209,7 @@
 				}
 			});
 		});
+		setTimeout('LoadPages()',3000);
 	}
 
 	function timeString(id, time) {
