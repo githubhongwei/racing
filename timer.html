@@ -176,7 +176,7 @@
 				/* 區間秒數 */
 				vTable = vTable + "<td>";
 				//vTable = vTable + "<label id='laptime"+i+ "'/>";
-				vTable = vTable + "<label id='laptime"+i+"' text='"+成績+"'>0s</>";
+				vTable = vTable + "<label id='laptime"+i+"' text='"+成績+"'>000s</>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
@@ -214,13 +214,20 @@
 		});
 		setTimeout('LoadPages()',3000);
 	}
+	
+	function paddingLeft(str,lenght){
+		if(str.length >= lenght)
+			return str;
+		else
+			return paddingLeft("0" +str, lenght);
+	}
 
 	function timeString(id, time) {
 		var hh = time.getHours();
 		var mm = time.getMinutes();
 		var ss = time.getSeconds();
 		var ms = Math.floor((time.getMilliseconds()+1)/10);
-		var lapSeconds = mm * 60 + ss;
+		var lapSeconds = (mm * 60 + ss)%999;
 		hh = hh < 10 ? ('0' + hh) : hh;
 		mm = mm < 10 ? ('0' + mm) : mm;
 		ss = ss < 10 ? ('0' + ss) : ss;
@@ -232,7 +239,7 @@
 		} else if (id == 'showNowTime') {
 			document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id.startsWith("laptime")) {
-			document.getElementById(id).innerHTML = lapSeconds+'s';	
+			document.getElementById(id).innerHTML = paddingLeft(lapSeconds+'s', 4);	
 		}
 		
 		return (mm+':'+ss+'.'+ms);
