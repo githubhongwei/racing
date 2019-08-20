@@ -12,7 +12,6 @@
 	
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 
 	<script>
@@ -36,12 +35,18 @@
 		font-size: 50px;
 		font-family:Microsoft JhengHei;	
 	}
-	.switch {
-		width: 50%;
+	.switch_group {
+		width: 30%;
 		text-align:center;
 		font-size: 50px;
 		font-family:Microsoft JhengHei;	
-	}	
+	}
+	.switch_mode {
+		width: 70%;
+		text-align:center;
+		font-size: 50px;
+		font-family:Microsoft JhengHei;	
+	}
 	.default {
 		font-size: 50px;
 		font-family:Microsoft JhengHei;	
@@ -60,12 +65,12 @@
 </head>
 
 <body onload="start()">
-	<select name="groupName" id="groupID" class ="switch" onchange="setGroup()">
+	<select name="groupName" id="groupID" class ="switch_group" onchange="setGroup()">
 	<option value="groupA">第一組</option>
 	<option value="groupB">第二組</option>
 	<option value="groupC">第三組</option>
 	
-	<input type="button" id="startBtn" class ="switch" onclick="switchStatus()" value="切換模式"></input>
+	<input type="button" id="startBtn" class ="switch_mode" onclick="switchStatus()" value="切換(開始/結束/重置)模式"></input>
 
 	<div id="showStatus" class ="default"></div>
 	<div id="showNowTime" class ="default"></div>
@@ -146,7 +151,7 @@
 			vTable = vTable + "<td class='divTableHead'>";
 			vTable = vTable + "序號";
 			vTable = vTable + "</td>";
-			vTable = vTable + "<td class='divTableHead' width=20%>";
+			vTable = vTable + "<td class='divTableHead' width=25%>";
 			vTable = vTable + "圈數";
 			vTable = vTable + "</td>";
 			vTable = vTable + "<td class='divTableHead'>";
@@ -242,33 +247,49 @@
 
 	function switchStatus () {
 	
-					swal({
-						type: 'success', 
-						title: '您已完成報到！', 
-						customClass: 'my-swal',
-						confirmButtonText: '　確認　',
-					});
-
-		gGroupName = document.getElementById("groupID").value;
-
-		if (gGroupStatus == "開始") {
-			gStartTime = new Date();
-			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-			db.ref("/timer/"+gGroupName+"/status").set("結束");
-		} else if (gGroupStatus == "結束") {
-			gFinishTime = new Date();
-			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-			db.ref("/timer/"+gGroupName+"/status").set("重置");
-		} else {
-			gStartTime = gResetTime;
-			gFinishTime = gResetTime;
-			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-			db.ref("/timer/"+gGroupName+"/status").set("開始");
+		swal({
+			title: '請輸入密碼',
+			input: 'text',
+			customClass: 'my-swal',
+			showCancelButton: true,
+			inputValidator: function(value) {
+				return new Promise(function(resolve, reject) {
+					if (value == 9527) {
+						resolve();
+					} else {
+						reject('請輸入密碼!');
+					}
+				});
+			}
+		}).then(function(result) {
+			swal({
+				type: 'success',
+				title: '已切換', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
 			
-			db.ref("/laptime/"+gGroupName+"/status").set("開始");
-			
-		}
+			gGroupName = document.getElementById("groupID").value;
+
+			if (gGroupStatus == "開始") {
+				gStartTime = new Date();
+				db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+				db.ref("/timer/"+gGroupName+"/status").set("結束");
+			} else if (gGroupStatus == "結束") {
+				gFinishTime = new Date();
+				db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
+				db.ref("/timer/"+gGroupName+"/status").set("重置");
+			} else {
+				gStartTime = gResetTime;
+				gFinishTime = gResetTime;
+				db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+				db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
+				db.ref("/timer/"+gGroupName+"/status").set("開始");
+				
+				db.ref("/laptime/"+gGroupName+"/status").set("開始");	
+			}
+		});
+
 	}
 
 	function showTime(){
