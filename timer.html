@@ -192,16 +192,11 @@
 				/* 區間秒數 */
 				vTable = vTable + "<td>";
 				//vTable = vTable + "<label id='laptime"+i+ "'/>";
-				vTable = vTable + "<label id='laptime"+i+"' text='"+序號+"'>"+序號+" </>";
+				vTable = vTable + "<label id='laptime"+i+"' text='"+圈數+"'>0s</>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
 				gLapTimeArray.push(gStartTime);
-				
-				//if ($("#lap"+i).val() == 0) {
-					//document.getElementById('rumtime'+i).innerHTML = "333";
-					//document.getElementById('laptime'+i).innerHTML = "0s";
-				//} 
 			}
 			
 			//$("#test").html(html);
