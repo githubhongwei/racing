@@ -125,19 +125,19 @@
 			var vTable = "";
 			vTable = vTable + "<table border=1 width=100%>";
 			vTable = vTable + "<tr class='divTableHeading'>";
-			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "<td class='divTableHead' width=15%>";
 			vTable = vTable + "姓名";
 			vTable = vTable + "</td>";
-			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "<td class='divTableHead' width=30%>";
 			vTable = vTable + "成績";
 			vTable = vTable + "</td>";
-			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "<td class='divTableHead' width=10%>";
 			vTable = vTable + "序號";
 			vTable = vTable + "</td>";
 			vTable = vTable + "<td class='divTableHead' width=25%>";
 			vTable = vTable + "圈數";
 			vTable = vTable + "</td>";
-			vTable = vTable + "<td class='divTableHead'>";
+			vTable = vTable + "<td class='divTableHead' width=20%>";
 			vTable = vTable + "秒數";
 			vTable = vTable + "</td>";
 			vTable = vTable + "</tr>";
@@ -159,8 +159,11 @@
 				vTable = vTable + "</td>";
 				/* 成績 */		
 				vTable = vTable + "<td>";
-				//vTable = vTable + "<label id='rumtime"+i+ "'/>";
-				vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
+				if (圈數 == 0) {
+					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
+				} else {
+					vTable = vTable + "<label id='rumtime"+i+ "'/>";
+				}
 				vTable = vTable + "</td>";
 				/* 序號 */
 				vTable = vTable + "<td>";
@@ -230,8 +233,6 @@
 			document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id.startsWith("laptime")) {
 			document.getElementById(id).innerHTML = lapSeconds+'s';	
-		} else if (id == 'test') {
-			alert(mm+':'+ss+'.'+ms);
 		}
 		
 		return (mm+':'+ss+'.'+ms);
