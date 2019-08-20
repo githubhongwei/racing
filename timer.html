@@ -178,7 +178,8 @@
 				vTable = vTable + "</td>";
 				/* 成績 */		
 				vTable = vTable + "<td>";
-				vTable = vTable + "<label id='rumtime"+i+ "'/>";
+				//vTable = vTable + "<label id='rumtime"+i+ "'/>";
+				vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
 				vTable = vTable + "</td>";
 				/* 序號 */
 				vTable = vTable + "<td>";
@@ -190,11 +191,17 @@
 				vTable = vTable + "</td>";
 				/* 區間秒數 */
 				vTable = vTable + "<td>";
-				vTable = vTable + "<label id='laptime"+i+ "'/>";
+				//vTable = vTable + "<label id='laptime"+i+ "'/>";
+				vTable = vTable + "<label id='laptime"+i+"' text='"+序號+"'>"+序號+" </>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
 				gLapTimeArray.push(gStartTime);
+				
+				//if ($("#lap"+i).val() == 0) {
+					//document.getElementById('rumtime'+i).innerHTML = "333";
+					//document.getElementById('laptime'+i).innerHTML = "0s";
+				//} 
 			}
 			
 			//$("#test").html(html);
@@ -202,10 +209,16 @@
 				var lap = $(this).val().replace(/\s+/g, "");
 				var id = $(this).attr('id').replace("lap", "");
 				if (gStartTime.getTime() != gResetTime.getTime() && lap != 0) {
-					$(this).val(lap -1);
 					var nowTime = new Date();
-					gLapTimeArray[id] = nowTime.getTime();
-					//timeString('test', gLapTimeArray[id]);
+					var runTime = new Date();
+					$(this).val(lap - 1);
+					if ($(this).val() == 0) {
+						runTime.setTime(nowTime.getTime() - gStartTime.getTime());
+						gLapTimeArray[id] = timeString('runTimeAll', runTime);
+					} else {
+						gLapTimeArray[id] = nowTime.getTime();
+					}
+					
 					data = [[$(this).val(), gLapTimeArray[id]]];
 					parameter = {
 						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
@@ -323,7 +336,6 @@
 				if ($("#lap"+i).val() != 13) {
 					$("#lap"+i).val(13);
 					
-					
 					data = [[$("#lap"+i).val(), 0]];
 					parameter = {
 						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
@@ -335,7 +347,6 @@
 						column: data[0].length,
 					};
 					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter); 
-
 				}
 			}	
 		} else {
