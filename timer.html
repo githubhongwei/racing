@@ -248,46 +248,57 @@
 	function switchStatus () {
 	
 		swal({
-			title: '請輸入密碼',
+			title: '請先輸入密碼',
 			input: 'text',
+			html: '( ' + document.getElementById("showStatus").innerHTML + ' )',
 			customClass: 'my-swal',
 			showCancelButton: true,
+			confirmButtonText: '　確認　', 
+			cancelButtonText: '　取消　',
 			inputValidator: function(value) {
 				return new Promise(function(resolve, reject) {
 					if (value == 9527) {
 						resolve();
 					} else {
-						reject('請輸入密碼!');
+						reject('請輸入正確密碼');
 					}
 				});
 			}
 		}).then(function(result) {
 			swal({
-				type: 'success',
-				title: '已切換', 
+				type: 'question',
+				title: '是否確認切換模式？', 
+				showCancelButton: true, 
+				confirmButtonText: '　確認　', 
+				cancelButtonText: '　取消　',
 				customClass: 'my-swal',
-				confirmButtonText: '　確認　',
-			});
-			
-			gGroupName = document.getElementById("groupID").value;
+			}).then(function() {
+				swal({
+					type: 'success',
+					title: '已切換模式', 
+					customClass: 'my-swal',
+					confirmButtonText: '　確認　',
+				});
+				gGroupName = document.getElementById("groupID").value;
 
-			if (gGroupStatus == "開始") {
-				gStartTime = new Date();
-				db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-				db.ref("/timer/"+gGroupName+"/status").set("結束");
-			} else if (gGroupStatus == "結束") {
-				gFinishTime = new Date();
-				db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-				db.ref("/timer/"+gGroupName+"/status").set("重置");
-			} else {
-				gStartTime = gResetTime;
-				gFinishTime = gResetTime;
-				db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-				db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-				db.ref("/timer/"+gGroupName+"/status").set("開始");
-				
-				db.ref("/laptime/"+gGroupName+"/status").set("開始");	
-			}
+				if (gGroupStatus == "開始") {
+					gStartTime = new Date();
+					db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+					db.ref("/timer/"+gGroupName+"/status").set("結束");
+				} else if (gGroupStatus == "結束") {
+					gFinishTime = new Date();
+					db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
+					db.ref("/timer/"+gGroupName+"/status").set("重置");
+				} else {
+					gStartTime = gResetTime;
+					gFinishTime = gResetTime;
+					db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+					db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
+					db.ref("/timer/"+gGroupName+"/status").set("開始");
+					
+					db.ref("/laptime/"+gGroupName+"/status").set("開始");	
+				}
+			});
 		});
 
 	}
