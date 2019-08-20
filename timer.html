@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-	<meta name="viewport" content="user-scalable=no">
+	<meta name="viewport" content="user-scalable=0">
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
+	
+	<!--引用SweetAlert2-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 	
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
@@ -44,6 +50,10 @@
 		font-size: 50px;
 		text-align:center;
 		font-family:Microsoft JhengHei;	
+	}
+	.my-swal{
+		zoom: 1.6 !important;
+		width:80% !important;
 	}
 	
 	</style>
@@ -91,11 +101,9 @@
 		});
 		db.ref("/timer/"+gGroupName+"/status").on('value', function (snapshot) {
 			gGroupStatus = snapshot.val();
-			//$("#startBtn").val(snapshot.val());
 			if (gGroupStatus == "開始")			document.getElementById("showStatus").innerHTML = '目前狀態: 已重置';
 			else if (gGroupStatus == "結束")	document.getElementById("showStatus").innerHTML = '目前狀態: 競賽中';
-			else if (gGroupStatus == "重置")	document.getElementById("showStatus").innerHTML = '目前狀態: 已結束';
-			
+			else if (gGroupStatus == "重置")	document.getElementById("showStatus").innerHTML = '目前狀態: 已結束';	
 		});
 		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
 			gQuery = snapshot.val();
@@ -233,6 +241,14 @@
 
 
 	function switchStatus () {
+	
+					swal({
+						type: 'success', 
+						title: '您已完成報到！', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+
 		gGroupName = document.getElementById("groupID").value;
 
 		if (gGroupStatus == "開始") {
