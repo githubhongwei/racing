@@ -196,29 +196,31 @@
 			$('.hitLap').on('click',function(){
 				var lap = $(this).val().replace(/\s+/g, "");
 				var id = $(this).attr('id').replace("lap", "");
-				if (gStartTime.getTime() != gResetTime.getTime() && lap != 0) {
-					var nowTime = new Date();
-					var runTime = new Date();
-					$(this).val(lap - 1);
-					if ($(this).val() == 0) {
-						runTime.setTime(nowTime.getTime() - gStartTime.getTime());
-						gLapTimeArray[id] = timeString('runTimeAll', runTime);
-					} else {
-						gLapTimeArray[id] = nowTime.getTime();
+				if (gFinishTime.getTime() == gResetTime.getTime()) {
+					if (gStartTime.getTime() != gResetTime.getTime() && lap != 0) {
+						var nowTime = new Date();
+						var runTime = new Date();
+						$(this).val(lap - 1);
+						if ($(this).val() == 0) {
+							runTime.setTime(nowTime.getTime() - gStartTime.getTime());
+							gLapTimeArray[id] = timeString('runTimeAll', runTime);
+						} else {
+							gLapTimeArray[id] = nowTime.getTime();
+						}
+						gLapArray[id] = $(this).val();
+						
+						data = [[gLapArray[id], gLapTimeArray[id]]];
+						parameter = {
+							url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+							name: "20190901",
+							method: "timer",
+							uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
+							data: data.toString(),
+							row: data.length,
+							column: data[0].length,
+						};
+						$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
 					}
-					gLapArray[id] = $(this).val();
-					
-					data = [[gLapArray[id], gLapTimeArray[id]]];
-					parameter = {
-						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-						name: "20190901",
-						method: "timer",
-						uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
-						data: data.toString(),
-						row: data.length,
-						column: data[0].length,
-					};
-					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
 				}
 			});
 		});
@@ -328,8 +330,11 @@
 			timeString('showStartTime', gStartTime);
 			var sTime = timeString('runTimeAll', gResetTime);
 			for ( var i = 0; i < gLength; i++) {
-				document.getElementById('rumtime'+i).innerHTML = sTime; 
+				document.getElementById('rumtime'+i).innerHTML = sTime;
+				gRunTimeArray[i] = sTime;
 				document.getElementById('laptime'+i).innerHTML = "000s";
+				gLapSecArray[i] = "000s";
+				gLapArray[i] = 13;
 				if ($("#lap"+i).val() != 13) {
 					$("#lap"+i).val(13);
 					
@@ -345,7 +350,7 @@
 					};
 					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter); 
 				}
-			}		
+			}
 		} else if (gFinishTime.getTime() != gResetTime.getTime()) {
 			/* 目前狀態: 已結束 */
 			timeString('showStartTime', gStartTime);
@@ -356,7 +361,7 @@
 					document.getElementById('laptime'+i).innerHTML = "000s";
 					gLapSecArray[i] = "000s";
 				}
-			}				
+			}
 		} else {
 			/* 目前狀態: 競賽中 */
 			timeString('showStartTime', gStartTime);
