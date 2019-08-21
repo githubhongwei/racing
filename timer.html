@@ -82,6 +82,7 @@
 	var gLapArray = new Array();
 	var gLapTimeArray = new Array();
 	var gRunTimeArray = new Array();
+	var gLapSecArray = new Array();
 	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);
@@ -164,8 +165,6 @@
 				if (圈數 == 0) {
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
 				} else {
-					// gRunTimeArray[i]
-					//vTable = vTable + "<label id='rumtime"+i+"'/>";
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+gRunTimeArray[i]+" </>";
 				}
 				vTable = vTable + "</td>";
@@ -176,7 +175,6 @@
 				/* 圈數 */
 				vTable = vTable + "<td>";
 				if (!(gLapTimeArray[i] > 成績)) {
-					//alert(gLapTimeArray[i]+":"+成績+":"+(gLapTimeArray[i]-成績));
 					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
 				} else {
 					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+gLapArray[i]+"'> </input>";
@@ -184,15 +182,13 @@
 				vTable = vTable + "</td>";
 				/* 區間秒數 */
 				vTable = vTable + "<td>";
-				//vTable = vTable + "<label id='laptime"+i+ "'/>";
-				vTable = vTable + "<label id='laptime"+i+"' text='"+成績+"'>000s</>";
+				vTable = vTable + "<label id='laptime"+i+"' text='"+成績+"'>"+gLapSecArray[i]+"</>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
 				if (!(gLapTimeArray[i] > 成績)) {
 					gLapArray[i] = 圈數;
 					gLapTimeArray[i] = 成績;
-					//gRunTimeArray[i] = 成績;
 				}
 			}
 			
@@ -253,7 +249,8 @@
 		} else if (id == 'showNowTime') {
 			document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id.startsWith("laptime")) {
-			document.getElementById(id).innerHTML = paddingLeft(lapSeconds+'s', 4);	
+			document.getElementById(id).innerHTML = paddingLeft(lapSeconds+'s', 4);
+			return paddingLeft(lapSeconds+'s', 4);
 		}
 		
 		return (mm+':'+ss+'.'+ms);
@@ -327,6 +324,7 @@
 		timeString('showFinishTime', gFinishTime);
 
 		if (gStartTime.getTime() == gResetTime.getTime()) {
+		/* 目前狀態: 已重置 */
 			timeString('showStartTime', gStartTime);
 			var sTime = timeString('runTimeAll', gResetTime);
 			for ( var i = 0; i < gLength; i++) {
@@ -347,8 +345,13 @@
 					};
 					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter); 
 				}
-			}	
+			}		
+		} else if (gFinishTime.getTime() != gResetTime.getTime()) {
+			/* 目前狀態: 已結束 */
+			timeString('showStartTime', gStartTime);
+			
 		} else {
+			/* 目前狀態: 競賽中 */
 			timeString('showStartTime', gStartTime);
 			runTime.setTime(nowTime.getTime() - gStartTime.getTime());
 			var sTime = timeString('runTimeAll', runTime);
@@ -362,7 +365,7 @@
 					} else {
 						lapTime.setTime(nowTime.getTime() - gLapTimeArray[i]);
 					}
-					timeString('laptime'+i, lapTime);
+					gLapSecArray[i] = timeString('laptime'+i, lapTime);
 				}
 			}
 		}
