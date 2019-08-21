@@ -79,6 +79,7 @@
 	<div id="showTable" class ="table">Loading...</div>
 
 	<script>
+	var gLapArray = new Array();
 	var gLapTimeArray = new Array();
 	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
@@ -171,7 +172,12 @@
 				vTable = vTable + "</td>";
 				/* 圈數 */
 				vTable = vTable + "<td>";
-				vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
+				if (!(gLapTimeArray[i] > 成績)) {
+					//alert(gLapTimeArray[i]+":"+成績+":"+(gLapTimeArray[i]-成績));
+					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
+				} else {
+					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+gLapArray[i]+"'> </input>";
+				}
 				vTable = vTable + "</td>";
 				/* 區間秒數 */
 				vTable = vTable + "<td>";
@@ -180,7 +186,10 @@
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
-				gLapTimeArray[i] = 成績;
+				if (!(gLapTimeArray[i] > 成績)) {
+					gLapArray[i] = 圈數;
+					gLapTimeArray[i] = 成績;
+				}
 			}
 			
 			//$("#test").html(html);
@@ -197,8 +206,9 @@
 					} else {
 						gLapTimeArray[id] = nowTime.getTime();
 					}
+					gLapArray[id] = $(this).val();
 					
-					data = [[$(this).val(), gLapTimeArray[id]]];
+					data = [[gLapArray[id], gLapTimeArray[id]]];
 					parameter = {
 						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 						name: "20190901",
@@ -296,8 +306,6 @@
 					db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
 					db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
 					db.ref("/timer/"+gGroupName+"/status").set("開始");
-					
-					db.ref("/laptime/"+gGroupName+"/status").set("開始");	
 				}
 			});
 		});
@@ -317,7 +325,7 @@
 			var sTime = timeString('runTimeAll', gResetTime);
 			for ( var i = 0; i < gLength; i++) {
 				document.getElementById('rumtime'+i).innerHTML = sTime; 
-				document.getElementById('laptime'+i).innerHTML = "0s";
+				document.getElementById('laptime'+i).innerHTML = "000s";
 				if ($("#lap"+i).val() != 13) {
 					$("#lap"+i).val(13);
 					
