@@ -349,7 +349,14 @@
 		} else if (gFinishTime.getTime() != gResetTime.getTime()) {
 			/* 目前狀態: 已結束 */
 			timeString('showStartTime', gStartTime);
-			
+			for ( var i = 0; i < gLength; i++) {
+				if ($("#lap"+i).val() != 0) {
+					document.getElementById('rumtime'+i).innerHTML = "59:59.99"; 
+					gRunTimeArray[i] = "59:59.99"
+					document.getElementById('laptime'+i).innerHTML = "000s";
+					gLapSecArray[i] = "000s";
+				}
+			}				
 		} else {
 			/* 目前狀態: 競賽中 */
 			timeString('showStartTime', gStartTime);
