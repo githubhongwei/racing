@@ -81,6 +81,7 @@
 	<script>
 	var gLapArray = new Array();
 	var gLapTimeArray = new Array();
+	var gRunTimeArray = new Array();
 	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);
@@ -163,7 +164,8 @@
 				if (圈數 == 0) {
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
 				} else {
-					vTable = vTable + "<label id='rumtime"+i+ "'/>";
+					// gRunTimeArray[i]
+					vTable = vTable + "<label id='rumtime"+i+"'/>";
 				}
 				vTable = vTable + "</td>";
 				/* 序號 */
@@ -284,6 +286,7 @@
 				cancelButtonText: '　取消　',
 				customClass: 'my-swal',
 			}).then(function() {
+				alert("test1");
 				swal({
 					type: 'success',
 					title: '已切換模式', 
@@ -307,6 +310,7 @@
 					db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
 					db.ref("/timer/"+gGroupName+"/status").set("開始");
 				}
+				alert("test2");
 			});
 		});
 
@@ -349,6 +353,7 @@
 			for ( var i = 0; i < gLength; i++) {
 				if ($("#lap"+i).val() != 0) {	
 					document.getElementById('rumtime'+i).innerHTML = sTime; 
+					//gRunTimeArray[i] = timeString('runTimeAll', sTime);
 
 					if ($("#lap"+i).val() == 13) {
 						lapTime.setTime(nowTime.getTime() - gStartTime.getTime());
