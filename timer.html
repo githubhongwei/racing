@@ -90,6 +90,7 @@
 	var gSpreadsheetsLink;
 	var gGroupName;
 	var gGroupStatus;
+	var gNumberOfLaps;
 	var db = firebase.database();
 	
 	function start() {
@@ -115,6 +116,9 @@
 
 		db.ref("/timer/setting/spreadsheetLink").once('value', function (snapshot) {
 			gSpreadsheetsLink = snapshot.val();
+		});
+		db.ref("/timer/setting/numberOfLaps").once('value', function (snapshot) {
+			gNumberOfLaps = snapshot.val();
 		});
 		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
 			gQuery = snapshot.val();
@@ -147,7 +151,7 @@
 			
 			var e = json.feed.entry,
 			//html = "",
-			entry, i, 序號, 姓名, 成績, 圈數 ;
+			entry, i, 序號, 姓名, 成績, 圈數, 秒數 ;
 			gLength = e.length;
 
 			for (i = 0; i < gLength; i++) {
@@ -182,12 +186,12 @@
 				vTable = vTable + "</td>";
 				/* 區間秒數 */
 				vTable = vTable + "<td>";
-				vTable = vTable + "<label id='laptime"+i+"' text='"+成績+"'>"+gLapSecArray[i]+"</>";
+				vTable = vTable + "<label id='laptime"+i+"' text='"+秒數+"'>"+gLapSecArray[i]+"</>";
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
 				if (!(gLapTimeArray[i] > 成績)) {
-					gLapArray[i] = 圈數;
+					//gLapArray[i] = 圈數;
 					gLapTimeArray[i] = 成績;
 				}
 			}
@@ -258,8 +262,36 @@
 		return (mm+':'+ss+'.'+ms);
 	}
 
+	function switchStatus() {
+		//alert("test1");
+		swal({
+			type: 'success',
+			title: '已切換模式', 
+			customClass: 'my-swal',
+			confirmButtonText: '　確認　',
+		});
+		gGroupName = document.getElementById("groupID").value;
 
-	function switchStatus () {
+		if (gGroupStatus == "開始") {
+			gStartTime = new Date();
+			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+			db.ref("/timer/"+gGroupName+"/status").set("結束");
+		} else if (gGroupStatus == "結束") {
+			gFinishTime = new Date();
+			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
+			db.ref("/timer/"+gGroupName+"/status").set("重置");
+		} else {
+			gStartTime = gResetTime;
+			gFinishTime = gResetTime;
+			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
+			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
+			db.ref("/timer/"+gGroupName+"/status").set("開始");
+		}
+		//alert("test2");
+	}
+	
+	
+	function checkPassword() {
 	
 		swal({
 			title: '請先輸入密碼',
@@ -287,31 +319,7 @@
 				cancelButtonText: '　取消　',
 				customClass: 'my-swal',
 			}).then(function() {
-				//alert("test1");
-				swal({
-					type: 'success',
-					title: '已切換模式', 
-					customClass: 'my-swal',
-					confirmButtonText: '　確認　',
-				});
-				gGroupName = document.getElementById("groupID").value;
-
-				if (gGroupStatus == "開始") {
-					gStartTime = new Date();
-					db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-					db.ref("/timer/"+gGroupName+"/status").set("結束");
-				} else if (gGroupStatus == "結束") {
-					gFinishTime = new Date();
-					db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-					db.ref("/timer/"+gGroupName+"/status").set("重置");
-				} else {
-					gStartTime = gResetTime;
-					gFinishTime = gResetTime;
-					db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-					db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-					db.ref("/timer/"+gGroupName+"/status").set("開始");
-				}
-				//alert("test2");
+				switchStatus();
 			});
 		});
 
@@ -334,9 +342,9 @@
 				gRunTimeArray[i] = sTime;
 				document.getElementById('laptime'+i).innerHTML = "000s";
 				gLapSecArray[i] = "000s";
-				gLapArray[i] = 13;
-				if ($("#lap"+i).val() != 13) {
-					$("#lap"+i).val(13);
+				gLapArray[i] = gNumberOfLaps;
+				if ($("#lap"+i).val() != gNumberOfLaps) {
+					$("#lap"+i).val(gNumberOfLaps);
 					
 					data = [[$("#lap"+i).val(), 0]];
 					parameter = {
@@ -372,12 +380,15 @@
 					document.getElementById('rumtime'+i).innerHTML = sTime; 
 					gRunTimeArray[i] = sTime;
 
-					if ($("#lap"+i).val() == 13) {
+					if ($("#lap"+i).val() == gNumberOfLaps) {
 						lapTime.setTime(nowTime.getTime() - gStartTime.getTime());
 					} else {
 						lapTime.setTime(nowTime.getTime() - gLapTimeArray[i]);
 					}
 					gLapSecArray[i] = timeString('laptime'+i, lapTime);
+				} else {
+					document.getElementById('laptime'+i).innerHTML = "000s";
+					gLapSecArray[i] = "000s";
 				}
 			}
 		}
