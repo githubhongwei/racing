@@ -77,6 +77,9 @@
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
 	<div id="showTable" class ="table">Loading...</div>
+	<p>使用注意事項：</p>
+	<p>1. 不同選手的記圈資訊每 3 秒會同步更新一次。</p>
+	<p>2. 避免數據錯亂，每位記圈員負責的選手不能重複。</p>
 
 	<script>
 	var gLapArray = new Array();
@@ -168,6 +171,9 @@
 				vTable = vTable + "<td>";
 				if (圈數 == 0) {
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
+				} else if (gLapArray[i] == 0) {
+					/* 於 Lap = 0 時, 會將 gLapTimeArray 改存成完成時間的字串 */
+					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+gLapTimeArray[i]+" </>";
 				} else {
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+gRunTimeArray[i]+" </>";
 				}
@@ -178,10 +184,10 @@
 				vTable = vTable + "</td>";
 				/* 圈數 */
 				vTable = vTable + "<td>";
-				if (!(gLapTimeArray[i] > 成績)) {
-					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
-				} else {
+				if ((gLapTimeArray[i] > 成績) || (gLapArray[i] == 0)) {
 					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+gLapArray[i]+"'> </input>";
+				} else {
+					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
 				}
 				vTable = vTable + "</td>";
 				/* 區間秒數 */
@@ -198,6 +204,7 @@
 			
 			//$("#test").html(html);
 			$('.hitLap').on('click',function(){
+				$(this).attr('disabled',true);
 				var lap = $(this).val().replace(/\s+/g, "");
 				var id = $(this).attr('id').replace("lap", "");
 				if (gFinishTime.getTime() == gResetTime.getTime()) {
