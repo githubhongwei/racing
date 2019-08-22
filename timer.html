@@ -51,6 +51,10 @@
 		font-size: 50px;
 		font-family:Microsoft JhengHei;	
 	}
+	.comment {
+		font-size: 40px;
+		font-family:Microsoft JhengHei;	
+	}
 	.table {
 		font-size: 50px;
 		text-align:center;
@@ -77,10 +81,13 @@
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
 	<div id="showTable" class ="table">Loading...</div>
-	<p>使用注意事項：</p>
-	<p>1. 不同選手的記圈資訊每 3 秒會同步更新一次。</p>
-	<p>2. 避免數據錯亂，每位記圈員負責的選手不能重複。</p>
-
+	<hr>
+	<div class ="comment">使用注意事項：</div>
+	<div class ="comment">1. 為了避免數據交互干擾，每位記圈員負責的選手不能重複。</div>
+	<div class ="comment">2. 非負責的選手，其記圈資訊每 3 秒會自動更新同步。</div>
+	<div class ="comment">3. 若因特殊情況需反覆點選同一位選手，請間隔 1 秒以上。</div>
+	<div class ="comment">4. 請勿於競賽中進行組別的切換。</div>
+	
 	<script>
 	var gLapArray = new Array();
 	var gLapTimeArray = new Array();
@@ -102,6 +109,10 @@
 	}
 
 	function setGroup() {
+		gLapArray.length = 0;
+		gLapTimeArray.length = 0;
+		gRunTimeArray.length = 0;
+		gRunTimeArray.length = 0;
 		gGroupName = document.getElementById("groupID").value;
 		
 		db.ref("/timer/"+gGroupName+"/startTime").on('value', function (snapshot) {
