@@ -52,7 +52,7 @@
 		font-family:Microsoft JhengHei;	
 	}
 	.comment {
-		font-size: 40px;
+		font-size: 50px;
 		font-family:Microsoft JhengHei;	
 	}
 	.table {
@@ -84,10 +84,11 @@
 	<div id="showTable" class ="table">Loading...</div>
 	<hr>
 	<div class ="comment">使用注意事項：</div>
-	<div class ="comment">1. 避免數據交互干擾，每位記圈員負責的選手請勿重複。</div>
-	<div class ="comment">2. 所有選手的成績及圈數資訊，每 3 秒會自動更新同步。</div>
-	<div class ="comment">3. 若需反覆點選同一位選手，請盡量間隔 1 秒以上。</div>
-	<div class ="comment">4. 請勿於競賽中進行組別的切換。</div>
+	<div class ="comment">１、避免數據交互干擾，記圈員負責的選手請勿重複。</div>
+	<div class ="comment">２、所有選手的競賽資訊，每３秒會自動更新同步。</div>
+	<div class ="comment">３、若需反覆點選同一位選手，請間隔１秒以上。</div>
+	<div class ="comment">４、競賽中，按下選手圈數按鈕，將減１並重新秒數。</div>
+	<div class ="comment">５、競賽中，當圈數減為０代表選手完賽，秒數停止。</div>
 	
 	<script>
 	const gResetTime = new Date(2019, 1, 1, 00, 00, 00);
@@ -231,6 +232,7 @@
 						if ($(this).val() == 0) {
 							runTime.setTime(nowTime.getTime() - gStartTime.getTime());
 							gLapTimeArray[id] = timeString('runTimeAll', runTime);
+							document.getElementById('rumtime'+id).innerHTML = gLapTimeArray[id]; 
 						} else {
 							gLapTimeArray[id] = nowTime.getTime();
 						}
