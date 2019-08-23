@@ -68,7 +68,7 @@
 	</style>
 </head>
 
-<body onload="start()">
+<body onload="setGroup()">
 	<select name="groupName" id="groupID" class ="switch_group" onchange="setGroup()">
 	<option value="groupA">第一組</option>
 	<option value="groupB">第二組</option>
@@ -80,39 +80,41 @@
 	<div id="showStartTime" class ="default"></div>
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
+	<hr>
 	<div id="showTable" class ="table">Loading...</div>
 	<hr>
 	<div class ="comment">使用注意事項：</div>
-	<div class ="comment">1. 為了避免數據交互干擾，每位記圈員負責的選手不能重複。</div>
-	<div class ="comment">2. 非負責的選手，其記圈資訊每 3 秒會自動更新同步。</div>
-	<div class ="comment">3. 若因特殊情況需反覆點選同一位選手，請間隔 1 秒以上。</div>
+	<div class ="comment">1. 避免數據交互干擾，每位記圈員負責的選手請勿重複。</div>
+	<div class ="comment">2. 所有選手的成績及圈數資訊，每 3 秒會自動更新同步。</div>
+	<div class ="comment">3. 若需反覆點選同一位選手，請盡量間隔 1 秒以上。</div>
 	<div class ="comment">4. 請勿於競賽中進行組別的切換。</div>
 	
 	<script>
+	const gResetTime = new Date(2019, 1, 1, 00, 00, 00);
+	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
+	var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);	
 	var gLapArray = new Array();
 	var gLapTimeArray = new Array();
 	var gRunTimeArray = new Array();
 	var gLapSecArray = new Array();
-	var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
-	var gResetTime = new Date(2019, 1, 1, 00, 00, 00);
-	var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);
 	var gLength;
 	var gSpreadsheetsLink;
 	var gGroupName;
 	var gGroupStatus;
 	var gNumberOfLaps;
 	var db = firebase.database();
+	var gSetInterval_showTime, gSetInterval_loadPage;
 	
-	function start() {
-		setGroup();
-		showTime();
-	}
-
 	function setGroup() {
+		document.all("showTable").innerHTML = "";
+		clearTimeout(gSetInterval_showTime);
+		clearTimeout(gSetInterval_loadPage);
+		gLength = 0; 
 		gLapArray.length = 0;
 		gLapTimeArray.length = 0;
 		gRunTimeArray.length = 0;
 		gRunTimeArray.length = 0;
+
 		gGroupName = document.getElementById("groupID").value;
 		
 		db.ref("/timer/"+gGroupName+"/startTime").on('value', function (snapshot) {
@@ -136,9 +138,10 @@
 		});
 		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
 			gQuery = snapshot.val();
-			LoadPages();
 		});
-
+		
+		gSetInterval_loadPage = setInterval('LoadPages()',3000);
+		gSetInterval_showTime = setInterval('showTime()',100);
 	}
 	
 	function LoadPages() {
@@ -195,7 +198,9 @@
 				vTable = vTable + "</td>";
 				/* 圈數 */
 				vTable = vTable + "<td>";
-				if ((gLapTimeArray[i] > 成績) || (gLapArray[i] == 0)) {
+				if (圈數 == 0) {
+					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
+				} else if ((gLapTimeArray[i] > 成績) || (gLapArray[i] == 0)) {
 					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+gLapArray[i]+"'> </input>";
 				} else {
 					vTable = vTable + "<input type='button' id='lap"+i+"' class='hitLap' value='"+圈數+"'> </input>";
@@ -246,7 +251,6 @@
 				}
 			});
 		});
-		setTimeout('LoadPages()',3000);
 	}
 	
 	function paddingLeft(str,lenght){
@@ -384,9 +388,9 @@
 				if ($("#lap"+i).val() != 0) {
 					document.getElementById('rumtime'+i).innerHTML = "59:59.99"; 
 					gRunTimeArray[i] = "59:59.99"
-					document.getElementById('laptime'+i).innerHTML = "000s";
-					gLapSecArray[i] = "000s";
 				}
+				document.getElementById('laptime'+i).innerHTML = "000s";
+				gLapSecArray[i] = "000s";
 			}
 		} else {
 			/* 目前狀態: 競賽中 */
@@ -410,8 +414,6 @@
 				}
 			}
 		}
-
-		setTimeout('showTime()',100);
 	}
 
 	</script>
