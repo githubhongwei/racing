@@ -110,11 +110,12 @@
 		document.all("showTable").innerHTML = "";
 		clearTimeout(gSetInterval_showTime);
 		clearTimeout(gSetInterval_loadPage);
-		gLength = 0; 
+		gLength = 0;
 		gLapArray.length = 0;
 		gLapTimeArray.length = 0;
 		gRunTimeArray.length = 0;
 		gRunTimeArray.length = 0;
+		
 
 		gGroupName = document.getElementById("groupID").value;
 		
@@ -140,6 +141,27 @@
 		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
 			gQuery = snapshot.val();
 		});
+		
+		if (gGroupStatus == "開始" && 
+			((gStartTime.getTime() != gResetTime.getTime()) || (gFinishTime.getTime() != gResetTime.getTime()))) {
+			errorMessage("S01");
+			setGroup();
+			return;		
+		}
+		
+		if (gGroupStatus == "結束" && 
+			((gStartTime.getTime() == gFinishTime.getTime()) || (gFinishTime.getTime() != gResetTime.getTime()))) {
+			errorMessage("S02");
+			setGroup();
+			return;		
+		}
+		
+		if (gGroupStatus == "重置" && 
+			((gStartTime.getTime() == gFinishTime.getTime()) || (gFinishTime.getTime() == gResetTime.getTime()))) {
+			errorMessage("S03");
+			setGroup();
+			return;		
+		}
 		
 		gSetInterval_loadPage = setInterval('LoadPages()',3000);
 		gSetInterval_showTime = setInterval('showTime()',100);
@@ -178,6 +200,14 @@
 				姓名 = entry.gsx$姓名.$t;
 				圈數 = entry.gsx$圈數.$t;
 				成績 = entry.gsx$成績.$t;
+				
+				/* Known Issue */
+				if ((gGroupName == "groupA" && 序號.startsWith("B")) || (gGroupName == "groupB" && 序號.startsWith("A")))
+				{
+					errorMessage("L01"); 
+					return;
+				}
+				
 				vTable = vTable + "<tr>";
 				vTable = vTable + "<td>";
 				vTable = vTable + 姓名;
@@ -232,7 +262,7 @@
 						if ($(this).val() == 0) {
 							runTime.setTime(nowTime.getTime() - gStartTime.getTime());
 							gLapTimeArray[id] = timeString('runTimeAll', runTime);
-							document.getElementById('rumtime'+id).innerHTML = gLapTimeArray[id]; 
+							document.getElementById('rumtime'+id).innerHTML = gLapTimeArray[id];
 						} else {
 							gLapTimeArray[id] = nowTime.getTime();
 						}
@@ -252,6 +282,16 @@
 					}
 				}
 			});
+		});
+	}
+
+	function errorMessage(errorCode) {
+		swal({
+			type: 'error',
+			title: '發現錯誤 ('+errorCode+')', 
+			text: '已避開問題，若仍反覆出現，請將網頁重啟！',
+			customClass: 'my-swal',
+			confirmButtonText: '　確認　',
 		});
 	}
 	
@@ -316,7 +356,7 @@
 	
 	
 	function checkPassword() {
-	
+
 		swal({
 			title: '請先輸入密碼',
 			input: 'text',
@@ -337,9 +377,9 @@
 		}).then(function(result) {
 			swal({
 				type: 'question',
-				title: '是否確認切換模式？', 
-				showCancelButton: true, 
-				confirmButtonText: '　確認　', 
+				title: '是否確認切換模式？',
+				showCancelButton: true,
+				confirmButtonText: '　確認　',
 				cancelButtonText: '　取消　',
 				customClass: 'my-swal',
 			}).then(function() {
