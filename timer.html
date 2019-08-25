@@ -252,11 +252,11 @@
 				vTable = vTable + "</td>";
 				/* 成績 */		
 				vTable = vTable + "<td>";
-				if (圈數 == 0) {
-					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
-				} else if (gLapArray[i] == 0) {
+				if (gLapArray[i] == 0) {
 					/* 於 Lap = 0 時, 會將 gLapTimeArray 改存成完成時間的字串 */
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+gLapTimeArray[i]+" </>";
+				} else if (圈數 == 0) {
+					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
 				} else {
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+gRunTimeArray[i]+" </>";
 				}
