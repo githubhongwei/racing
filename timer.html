@@ -113,35 +113,36 @@
 	var gNumberOfLaps;
 	var db = firebase.database();
 	var gSetInterval_showTime, gSetInterval_loadPage;
+	var gDisablehitLap = true;
 	
 	function start() {
-		liff.init(function (data) {
-			swal({
-				title: data.context.userId + '，請輸入密碼進入記圈模式',
-				input: 'text',
-				html: '正確輸入密碼將進入記圈模式，取消即為觀戰模式！',
-				customClass: 'my-swal',
-				showCancelButton: true,
-				confirmButtonText: '　確認　', 
-				cancelButtonText: '　取消　',
-				inputValidator: function(value) {
-					return new Promise(function(resolve, reject) {
-						if (value == 168) {
-							resolve();
-						} else {
-							reject('請輸入正確密碼');
-						}
-					});
-				}
-			}).then(function(result) {
-				swal({
-					type: 'success',
-					title: data.context.userId + '，您已進入記圈模式！',
-					confirmButtonText: '　確認　',
-					customClass: 'my-swal',
+		swal({
+			title: '請先輸入密碼',
+			input: 'text',
+			html: '確認後進入記圈模式，取消則為觀戰模式！',
+			customClass: 'my-swal',
+			showCancelButton: true,
+			confirmButtonText: '　確認　', 
+			cancelButtonText: '　取消　',
+			inputValidator: function(value) {
+				return new Promise(function(resolve, reject) {
+					if (value == 168) {
+						resolve();
+					} else {
+						reject('請輸入正確密碼');
+					}
 				});
+			}
+		}).then(function(result) {
+			swal({
+				type: 'success',
+				title: '您已進入記圈模式！',
+				confirmButtonText: '　確認　',
+				customClass: 'my-swal',
 			});
+			gDisablehitLap = false;
 		});
+		setGroup();
 	}
 	
 	function setGroup() {
@@ -288,6 +289,16 @@
 			
 			//$("#test").html(html);
 			$('.hitLap').on('click',function(){
+				if (gDisablehitLap) {
+					swal({
+						type: 'warning',
+						title: '目前為觀戰模式', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+					return;
+				}
+				/* 減少重複點選造成錯誤 */
 				$(this).attr('disabled',true);
 				var lap = $(this).val().replace(/\s+/g, "");
 				var id = $(this).attr('id').replace("lap", "");
