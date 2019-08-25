@@ -141,7 +141,7 @@
 				customClass: 'my-swal',
 			});
 			gDisablehitLap = false;
-		});
+		}).catch(swal.noop);
 		setGroup();
 	}
 	
@@ -432,8 +432,8 @@
 				customClass: 'my-swal',
 			}).then(function() {
 				switchStatus();
-			});
-		});
+			}).catch(swal.noop);
+		}).catch(swal.noop);
 
 	}
 
