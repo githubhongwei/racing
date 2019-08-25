@@ -375,7 +375,6 @@
 	}
 
 	function switchStatus() {
-		//alert("test1");
 		swal({
 			type: 'success',
 			title: '已切換模式', 
@@ -399,12 +398,10 @@
 			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
 			db.ref("/timer/"+gGroupName+"/status").set("開始");
 		}
-		//alert("test2");
 	}
 	
 	
 	function checkPassword() {
-
 		swal({
 			title: '請先輸入密碼',
 			input: 'text',
@@ -423,18 +420,18 @@
 				});
 			}
 		}).then(function(result) {
-			swal({
-				type: 'question',
-				title: '是否確認切換模式？',
-				showCancelButton: true,
-				confirmButtonText: '　確認　',
-				cancelButtonText: '　取消　',
-				customClass: 'my-swal',
-			}).then(function() {
-				switchStatus();
-			}).catch(swal.noop);
+			switchStatus();
+			<!-- swal({ -->
+				<!-- type: 'question', -->
+				<!-- title: '是否確認切換模式？', -->
+				<!-- showCancelButton: true, -->
+				<!-- confirmButtonText: '　確認　', -->
+				<!-- cancelButtonText: '　取消　', -->
+				<!-- customClass: 'my-swal', -->
+			<!-- }).then(function() { -->
+				<!-- switchStatus(); -->
+			<!-- }).catch(swal.noop); -->
 		}).catch(swal.noop);
-
 	}
 
 	function showTime(){
