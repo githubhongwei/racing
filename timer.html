@@ -53,7 +53,7 @@
 		font-family:Microsoft JhengHei;	
 	}
 	.comment {
-		font-size: 45px;
+		font-size: 42px;
 		font-family:Microsoft JhengHei;	
 	}
 	.table {
@@ -69,7 +69,7 @@
 	</style>
 </head>
 
-<body onload="setGroup()">
+<body onload="start()">
 	<select name="groupName" id="groupID" class ="switch_group" onchange="setGroup()">
 	<option value="groupA">第一組</option>
 	<option value="groupB">第二組</option>
@@ -94,7 +94,7 @@
 	<div class ="comment">７、為避免誤按到切換模式，有設計密碼保護。</div>
 	<div class ="comment">８、若反覆跳出錯誤視窗，請將網頁重啟即可。</div>
 	<div class ="comment">９、設計成績欄位顯示的上限為５９分５９秒。</div>
-	<div class ="comment">Ａ、設計秒數欄位顯示的上限為９９９秒。</div>
+	<div class ="comment">Ａ、設計每圈秒數欄位顯示的上限為９９９秒。</div>
 	<div class ="comment">Ｂ、時間資訊設計每１００毫秒自動刷新一次。</div>
 	<div class ="comment">Ｃ、選手的競賽資訊，每３秒會自動更新同步。</div>
 	
@@ -114,6 +114,36 @@
 	var db = firebase.database();
 	var gSetInterval_showTime, gSetInterval_loadPage;
 	
+	function start() {
+		liff.init(function (data) {
+			swal({
+				title: data.context.userId + '，請輸入密碼進入記圈模式',
+				input: 'text',
+				html: '正確輸入密碼將進入記圈模式，取消即為觀戰模式！',
+				customClass: 'my-swal',
+				showCancelButton: true,
+				confirmButtonText: '　確認　', 
+				cancelButtonText: '　取消　',
+				inputValidator: function(value) {
+					return new Promise(function(resolve, reject) {
+						if (value == 168) {
+							resolve();
+						} else {
+							reject('請輸入正確密碼');
+						}
+					});
+				}
+			}).then(function(result) {
+				swal({
+					type: 'success',
+					title: data.context.userId + '，您已進入記圈模式！',
+					confirmButtonText: '　確認　',
+					customClass: 'my-swal',
+				});
+			});
+		});
+	}
+	
 	function setGroup() {
 		document.all("showTable").innerHTML = "";
 		clearTimeout(gSetInterval_showTime);
@@ -124,7 +154,6 @@
 		gRunTimeArray.length = 0;
 		gRunTimeArray.length = 0;
 		
-
 		gGroupName = document.getElementById("groupID").value;
 		
 		db.ref("/timer/"+gGroupName+"/startTime").on('value', function (snapshot) {
