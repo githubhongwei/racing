@@ -286,9 +286,9 @@
 				vTable = vTable + "</td>";
 				vTable = vTable + "</tr>";
 				var vDiv = document.all("showTable").innerHTML = vTable;
-				if (!(gLapTimeArray[i] > 成績)) {
-					//gLapArray[i] = 圈數;
-					//gLapTimeArray[i] = 成績;
+				/* 同步秒數 */
+				if (gLapArray[i] != 0) {
+					gLapTimeArray[i] = 成績;
 				}
 			}
 			
@@ -313,14 +313,18 @@
 						var runTime = new Date();
 						$(this).val(lap - 1);
 						if ($(this).val() == 0) {
+							/* 選手完賽 */
 							runTime.setTime(nowTime.getTime() - gStartTime.getTime());
 							gLapTimeArray[id] = timeString('runTimeAll', runTime);
 							document.getElementById('rumtime'+id).innerHTML = gLapTimeArray[id];
+							/* 更新完成時間欄位, 讓完賽證明可直接同步 */
+							//alert(gLapTimeArray[id].substr(0,2) + ':::' + gLapTimeArray[id].substr(3,2));
 						} else {
 							gLapTimeArray[id] = nowTime.getTime();
 						}
 						gLapArray[id] = $(this).val();
 						
+						/* 更新計圈資訊 */
 						data = [[gLapArray[id], gLapTimeArray[id]]];
 						parameter = {
 							url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
