@@ -92,7 +92,7 @@
 	<div class ="comment">５、競賽中圈數減為０代表完賽，將停止計時。</div>
 	<div class ="comment">６、請確認選手通過記圈線的同時，按下按鈕。</div>
 	<div class ="comment">７、為避免誤按到切換模式，有設計密碼保護。</div>
-	<div class ="comment">８、若反覆跳出錯誤視窗，請將網頁重啟即可。</div>
+	<div class ="comment">８、若頻繁跳出錯誤視窗，請將網頁重啟即可。</div>
 	<div class ="comment">９、設計成績欄位顯示的上限為５９分５９秒。</div>
 	<div class ="comment">Ａ、設計每圈秒數欄位顯示的上限為９９９秒。</div>
 	<div class ="comment">Ｂ、時間資訊設計每１００毫秒自動刷新一次。</div>
@@ -263,7 +263,7 @@
 				/* 成績 */		
 				vTable = vTable + "<td>";
 				if (圈數 == 0) {
-					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
+					vTable = vTable + "<label style='color:blue' id='rumtime"+i+"' text='"+成績+"'>"+成績+" </>";
 				} else if (gLapArray[i] == 0) {
 					/* 於 Lap = 0 時, 會將 gLapTimeArray 改存成完成時間的字串 */
 					vTable = vTable + "<label id='rumtime"+i+"' text='"+成績+"'>"+gLapTimeArray[i]+" </>";
@@ -354,7 +354,7 @@
 		swal({
 			type: 'error',
 			title: '發現錯誤 ('+errorCode+')', 
-			text: '錯誤已迴避，但如果仍反覆出現，請將網頁重啟！',
+			text: '錯誤已迴避，但如果頻繁出現，請將頁面重啟！',
 			customClass: 'my-swal',
 			confirmButtonText: '　確認　',
 		});
