@@ -500,6 +500,7 @@
 			}
 		} else if (gFinishTime.getTime() != gResetTime.getTime()) {
 			/* 目前狀態: 已結束 */
+			gSwitchUser = false;
 			timeString('showStartTime', gStartTime);
 			for ( var i = 0; i < gLength; i++) {
 				if ($("#lap"+i).val() != 0) {
