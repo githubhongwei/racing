@@ -108,8 +108,8 @@
 	var gRunTimeArray = new Array();
 	var gLapSecArray = new Array();
 	var gLength;
-	var gSpreadsheetsLink;
-	var gGroupName;
+	var gSpreadsheetsLink, gQuery;
+	var gGroupName, gGroupNameRunning;
 	var gGroupStatus;
 	var gNumberOfLaps;
 	var db = firebase.database();
@@ -148,6 +148,10 @@
 	
 	function setGroup() {
 		document.all("showTable").innerHTML = "";
+		document.all("showStatus").innerHTML = "";
+		document.all("showNowTime").innerHTML = "";
+		document.all("showStartTime").innerHTML = "";
+		document.all("showFinishTime").innerHTML = "";
 		clearTimeout(gSetInterval_showTime);
 		clearTimeout(gSetInterval_loadPage);
 		gLength = 0;
@@ -166,9 +170,9 @@
 		});
 		db.ref("/timer/"+gGroupName+"/status").on('value', function (snapshot) {
 			gGroupStatus = snapshot.val();
-			if (gGroupStatus == "開始")			document.getElementById("showStatus").innerHTML = '目前狀態: 已重置';
-			else if (gGroupStatus == "結束")	document.getElementById("showStatus").innerHTML = '目前狀態: 競賽中';
-			else if (gGroupStatus == "重置")	document.getElementById("showStatus").innerHTML = '目前狀態: 已結束';	
+			if (gGroupStatus == "開始")			document.getElementById("showStatus").innerHTML = '目前狀態：已重置';
+			else if (gGroupStatus == "結束")	document.getElementById("showStatus").innerHTML = '目前狀態：競賽中';
+			else if (gGroupStatus == "重置")	document.getElementById("showStatus").innerHTML = '目前狀態：已結束';
 		});
 
 		db.ref("/timer/setting/spreadsheetLink").once('value', function (snapshot) {
@@ -211,6 +215,7 @@
 			errorMessage("L01"); 
 			return;
 		}
+		
 		$.getJSON(gSpreadsheetsLink+gQuery, function(json){
 			var vTable = "";
 			vTable = vTable + "<table border=1 width=100%>";
@@ -247,7 +252,7 @@
 				/* Known Issue */
 				if ((gGroupName == "groupA" && 序號.startsWith("B")) || (gGroupName == "groupB" && 序號.startsWith("A")))
 				{
-					errorMessage("L02"); 
+					errorMessage("L02");
 					return;
 				}
 				
@@ -291,6 +296,9 @@
 					gLapTimeArray[i] = 成績;
 				}
 			}
+
+			/* [workaround] Uncaught TypeError: Cannot set property 'innerHTML' of null if Error L02 */
+			gGroupNameRunning = gGroupName;
 			
 			//$("#test").html(html);
 			$('.hitLap').on('click',function(){
@@ -370,11 +378,11 @@
 		ss = ss < 10 ? ('0' + ss) : ss;
 		ms = ms < 10 ? ('0' + ms) : ms;
 		if (id == 'showStartTime') {
-			document.getElementById(id).innerHTML = '起跑時間: '+hh+':'+mm+':'+ss+'.'+ms;
+			document.getElementById(id).innerHTML = '起跑時間：'+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id == 'showFinishTime') {
-			document.getElementById(id).innerHTML = '結束時間: '+hh+':'+mm+':'+ss+'.'+ms;
+			document.getElementById(id).innerHTML = '結束時間：'+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id == 'showNowTime') {
-			document.getElementById(id).innerHTML = '現在時間: '+hh+':'+mm+':'+ss+'.'+ms;
+			document.getElementById(id).innerHTML = '現在時間：'+hh+':'+mm+':'+ss+'.'+ms;
 		} else if (id.startsWith("laptime")) {
 			document.getElementById(id).innerHTML = paddingLeft(lapSeconds+'s', 4);
 			return paddingLeft(lapSeconds+'s', 4);
@@ -444,6 +452,11 @@
 	}
 
 	function showTime(){
+		/* [workaround] Uncaught TypeError: Cannot set property 'innerHTML' of null if Error L02 */
+		if (gGroupNameRunning != gGroupName) {
+			return;
+		}
+		
 		var nowTime = new Date();
 		var runTime = new Date();
 		var lapTime = new Date();
