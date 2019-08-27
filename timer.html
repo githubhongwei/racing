@@ -115,6 +115,7 @@
 	var db = firebase.database();
 	var gSetInterval_showTime, gSetInterval_loadPage;
 	var gDisablehitLap = true;
+	var gSwitchUser = false;
 	
 	function start() {
 		swal({
@@ -401,14 +402,18 @@
 		gGroupName = document.getElementById("groupID").value;
 
 		if (gGroupStatus == "開始") {
+			/* 目前狀態: 競賽中 */
 			gStartTime = new Date();
 			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
 			db.ref("/timer/"+gGroupName+"/status").set("結束");
 		} else if (gGroupStatus == "結束") {
+			/* 目前狀態: 已結束 */
 			gFinishTime = new Date();
 			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
 			db.ref("/timer/"+gGroupName+"/status").set("重置");
 		} else {
+			/* 目前狀態: 已重置 */
+			gSwitchUser = true;
 			gStartTime = gResetTime;
 			gFinishTime = gResetTime;
 			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
@@ -465,7 +470,7 @@
 		timeString('showFinishTime', gFinishTime);
 
 		if (gStartTime.getTime() == gResetTime.getTime()) {
-		/* 目前狀態: 已重置 */
+			/* 目前狀態: 已重置 */
 			timeString('showStartTime', gStartTime);
 			var sTime = timeString('runTimeAll', gResetTime);
 			for ( var i = 0; i < gLength; i++) {
@@ -477,17 +482,20 @@
 				if ($("#lap"+i).val() != gNumberOfLaps) {
 					$("#lap"+i).val(gNumberOfLaps);
 					
-					data = [[$("#lap"+i).val(), 0]];
-					parameter = {
-						url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-						name: "20190901",
-						method: "timer",
-						uuid: document.getElementById('item'+i).innerHTML.replace(/\s+/g, ""),
-						data: data.toString(),
-						row: data.length,
-						column: data[0].length,
-					};
-					$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter); 
+					/* 確認為切換模式的使用者才可進行重置數據寫入, 避免因狀態相同造成多人同時寫入 */
+					if (gSwitchUser) {
+						data = [[$("#lap"+i).val(), 0]];
+						parameter = {
+							url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+							name: "20190901",
+							method: "timer",
+							uuid: document.getElementById('item'+i).innerHTML.replace(/\s+/g, ""),
+							data: data.toString(),
+							row: data.length,
+							column: data[0].length,
+						};
+						$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter); 
+					}
 				}
 			}
 		} else if (gFinishTime.getTime() != gResetTime.getTime()) {
