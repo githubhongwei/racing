@@ -163,49 +163,22 @@
 		
 		gGroupName = document.getElementById("groupID").value;
 		
-		db.ref("/timer/"+gGroupName+"/startTime").on('value', function (snapshot) {
-			gStartTime.setTime(snapshot.val());
-		});
-		db.ref("/timer/"+gGroupName+"/finishTime").on('value', function (snapshot) {
-			gFinishTime.setTime(snapshot.val());
-		});
-		db.ref("/timer/"+gGroupName+"/status").on('value', function (snapshot) {
-			gGroupStatus = snapshot.val();
+		db.ref("/timer/"+gGroupName+"/").on('value', function (snapshot) {
+			gStartTime.setTime(snapshot.val().startTime);
+			gFinishTime.setTime(snapshot.val().finishTime);
+			gGroupStatus = snapshot.val().status;
 			if (gGroupStatus == "開始")			document.getElementById("showStatus").innerHTML = '目前狀態：已重置';
 			else if (gGroupStatus == "結束")	document.getElementById("showStatus").innerHTML = '目前狀態：競賽中';
 			else if (gGroupStatus == "重置")	document.getElementById("showStatus").innerHTML = '目前狀態：已結束';
-		});
-
-		db.ref("/timer/setting/spreadsheetLink").once('value', function (snapshot) {
-			gSpreadsheetsLink = snapshot.val();
-		});
-		db.ref("/timer/setting/numberOfLaps").once('value', function (snapshot) {
-			gNumberOfLaps = snapshot.val();
-		});
-		db.ref("/timer/"+gGroupName+"/queryRunner").on('value', function (snapshot) {
-			gQuery = snapshot.val();
+			gQuery = snapshot.val().queryRunner;
+			/* 透過設計邏輯是否合理, 來反推時間同步是否正確 */
+			errorDetection();
 		});
 		
-		if (gGroupStatus == "開始" && 
-			((gStartTime.getTime() != gResetTime.getTime()) || (gFinishTime.getTime() != gResetTime.getTime()))) {
-			errorMessage("S01");
-			setGroup();
-			return;		
-		}
-		
-		if (gGroupStatus == "結束" && 
-			((gStartTime.getTime() == gFinishTime.getTime()) || (gFinishTime.getTime() != gResetTime.getTime()))) {
-			errorMessage("S02");
-			setGroup();
-			return;		
-		}
-		
-		if (gGroupStatus == "重置" && 
-			((gStartTime.getTime() == gFinishTime.getTime()) || (gFinishTime.getTime() == gResetTime.getTime()))) {
-			errorMessage("S03");
-			setGroup();
-			return;		
-		}
+		db.ref("/timer/setting/").once('value', function (snapshot) {
+			gSpreadsheetsLink = snapshot.val().spreadsheetLink;
+			gNumberOfLaps = snapshot.val().numberOfLaps;
+		});
 		
 		gSetInterval_loadPage = setInterval('LoadPages()',3000);
 		gSetInterval_showTime = setInterval('showTime()',100);
@@ -350,6 +323,30 @@
 			});
 		});
 	}
+	
+	/* [workaround] 原切換模式頁面，改由另一個頁面切換時，原頁面會出現同步時間異常，當異常強制 reload 頁面迴避問題 */
+	function errorDetection() {
+		if (gGroupStatus == "開始" && 
+			((gStartTime.getTime() != gResetTime.getTime()) || (gFinishTime.getTime() != gResetTime.getTime()))) {
+			errorMessage("S01");
+			location.reload(true);
+			return;		
+		}
+		
+		if (gGroupStatus == "結束" && 
+			((gStartTime.getTime() == gFinishTime.getTime()) || (gFinishTime.getTime() != gResetTime.getTime()))) {
+			errorMessage("S02");
+			location.reload(true);
+			return;		
+		}
+		
+		if (gGroupStatus == "重置" && 
+			((gStartTime.getTime() == gFinishTime.getTime()) || (gFinishTime.getTime() == gResetTime.getTime()))) {
+			errorMessage("S03");
+			location.reload(true);
+			return;		
+		}
+	}
 
 	function errorMessage(errorCode) {
 		swal({
@@ -404,21 +401,28 @@
 		if (gGroupStatus == "開始") {
 			/* 目前狀態: 競賽中 */
 			gStartTime = new Date();
-			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-			db.ref("/timer/"+gGroupName+"/status").set("結束");
+			db.ref("/timer/"+gGroupName+"/").update({
+				startTime: gStartTime.getTime(),
+				status: "結束"
+			});
+			
 		} else if (gGroupStatus == "結束") {
 			/* 目前狀態: 已結束 */
 			gFinishTime = new Date();
-			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-			db.ref("/timer/"+gGroupName+"/status").set("重置");
+			db.ref("/timer/"+gGroupName+"/").update({
+				finishTime: gFinishTime.getTime(),
+				status: "重置"
+			});
 		} else {
 			/* 目前狀態: 已重置 */
 			gSwitchUser = true;
 			gStartTime = gResetTime;
 			gFinishTime = gResetTime;
-			db.ref("/timer/"+gGroupName+"/startTime").set(gStartTime.getTime());
-			db.ref("/timer/"+gGroupName+"/finishTime").set(gFinishTime.getTime());
-			db.ref("/timer/"+gGroupName+"/status").set("開始");
+			db.ref("/timer/"+gGroupName+"/").update({
+				startTime: gStartTime.getTime(),
+				finishTime: gFinishTime.getTime(),
+				status: "開始"
+			});
 		}
 	}
 	
