@@ -75,6 +75,7 @@
 	<option value="groupB">第二組</option>
 	
 	<input type="button" id="startBtn" class ="switch_mode" onclick="checkPassword()" value="切換(開始/結束/重置)模式"></input>
+	<audio id="music" src="https://githubhongwei.github.io/racing/yisell_sound.mp3">你的瀏覽器不支援audio標籤。</audio>
 
 	<div id="showStatus" class ="default"></div>
 	<div id="showNowTime" class ="default"></div>
@@ -116,6 +117,7 @@
 	var gSetInterval_showTime, gSetInterval_loadPage;
 	var gDisablehitLap = true;
 	var gSwitchUser = false;
+	var gMisuc;
 	
 	function start() {
 		swal({
@@ -160,6 +162,9 @@
 		gLapTimeArray.length = 0;
 		gRunTimeArray.length = 0;
 		gRunTimeArray.length = 0;
+		gMisuc = document.getElementById("music");
+		//gMisuc.muted = false;
+		//gMisuc.play();
 		
 		gGroupName = document.getElementById("groupID").value;
 		
@@ -182,11 +187,14 @@
 		
 		gSetInterval_loadPage = setInterval('LoadPages()',3000);
 		gSetInterval_showTime = setInterval('showTime()',100);
+		
+		gMisuc.muted = false;
+		gMisuc.play();
 	}
 	
 	function LoadPages() {
 		if ((gGroupName == "groupA" && gQuery.startsWith("&sq=序號>B00")) || (gGroupName == "groupB" && gQuery.startsWith("&sq=序號>A00"))) {
-			errorMessage("L01"); 
+			//errorMessage("L01"); 
 			return;
 		}
 		
@@ -226,7 +234,7 @@
 				/* Known Issue */
 				if ((gGroupName == "groupA" && 序號.startsWith("B")) || (gGroupName == "groupB" && 序號.startsWith("A")))
 				{
-					errorMessage("L02");
+					//errorMessage("L02");
 					return;
 				}
 				
@@ -399,15 +407,18 @@
 		gGroupName = document.getElementById("groupID").value;
 
 		if (gGroupStatus == "開始") {
-			/* 目前狀態: 競賽中 */
+			/* 目前狀態: 競賽中 */ 
+			gMisuc.muted = false;
+			gMisuc.play(); 
 			gStartTime = new Date();
 			db.ref("/timer/"+gGroupName+"/").update({
 				startTime: gStartTime.getTime(),
 				status: "結束"
 			});
-			
 		} else if (gGroupStatus == "結束") {
 			/* 目前狀態: 已結束 */
+			gMisuc.muted = false;
+			gMisuc.play(); 
 			gFinishTime = new Date();
 			db.ref("/timer/"+gGroupName+"/").update({
 				finishTime: gFinishTime.getTime(),
@@ -415,6 +426,8 @@
 			});
 		} else {
 			/* 目前狀態: 已重置 */
+			gMisuc.muted = false;
+			gMisuc.play(); 
 			gSwitchUser = true;
 			gStartTime = gResetTime;
 			gFinishTime = gResetTime;
