@@ -75,7 +75,7 @@
 	<option value="groupB">第二組</option>
 	
 	<input type="button" id="startBtn" class ="switch_mode" onclick="checkPassword()" value="切換(開始/結束/重置)模式"></input>
-	<audio id="music" src="https://githubhongwei.github.io/racing/yisell_sound.mp3">你的瀏覽器不支援audio標籤。</audio>
+	<audio id="music" preload="auto" src="https://githubhongwei.github.io/racing/yisell_sound.mp3">你的瀏覽器不支援audio標籤。</audio>
 
 	<div id="showStatus" class ="default"></div>
 	<div id="showNowTime" class ="default"></div>
@@ -164,7 +164,12 @@
 		gRunTimeArray.length = 0;
 		gMisuc = document.getElementById("music");
 		gMisuc.muted = true;
-		gMisuc.play();
+		var playPromise = gMisuc.play();
+		if (playPromise !== undefined) {
+			playPromise.then(() => {
+				audio.play()
+			}).catch(()=> {})
+		}
 		
 		gGroupName = document.getElementById("groupID").value;
 		
