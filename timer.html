@@ -311,8 +311,23 @@
 							runTime.setTime(nowTime.getTime() - gStartTime.getTime());
 							gLapTimeArray[id] = timeString('runTimeAll', runTime);
 							document.getElementById('rumtime'+id).innerHTML = gLapTimeArray[id];
-							/* 更新完成時間欄位, 讓完賽證明可直接同步 */
-							//alert(gLapTimeArray[id].substr(0,2) + ':::' + gLapTimeArray[id].substr(3,2));
+							
+							/* 更新完成時間/組別/狀態等欄位, 讓完賽證明直接同步 */
+							if (gGroupName == "groupA") {
+								data = [[gLapTimeArray[id].substr(0,2), gLapTimeArray[id].substr(3,2), "第一組", "順利完賽"]];
+							} else {
+								data = [[gLapTimeArray[id].substr(0,2), gLapTimeArray[id].substr(3,2), "第二組", "順利完賽"]];
+							} 
+							parameter = {
+								url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+								name: "20190901",
+								method: "record",
+								uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
+								data: data.toString(),
+								row: data.length,
+								column: data[0].length,
+							};
+							$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
 						} else {
 							gLapTimeArray[id] = nowTime.getTime();
 						}
