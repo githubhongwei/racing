@@ -163,8 +163,8 @@
 		gRunTimeArray.length = 0;
 		gRunTimeArray.length = 0;
 		gMisuc = document.getElementById("music");
-		//gMisuc.muted = false;
-		//gMisuc.play();
+		gMisuc.muted = true;
+		gMisuc.play();
 		
 		gGroupName = document.getElementById("groupID").value;
 		
@@ -187,9 +187,6 @@
 		
 		gSetInterval_loadPage = setInterval('LoadPages()',3000);
 		gSetInterval_showTime = setInterval('showTime()',100);
-		
-		gMisuc.muted = false;
-		gMisuc.play();
 	}
 	
 	function LoadPages() {
