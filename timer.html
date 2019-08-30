@@ -162,12 +162,14 @@
 		gLapTimeArray.length = 0;
 		gRunTimeArray.length = 0;
 		gRunTimeArray.length = 0;
+		
 		gMisuc = document.getElementById("music");
 		gMisuc.muted = true;
 		var playPromise = gMisuc.play();
+		/* [fixError] Uncaught (in promise) DOMException: The play() ... */
 		if (playPromise !== undefined) {
 			playPromise.then(() => {
-				audio.play()
+				gMisuc.play()
 			}).catch(()=> {})
 		}
 		
@@ -419,8 +421,6 @@
 			});
 		} else if (gGroupStatus == "結束") {
 			/* 目前狀態: 已結束 */
-			gMisuc.muted = false;
-			gMisuc.play(); 
 			gFinishTime = new Date();
 			db.ref("/timer/"+gGroupName+"/").update({
 				finishTime: gFinishTime.getTime(),
@@ -428,8 +428,6 @@
 			});
 		} else {
 			/* 目前狀態: 已重置 */
-			gMisuc.muted = false;
-			gMisuc.play(); 
 			gSwitchUser = true;
 			gStartTime = gResetTime;
 			gFinishTime = gResetTime;
