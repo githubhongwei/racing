@@ -33,7 +33,7 @@
 			font-weight: 600;
 			font-family: Microsoft JhengHei;
 			top: 1210px;
-			left: 465px;
+			left: 460px;
 			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 			color: #0F0F0F;}
 	.s_time{font-size: 45px;
@@ -95,8 +95,8 @@ function ChangeString(username){
 			}
 			//alert("姓名: " + e.username + "\n完成時間: " + e.minute + " 分 " + e.second + " 秒");
 			document.getElementById("NameString").innerHTML=e.username;
-			document.getElementById("MinuteString").innerHTML=e.minute + " 分";
-			document.getElementById("SecondString").innerHTML=e.second + " 秒";
+			document.getElementById("MinuteString").innerHTML=e.minute + " 分 " + e.second + " 秒";
+			document.getElementById("SecondString").innerHTML="";
 			if (e.groupname == "第三組") {
 				document.getElementById("GroupString").innerHTML=e.groupname + "(測三千)";
 			} else {
