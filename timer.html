@@ -109,7 +109,7 @@
 	var gRunTimeArray = new Array();
 	var gLapSecArray = new Array();
 	var gLength;
-	var gSpreadsheetsLink, gQuery;
+	var gSpreadsheetsLink, gQuery, gSpreadsheetsName;
 	var gGroupName, gGroupNameRunning;
 	var gGroupStatus;
 	var gNumberOfLaps;
@@ -190,6 +190,7 @@
 		db.ref("/timer/setting/").once('value', function (snapshot) {
 			gSpreadsheetsLink = snapshot.val().spreadsheetLink;
 			gNumberOfLaps = snapshot.val().numberOfLaps;
+			gSpreadsheetsName = snapshot.val().spreadsheetName;
 		});
 		
 		gSetInterval_loadPage = setInterval('LoadPages()',3000);
@@ -320,7 +321,7 @@
 							} 
 							parameter = {
 								url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-								name: "20190901",
+								name: gSpreadsheetsName,
 								method: "record",
 								uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
 								data: data.toString(),
@@ -337,7 +338,7 @@
 						data = [[gLapArray[id], gLapTimeArray[id]]];
 						parameter = {
 							url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-							name: "20190901",
+							name: gSpreadsheetsName,
 							method: "timer",
 							uuid: document.getElementById('item'+id).innerHTML.replace(/\s+/g, ""),
 							data: data.toString(),
@@ -519,7 +520,7 @@
 						data = [[$("#lap"+i).val(), 0]];
 						parameter = {
 							url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-							name: "20190901",
+							name: gSpreadsheetsName,
 							method: "timer",
 							uuid: document.getElementById('item'+i).innerHTML.replace(/\s+/g, ""),
 							data: data.toString(),
