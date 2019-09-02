@@ -75,7 +75,8 @@
 	<option value="groupB">第二組</option>
 	
 	<input type="button" id="startBtn" class ="switch_mode" onclick="checkPassword()" value="切換(開始/結束/重置)模式"></input>
-	<audio id="music" preload="auto" src="https://githubhongwei.github.io/racing/yisell_sound.mp3">你的瀏覽器不支援audio標籤。</audio>
+	<audio id="music" preload="auto" src="yisell_sound_start8s.mp3">你的瀏覽器不支援audio標籤。</audio>
+	<audio id="music_last" preload="auto" src="yisell_sound_last2s.mp3">你的瀏覽器不支援audio標籤。</audio>
 
 	<div id="showStatus" class ="default"></div>
 	<div id="showNowTime" class ="default"></div>
@@ -99,6 +100,7 @@
 	<div class ="comment">Ｂ、時間資訊設計每１００毫秒自動刷新一次。</div>
 	<div class ="comment">Ｃ、選手的競賽資訊，每３秒會自動更新同步。</div>
 	<div class ="comment">Ｄ、顯示的每圈秒數僅提供參考，不同步儲存。</div>
+	<div class ="comment">Ｅ、選手若中途棄賽，剩餘的圈數請無須理會。</div>
 	
 	<script>
 	const gResetTime = new Date(2019, 1, 1, 00, 00, 00);
@@ -331,6 +333,10 @@
 							$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
 						} else {
 							gLapTimeArray[id] = nowTime.getTime();
+							if ($(this).val() == 1) {
+								gMisuc = document.getElementById("music_last");
+								gMisuc.play(); 
+							}
 						}
 						gLapArray[id] = $(this).val();
 						
@@ -427,7 +433,8 @@
 		gGroupName = document.getElementById("groupID").value;
 
 		if (gGroupStatus == "開始") {
-			/* 目前狀態: 競賽中 */ 
+			/* 目前狀態: 競賽中 */
+			gMisuc = document.getElementById("music");
 			gMisuc.muted = false;
 			gMisuc.play(); 
 			gStartTime = new Date();
