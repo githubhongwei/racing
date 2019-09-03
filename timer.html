@@ -75,8 +75,8 @@
 	<option value="groupB">第二組</option>
 	
 	<input type="button" id="startBtn" class ="switch_mode" onclick="checkPassword()" value="切換(開始/結束/重置)模式"></input>
-	<audio id="music" preload="auto" src="yisell_sound_start8s.mp3">你的瀏覽器不支援audio標籤。</audio>
-	<audio id="music_last" preload="auto" src="yisell_sound_last2s.mp3">你的瀏覽器不支援audio標籤。</audio>
+	<audio id="sound_start" preload="auto" src="yisell_sound_start8s.mp3">你的瀏覽器不支援audio標籤。</audio>
+	<audio id="sound_last" preload="auto" src="yisell_sound_last2s.mp3">你的瀏覽器不支援audio標籤。</audio>
 
 	<div id="showStatus" class ="default"></div>
 	<div id="showNowTime" class ="default"></div>
@@ -110,6 +110,7 @@
 	var gLapTimeArray = new Array();
 	var gRunTimeArray = new Array();
 	var gLapSecArray = new Array();
+	var gRunnerNameArray = new Array();
 	var gLength;
 	var gSpreadsheetsLink, gQuery, gSpreadsheetsName;
 	var gGroupName, gGroupNameRunning;
@@ -165,7 +166,7 @@
 		gRunTimeArray.length = 0;
 		gRunTimeArray.length = 0;
 		
-		gMisuc = document.getElementById("music");
+		gMisuc = document.getElementById("sound_start");
 		gMisuc.muted = true;
 		var playPromise = gMisuc.play();
 		/* [fixError] Uncaught (in promise) DOMException: The play() ... */
@@ -245,10 +246,12 @@
 					return;
 				}
 				
+				/* 姓名 */
 				vTable = vTable + "<tr>";
 				vTable = vTable + "<td>";
 				vTable = vTable + 姓名;
 				vTable = vTable + "</td>";
+				gRunnerNameArray[i] = 姓名;
 				/* 成績 */		
 				vTable = vTable + "<td>";
 				if (圈數 == 0) {
@@ -308,6 +311,10 @@
 					if (gStartTime.getTime() != gResetTime.getTime() && lap != 0) {
 						var nowTime = new Date();
 						var runTime = new Date();
+						
+						/* 跑者的每圈秒數也同步儲存到 Firebase 數據庫 */
+						db.ref("/"+gSpreadsheetsName+"/"+gRunnerNameArray[id]+"/lap"+lap).set(gLapSecArray[id]);
+						
 						$(this).val(lap - 1);
 						if ($(this).val() == 0) {
 							/* 選手完賽 */
@@ -334,7 +341,7 @@
 						} else {
 							gLapTimeArray[id] = nowTime.getTime();
 							if ($(this).val() == 1) {
-								gMisuc = document.getElementById("music_last");
+								gMisuc = document.getElementById("sound_last");
 								gMisuc.play(); 
 							}
 						}
@@ -434,7 +441,7 @@
 
 		if (gGroupStatus == "開始") {
 			/* 目前狀態: 競賽中 */
-			gMisuc = document.getElementById("music");
+			gMisuc = document.getElementById("sound_start");
 			gMisuc.muted = false;
 			gMisuc.play(); 
 			gStartTime = new Date();
@@ -442,6 +449,8 @@
 				startTime: gStartTime.getTime(),
 				status: "結束"
 			});
+			/* 競賽相關資訊同步儲存到 Firebase 數據庫 */
+			db.ref("/"+gSpreadsheetsName+"/startTime").set(gStartTime.getTime());
 		} else if (gGroupStatus == "結束") {
 			/* 目前狀態: 已結束 */
 			gFinishTime = new Date();
@@ -449,6 +458,8 @@
 				finishTime: gFinishTime.getTime(),
 				status: "重置"
 			});
+			/* 競賽相關資訊同步儲存到 Firebase 數據庫 */
+			db.ref("/"+gSpreadsheetsName+"/finishTime").set(gFinishTime.getTime());
 		} else {
 			/* 目前狀態: 已重置 */
 			gSwitchUser = true;
@@ -459,6 +470,9 @@
 				finishTime: gFinishTime.getTime(),
 				status: "開始"
 			});
+			/* 競賽相關資訊同步儲存到 Firebase 數據庫 */
+			db.ref("/"+gSpreadsheetsName+"/startTime").set(gStartTime.getTime());
+			db.ref("/"+gSpreadsheetsName+"/finishTime").set(gFinishTime.getTime());
 		}
 	}
 	
