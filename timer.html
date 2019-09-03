@@ -71,8 +71,8 @@
 
 <body onload="start()">
 	<select name="groupName" id="groupID" class ="switch_group" onchange="setGroup()">
-	<option value="groupA">第一組</option>
-	<option value="groupB">第二組</option>
+	<option value="第一組">第一組</option>
+	<option value="第二組">第二組</option>
 	
 	<input type="button" id="startBtn" class ="switch_mode" onclick="checkPassword()" value="切換(開始/結束/重置)模式"></input>
 	<audio id="sound_start" preload="auto" src="yisell_sound_start8s.mp3">你的瀏覽器不支援audio標籤。</audio>
@@ -201,7 +201,7 @@
 	}
 	
 	function LoadPages() {
-		if ((gGroupName == "groupA" && gQuery.startsWith("&sq=序號>B00")) || (gGroupName == "groupB" && gQuery.startsWith("&sq=序號>A00"))) {
+		if ((gGroupName == "第一組" && gQuery.startsWith("&sq=序號>B00")) || (gGroupName == "第二組" && gQuery.startsWith("&sq=序號>A00"))) {
 			//errorMessage("L01"); 
 			return;
 		}
@@ -240,7 +240,7 @@
 				成績 = entry.gsx$成績.$t;
 				
 				/* Known Issue */
-				if ((gGroupName == "groupA" && 序號.startsWith("B")) || (gGroupName == "groupB" && 序號.startsWith("A")))
+				if ((gGroupName == "第一組" && 序號.startsWith("B")) || (gGroupName == "第二組" && 序號.startsWith("A")))
 				{
 					//errorMessage("L02");
 					return;
@@ -323,7 +323,7 @@
 							document.getElementById('rumtime'+id).innerHTML = gLapTimeArray[id];
 							
 							/* 更新完成時間/組別/狀態等欄位, 讓完賽證明直接同步 */
-							if (gGroupName == "groupA") {
+							if (gGroupName == "第一組") {
 								data = [[gLapTimeArray[id].substr(0,2), gLapTimeArray[id].substr(3,2), "第一組", "順利完賽"]];
 							} else {
 								data = [[gLapTimeArray[id].substr(0,2), gLapTimeArray[id].substr(3,2), "第二組", "順利完賽"]];
