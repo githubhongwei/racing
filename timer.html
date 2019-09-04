@@ -285,7 +285,12 @@
 				var vDiv = document.all("showTable").innerHTML = vTable;
 				/* 同步秒數 */
 				if (gLapArray[i] != 0) {
-					gLapTimeArray[i] = 成績;
+					if (gLapTimeArray[i] > 成績) {
+						/* 避免因數據尚未同步，而造成的秒數又跳回的短暫錯誤顯示 */
+						gLapTimeArray[i] = gLapTimeArray[i];
+					} else {
+						gLapTimeArray[i] = 成績;
+					}
 				}
 			}
 
