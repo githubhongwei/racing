@@ -556,6 +556,9 @@
 						$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter); 
 					}
 				}
+				
+				/* 刪除跑者於 Firebase 數據庫的每圈秒數 */
+				db.ref("/"+gSpreadsheetsName+"/"+gRunnerNameArray[i]).remove();
 			}
 		} else if (gFinishTime.getTime() != gResetTime.getTime()) {
 			/* 目前狀態: 已結束 */
