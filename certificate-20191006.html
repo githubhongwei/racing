@@ -131,13 +131,13 @@
 		var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
 		var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);
 		
-		db.ref("/20191005/"+groupname).once('value', function (snapshot) {
+		db.ref("/20191006/"+groupname).once('value', function (snapshot) {
 			gStartTime.setTime(snapshot.val().startTime);
 			gFinishTime.setTime(snapshot.val().finishTime);
 			document.getElementById("racingInfoString").innerHTML += "起跑時間: "+timeString(0, gStartTime)+"</br>";
 			document.getElementById("racingInfoString").innerHTML += "結束時間: "+timeString(0, gFinishTime)+"</br>";
 		});
-		db.ref("/20191005/"+username).once('value', function (snapshot) {
+		db.ref("/20191006/"+username).once('value', function (snapshot) {
 			document.getElementById("racingInfoString").innerHTML += "Lap01: "+snapshot.val().lap13+"</br>";
 			document.getElementById("racingInfoString").innerHTML += "Lap02: "+snapshot.val().lap12+"</br>";
 			document.getElementById("racingInfoString").innerHTML += "Lap03: "+snapshot.val().lap11+"</br>";
