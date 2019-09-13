@@ -4,11 +4,16 @@
 	<meta name="viewport" content="user-scalable=0">
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
 	
-	<!--引用SweetAlert2-->
+	<!--SweetAlert2-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+
+	<!--JQuery slider-->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
@@ -28,12 +33,12 @@
 	  // Initialize Firebase
 	  firebase.initializeApp(firebaseConfig);
 	</script>
-	
+
 	<style>
 	.hitLap {
 		width:100%;
 		height:100px;
-		font-size: 50px;
+		font-size: 60px;
 		font-family:Microsoft JhengHei;	
 	}
 	.switch_group {
@@ -51,13 +56,14 @@
 	.default {
 		font-size: 50px;
 		font-family:Microsoft JhengHei;	
+		border:0;
 	}
 	.comment {
 		font-size: 42px;
 		font-family:Microsoft JhengHei;	
 	}
 	.table {
-		font-size: 50px;
+		font-size: 60px;
 		text-align:center;
 		font-family:Microsoft JhengHei;	
 	}
@@ -68,6 +74,29 @@
 	
 	</style>
 </head>
+
+	<script>
+	$( function() {
+		$( "#slider-range" ).slider({
+			range: true,
+			min: 1,
+			max: 20,
+			values: [ 1, 20 ],
+			slide: function( event, ui ) {
+
+				ui.values[0] = ui.values[0] < 10 ? ('0' + ui.values[0]) : ui.values[0];
+				ui.values[1] = ui.values[1] < 10 ? ('0' + ui.values[1]) : ui.values[1];
+				$( "#amount" ).val( "選擇區間：A" + ui.values[0] + "~A" + ui.values[1] );
+			},
+			create: function(event, ui) {
+				var style={"width":"70px","height":"70px","text-align":"center"};
+				$(this).find(".ui-slider-handle").css(style);
+			}
+		});
+		$( "#amount" ).val( "選擇區間：A0" + $( "#slider-range" ).slider( "values", 0 ) +
+		"~A" + $( "#slider-range" ).slider( "values", 1 ) );
+	} );
+	</script>
 
 <body onload="start()">
 	<select name="groupName" id="groupID" class ="switch_group" onchange="setGroup()">
@@ -83,6 +112,12 @@
 	<div id="showStartTime" class ="default"></div>
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
+	
+	<!-- <label for="amount" class ="default">選擇區間：</label> -->
+	<input type="text" id="amount" class ="default">
+
+	<div id="slider-range" style="margin: 0 auto; width:90%; height:60px "></div>	
+	
 	<hr>
 	<div id="showTable" class ="table">Loading...</div>
 	<hr>
