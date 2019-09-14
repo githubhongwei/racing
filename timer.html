@@ -84,13 +84,18 @@
 			min: 1,
 			max: 20,
 			values: [ 1, 20 ],
+			change: function( event, ui ) {
+				ui.values[0] = ui.values[0] < 10 ? ('0' + ui.values[0]) : ui.values[0];
+				ui.values[1] = ui.values[1] < 10 ? ('0' + ui.values[1]) : ui.values[1];
+				document.all("showAmount").innerHTML = "顯示序號：A" + ui.values[0] + "~A" + ui.values[1];
+			},
 			slide: function( event, ui ) {
 				ui.values[0] = ui.values[0] < 10 ? ('0' + ui.values[0]) : ui.values[0];
 				ui.values[1] = ui.values[1] < 10 ? ('0' + ui.values[1]) : ui.values[1];
 				document.all("showAmount").innerHTML = "顯示序號：A" + ui.values[0] + "~A" + ui.values[1];
 			},
 			create: function( event, ui ) {
-				var style = { "width":"70px", "height":"100px", "text-align":"center", "margin-top": "center", "margin-left": "-35px", "border-radius": "20%" };
+				var style = { "width":"70px", "height":"87px", "text-align":"center", "margin-top": "center", "margin-left": "-35px", "border-radius": "20%" };
 				$(this).find( ".ui-slider-handle" ).css(style);
 			}
 		});
@@ -115,7 +120,7 @@
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
 	<div id="showAmount" class ="default"></div>
-	<div id="sliderRange" style="margin: 0 auto; width:90%; height:90px"></div>
+	<div id="sliderRange" style="margin: 0 auto; width:90%; height:80px"></div>
 	
 	<hr>
 	<div id="showTable" class ="table">Loading...</div>
