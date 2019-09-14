@@ -93,6 +93,7 @@
 			create: function( event, ui ) {
 				var style = { "width":"70px", "height":"87px", "text-align":"center", "margin-top": "center", "margin-left": "-35px", "border-radius": "20%" };
 				$(this).find( ".ui-slider-handle" ).css(style);
+				$(this).find( ".ui-slider-range" ).css({"background":"#d2e9ff"});	
 			}
 		});
 		document.all("showAmount").innerHTML = "顯示序號：A0" + $( "#sliderRange" ).slider( "values", 0 ) +
