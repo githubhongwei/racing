@@ -83,18 +83,21 @@
 			max: 20,
 			values: [ 1, 20 ],
 			slide: function( event, ui ) {
-
 				ui.values[0] = ui.values[0] < 10 ? ('0' + ui.values[0]) : ui.values[0];
 				ui.values[1] = ui.values[1] < 10 ? ('0' + ui.values[1]) : ui.values[1];
-				$( "#amount" ).val( "選擇區間：A" + ui.values[0] + "~A" + ui.values[1] );
+				<!-- $( "#amount" ).val( "選擇區間：A" + ui.values[0] + "~A" + ui.values[1] ); -->
+				document.all("showAmount").innerHTML = "選擇區間：A" + ui.values[0] + "~A" + ui.values[1];
 			},
-			create: function(event, ui) {
-				var style={"width":"70px","height":"70px","text-align":"center"};
-				$(this).find(".ui-slider-handle").css(style);
+			create: function( event, ui ) {
+				var style = { "width":"70px", "height":"70px", "text-align":"center" };
+				$(this).find( ".ui-slider-handle" ).css(style);
 			}
 		});
-		$( "#amount" ).val( "選擇區間：A0" + $( "#slider-range" ).slider( "values", 0 ) +
-		"~A" + $( "#slider-range" ).slider( "values", 1 ) );
+		<!-- $( "#amount" ).val( "選擇區間：A0" + $( "#slider-range" ).slider( "values", 0 ) + -->
+		<!-- "~A" + $( "#slider-range" ).slider( "values", 1 ) ); -->
+		document.all("showAmount").innerHTML = "選擇區間：A0" + $( "#slider-range" ).slider( "values", 0 ) +
+		"~A" + $( "#slider-range" ).slider( "values", 1 );
+		
 	} );
 	</script>
 
@@ -112,9 +115,10 @@
 	<div id="showStartTime" class ="default"></div>
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
+	<div id="showAmount" class ="default"></div>
 	
 	<!-- <label for="amount" class ="default">選擇區間：</label> -->
-	<input type="text" id="amount" class ="default">
+	<!-- <input type="text" id="amount" class ="default"> -->
 
 	<div id="slider-range" style="margin: 0 auto; width:90%; height:60px "></div>	
 	
