@@ -85,17 +85,14 @@
 			slide: function( event, ui ) {
 				ui.values[0] = ui.values[0] < 10 ? ('0' + ui.values[0]) : ui.values[0];
 				ui.values[1] = ui.values[1] < 10 ? ('0' + ui.values[1]) : ui.values[1];
-				<!-- $( "#amount" ).val( "選擇區間：A" + ui.values[0] + "~A" + ui.values[1] ); -->
-				document.all("showAmount").innerHTML = "選擇區間：A" + ui.values[0] + "~A" + ui.values[1];
+				document.all("showAmount").innerHTML = "顯示序號：A" + ui.values[0] + "~A" + ui.values[1];
 			},
 			create: function( event, ui ) {
-				var style = { "width":"70px", "height":"70px", "text-align":"center" };
+				var style = { "width":"60px", "height":"60px", "text-align":"center", "margin-top": "center", "margin-left": "-25px", "border-radius": "20%" };
 				$(this).find( ".ui-slider-handle" ).css(style);
 			}
 		});
-		<!-- $( "#amount" ).val( "選擇區間：A0" + $( "#slider-range" ).slider( "values", 0 ) + -->
-		<!-- "~A" + $( "#slider-range" ).slider( "values", 1 ) ); -->
-		document.all("showAmount").innerHTML = "選擇區間：A0" + $( "#slider-range" ).slider( "values", 0 ) +
+		document.all("showAmount").innerHTML = "顯示序號：A0" + $( "#slider-range" ).slider( "values", 0 ) +
 		"~A" + $( "#slider-range" ).slider( "values", 1 );
 		
 	} );
@@ -116,11 +113,7 @@
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
 	<div id="showAmount" class ="default"></div>
-	
-	<!-- <label for="amount" class ="default">選擇區間：</label> -->
-	<!-- <input type="text" id="amount" class ="default"> -->
-
-	<div id="slider-range" style="margin: 0 auto; width:90%; height:60px "></div>	
+	<div id="slider-range" style="margin: 0 auto; width:90%; height:50px"></div>
 	
 	<hr>
 	<div id="showTable" class ="table">Loading...</div>
