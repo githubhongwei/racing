@@ -79,7 +79,7 @@
 
 	<script>
 	$( function() {
-		$( "#slider-range" ).slider({
+		$( "#sliderRange" ).slider({
 			range: true,
 			min: 1,
 			max: 20,
@@ -94,8 +94,8 @@
 				$(this).find( ".ui-slider-handle" ).css(style);
 			}
 		});
-		document.all("showAmount").innerHTML = "顯示序號：A0" + $( "#slider-range" ).slider( "values", 0 ) +
-		"~A" + $( "#slider-range" ).slider( "values", 1 );
+		document.all("showAmount").innerHTML = "顯示序號：A0" + $( "#sliderRange" ).slider( "values", 0 ) +
+		"~A" + $( "#sliderRange" ).slider( "values", 1 );
 		
 	} );
 	</script>
@@ -115,7 +115,7 @@
 	<div id="showFinishTime" class ="default"></div>
 	<div id="runTimeAll" class ="default"></div>
 	<div id="showAmount" class ="default"></div>
-	<div id="slider-range" style="margin: 0 auto; width:90%; height:90px"></div>
+	<div id="sliderRange" style="margin: 0 auto; width:90%; height:90px"></div>
 	
 	<hr>
 	<div id="showTable" class ="table">Loading...</div>
@@ -279,9 +279,15 @@
 					//errorMessage("L02");
 					return;
 				}
-				
+
+				/* 僅顯示 slider Range 中的選手 */
+				if ( (i+1) >= $( "#sliderRange" ).slider( "values", 0 ) && (i+1) <= $( "#sliderRange" ).slider( "values", 1 ) ) {
+					vTable = vTable + "<tr>";
+				} else {
+					vTable = vTable + "<tr style='display:none' >";				
+				}
+
 				/* 姓名 */
-				vTable = vTable + "<tr>";
 				vTable = vTable + "<td>";
 				vTable = vTable + 姓名;
 				vTable = vTable + "</td>";
