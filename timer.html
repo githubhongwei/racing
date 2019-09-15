@@ -88,17 +88,18 @@
 			slide: function( event, ui ) {
 				ui.values[0] = ui.values[0] < 10 ? ('0' + ui.values[0]) : ui.values[0];
 				ui.values[1] = ui.values[1] < 10 ? ('0' + ui.values[1]) : ui.values[1];
-				document.all("showAmount").innerHTML = "顯示序號：A" + ui.values[0] + "~A" + ui.values[1];
+				if (gGroupName == "第一組") {
+					document.all("showAmount").innerHTML = "顯示序號：A" + ui.values[0] + "~A" + ui.values[1];
+				} else {
+					document.all("showAmount").innerHTML = "顯示序號：B" + ui.values[0] + "~B" + ui.values[1];
+				}
 			},
 			create: function( event, ui ) {
 				var style = { "width":"70px", "height":"87px", "text-align":"center", "margin-top": "center", "margin-left": "-35px", "border-radius": "20%" };
 				$(this).find( ".ui-slider-handle" ).css(style);
-				$(this).find( ".ui-slider-range" ).css({"background":"#ecf5ff"});	
+				$(this).find( ".ui-slider-range" ).css({"background":"#ecf5ff"});
 			}
-		});
-		document.all("showAmount").innerHTML = "顯示序號：A0" + $( "#sliderRange" ).slider( "values", 0 ) +
-		"~A" + $( "#sliderRange" ).slider( "values", 1 );
-		
+		});	
 	} );
 	</script>
 
@@ -194,6 +195,7 @@
 		document.all("showNowTime").innerHTML = "";
 		document.all("showStartTime").innerHTML = "";
 		document.all("showFinishTime").innerHTML = "";
+		document.all("showAmount").innerHTML = "";
 		clearTimeout(gSetInterval_showTime);
 		clearTimeout(gSetInterval_loadPage);
 		gLength = 0;
@@ -213,6 +215,12 @@
 		}
 		
 		gGroupName = document.getElementById("groupID").value;
+		
+		if (gGroupName == "第一組") {
+			document.all("showAmount").innerHTML = "顯示序號：A0" + $("#sliderRange").slider("values", 0) + "~A" + $("#sliderRange").slider("values", 1);
+		} else {
+			document.all("showAmount").innerHTML = "顯示序號：B0" + $("#sliderRange").slider("values", 0) + "~B" + $("#sliderRange").slider("values", 1);
+		}
 		
 		db.ref("/timer/"+gGroupName+"/").on('value', function (snapshot) {
 			gStartTime.setTime(snapshot.val().startTime);
