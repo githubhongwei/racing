@@ -216,12 +216,12 @@
 		
 		gGroupName = document.getElementById("groupID").value;
 
-		$("#sliderRange").slider("values", 0) = $("#sliderRange").slider("values", 0) < 10 ? ('0' + $("#sliderRange").slider("values", 0));
-		$("#sliderRange").slider("values", 1) = $("#sliderRange").slider("values", 1) < 10 ? ('0' + $("#sliderRange").slider("values", 1));
+		var min = $("#sliderRange").slider("values", 0) < 10 ? ('0' + $("#sliderRange").slider("values", 0)) : $("#sliderRange").slider("values", 0);
+		var max = $("#sliderRange").slider("values", 1) < 10 ? ('0' + $("#sliderRange").slider("values", 1)) : $("#sliderRange").slider("values", 1);
 		if (gGroupName == "第一組") {
-			document.all("showAmount").innerHTML = "顯示序號：A0" + $("#sliderRange").slider("values", 0) + "~A" + $("#sliderRange").slider("values", 1);
+			document.all("showAmount").innerHTML = "顯示序號：A" + min + "~A" + max;
 		} else {
-			document.all("showAmount").innerHTML = "顯示序號：B0" + $("#sliderRange").slider("values", 0) + "~B" + $("#sliderRange").slider("values", 1);
+			document.all("showAmount").innerHTML = "顯示序號：B" + min + "~B" + max;
 		}
 		
 		db.ref("/timer/"+gGroupName+"/").on('value', function (snapshot) {
