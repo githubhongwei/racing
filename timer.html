@@ -36,12 +36,6 @@
 	</script>
 
 	<style>
-	.hitLap {
-		width:100%;
-		height:100px;
-		font-size: 55px;
-		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
-	}
 	.switch_group {
 		width: 30%;
 		height:80px;
@@ -61,13 +55,19 @@
 		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 		border:0;
 	}
-	.comment {
-		font-size: 42px;
-		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
-	}
 	.table {
 		font-size: 55px;
 		text-align:center;
+		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	}
+	.hitLap {
+		width:100%;
+		height:110px;
+		font-size: 55px;
+		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+	}
+	.comment {
+		font-size: 42px;
 		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 	}
 	.my-swal{
@@ -215,7 +215,9 @@
 		}
 		
 		gGroupName = document.getElementById("groupID").value;
-		
+
+		$("#sliderRange").slider("values", 0) = $("#sliderRange").slider("values", 0) < 10 ? ('0' + $("#sliderRange").slider("values", 0));
+		$("#sliderRange").slider("values", 1) = $("#sliderRange").slider("values", 1) < 10 ? ('0' + $("#sliderRange").slider("values", 1));
 		if (gGroupName == "第一組") {
 			document.all("showAmount").innerHTML = "顯示序號：A0" + $("#sliderRange").slider("values", 0) + "~A" + $("#sliderRange").slider("values", 1);
 		} else {
@@ -238,6 +240,7 @@
 			gSpreadsheetsLink = snapshot.val().spreadsheetLink;
 			gNumberOfLaps = snapshot.val().numberOfLaps;
 			gSpreadsheetsName = snapshot.val().spreadsheetName;
+			LoadPages();
 		});
 		
 		gSetInterval_loadPage = setInterval('LoadPages()',3000);
