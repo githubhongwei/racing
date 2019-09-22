@@ -51,7 +51,7 @@
 
 <body onload="getCheckInInfo()">
 	<div style="text-align:center;">
-		<h1>20190901</h1>
+		<h1>20191006</h1>
 		<h2>城中実業団</h2>
 		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/>
 		<input id="groupname" maxlength="5" placeholder="組別" disabled hidden><br/>
@@ -67,7 +67,7 @@
 			//alert(data.context.userId);
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "20190901",
+				name: "20191006",
 				uuid: data.context.userId,
 				method: "checkIn",
 			};
@@ -103,7 +103,7 @@
 	function getSignUpInfo() {
 		var parameter = {
 			url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-			name: "20190901",
+			name: "20191006",
 			uuid: $("#username").val(),
 			method: "signUp",
 		};
@@ -142,7 +142,7 @@
 			//alert("data: " + JSON.stringify(data));
 			parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "20190901",
+				name: "20191006",
 				method: "checkIn",
 				data: data.toString(),
 				row: data.length,
@@ -182,7 +182,7 @@
 	var certificateBtn = $('#certificateBtn');
 	var username = 0;
 	certificateBtn.on('click', function() {
-		window.open('https://githubhongwei.github.io/racing/certificate-20190901.html?username=' + username);
+		window.open('https://githubhongwei.github.io/racing/certificate-20191006.html?username=' + username);
 	});
 	
 	var sendBtn = $('#sendBtn');
@@ -211,7 +211,7 @@
 				/* 檢查此姓名是否在[活動報名]數據庫中 */
 				var parameter = {
 					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-					name: "20190901",
+					name: "20191006",
 					uuid: $("#username").val(),
 					method: "signUp",
 				};
