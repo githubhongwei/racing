@@ -13,7 +13,7 @@
 		text-align:center;
 		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 	}
-	</style>	
+	</style>
 </head>
 <body onload="start()">
 	<!-- <iframe class="view" scrolling="no" frameborder="0" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtAuTuWEyuSol3A2DhuyBUIVFNazdQSSXvlxvhJWiL6mARLO3l9ajzf0JUEuFBsKW9JqlQl733QLfd/pubhtml?gid=555717606&amp;single=true&amp;widget=true&amp;headers=false"></iframe> -->
@@ -28,12 +28,13 @@
 	}
 	
 	function LoadPages() {
-		var gSpreadsheetsLink = "https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/onhmc4d/public/values?alt=json-in-script&callback=?";
-		var gQuery = "&sq=場次 > 1";
+		var gSpreadsheetsLink = "https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/";
+		var gSpreadsheetsName = "onhmc4d/public/values?alt=json-in-script&callback=?"
+		var gSpreadsheetsQuery = "&sq=場次>1&orderby=column:成績&reverse=false";
 	
-		$.getJSON(gSpreadsheetsLink+gQuery, function(json){
+		$.getJSON(gSpreadsheetsLink + gSpreadsheetsName + gSpreadsheetsQuery, function(json){
 			var vTable = "";
-			vTable = vTable + "<table border=1 width=100%>";
+			vTable = vTable + "<table border=1 width=95% align=center>";
 			vTable = vTable + "<tr>";
 			vTable = vTable + "<td>";
 			vTable = vTable + "排名";
@@ -64,7 +65,7 @@
 				vTable = vTable + "<td>";
 				vTable = vTable + 排名;
 				vTable = vTable + "</td>";
-				/* 姓名 */		
+				/* 姓名 */
 				vTable = vTable + "<td>";
 				vTable = vTable + 姓名;
 				vTable = vTable + "</td>";
