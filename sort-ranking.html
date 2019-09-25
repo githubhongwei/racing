@@ -2,16 +2,18 @@
 <html lang="zh-TW">
 <head>
 	<meta name="viewport" content="user-scalable=0">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/css/swiper.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.min.js"></script>
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
 	<style>
 	.title {
 		font-size: 65px;
-		text-align:center;
+		text-align: center;
 		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 	}
 	.table {
 		font-size: 50px;
-		text-align:center;
+		text-align: center;
 		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 	}
 	</style>
@@ -19,20 +21,63 @@
 <body onload="start()">
 	<div class="title">城中実業団</div>
 	<div class="title">五千公尺挑戰賽排行榜</div>
+	
 	<hr>
-	<div id="showTable" class ="table">Loading...</div>
+	<!-- Slider main container -->
+	<div class="swiper-container">
+	<!-- Additional required wrapper -->
+	<div class="swiper-wrapper">
+		<!-- Slides -->
+		<div class="swiper-slide">
+			<div class="content-slide">
+				<div id="showTable1" class ="table">Loading 1...</div> 
+			</div>
+		</div>
+		<div class="swiper-slide">
+			<div class="content-slide">
+				<div id="showTable2" class ="table">Loading 2...</div>
+			</div>
+		</div>	
+	</div>
+	<!-- If we need pagination -->
+	<div class="swiper-pagination"></div>
+
+	<!-- If we need navigation buttons -->
+	<div class="swiper-button-prev"></div>
+	<div class="swiper-button-next"></div>
+
+	<!-- If we need scrollbar -->
+	<!-- <div class="swiper-scrollbar"></div> -->
+	</div>
 	<hr>
 	
 	<script>
+	var mySwiper = new Swiper('.swiper-container',{
+		pagination: '.pagination',
+		loop:false,
+		grabCursor: true,
+		paginationClickable: true
+	})
+	$('.arrow-left').on('click', function(e){
+		e.preventDefault()
+		mySwiper.swipePrev()
+	})
+	$('.arrow-right').on('click', function(e){
+		e.preventDefault()
+		mySwiper.swipeNext()
+	})	
+	
 	function start() {
-		LoadPages();
+		var Table = LoadTable();
 	}
 	
-	function LoadPages() {
+	function LoadTable() {
 		var gSpreadsheetsLink = "https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/";
 		var gSpreadsheetsName = "onhmc4d/public/values?alt=json-in-script&callback=?"
 		var gSpreadsheetsQuery = "&sq=場次>1&orderby=column:成績&reverse=false";
-	
+		var gRacingDateArray = ["20190901", "20190803", "20190706", "20190601"];
+		var gRacingTimeArray = new Array();
+		
 		$.getJSON(gSpreadsheetsLink + gSpreadsheetsName + gSpreadsheetsQuery, function(json){
 			var vTable = "";
 			vTable = vTable + "<table border=1 width=95% align=center>";
@@ -52,15 +97,53 @@
 			vTable = vTable + "</tr>";
 			
 			var e = json.feed.entry,
-			entry, i, 排名, 姓名, 成績, 場次;
+			entry, i, j, 排名, 姓名, 成績, 場次;
 			gLength = e.length;
+			
+			var vTable1 = vTable;
 
+			/* Table 1 */
 			for (i = 0; i < gLength; i++) {
 				entry = e[i];
 				總排名 = i + 1;
 				姓名 = entry.gsx$姓名.$t;
 				成績 = entry.gsx$成績.$t;
 				場次 = entry.gsx$場次.$t;
+							
+				/* 總排名 */
+				vTable1 = vTable1 + "<td>";
+				vTable1 = vTable1 + 總排名;
+				vTable1 = vTable1 + "</td>";
+				/* 姓名 */
+				vTable1 = vTable1 + "<td>";
+				vTable1 = vTable1 + 姓名;
+				vTable1 = vTable1 + "</td>";
+				/* 成績 */
+				vTable1 = vTable1 + "<td>";
+				vTable1 = vTable1 + 成績;
+				vTable1 = vTable1 + "</td>";
+				/* 場次 */
+				vTable1 = vTable1 + "<td>";
+				vTable1 = vTable1 + 場次;
+				vTable1 = vTable1 + "</td>";
+				
+				vTable1 = vTable1 + "</tr>";
+				
+				$("#showTable1").html(vTable1);
+			}
+			
+			/* Table 2 */
+			for (i = 0; i < gLength; i++) {
+				entry = e[i];
+				總排名 = i + 1;
+				姓名 = entry.gsx$姓名.$t;
+				成績 = entry.gsx$成績.$t;
+				場次 = entry.gsx$場次.$t;
+							
+				gRacingTimeArray[0] = entry.gsx$_ckd7g ? entry.gsx$_ckd7g.$t : 0;	/*20190901*/
+				gRacingTimeArray[1] = entry.gsx$_clrrx ? entry.gsx$_clrrx.$t : 0;	/*20190803*/
+				gRacingTimeArray[2] = entry.gsx$_cyevm ? entry.gsx$_cyevm.$t : 0;	/*20190706*/
+				gRacingTimeArray[3] = entry.gsx$_cztg3 ? entry.gsx$_cztg3.$t : 0;	/*20190601*/
 				
 				/* 總排名 */
 				vTable = vTable + "<td>";
@@ -81,9 +164,33 @@
 				
 				vTable = vTable + "</tr>";
 				
-				var vDiv = document.all("showTable").innerHTML = vTable;
+				for (j = 0; j < gRacingDateArray.length; j++) {
+					if ((gRacingTimeArray[j] != 0) && gRacingTimeArray[j] != 成績) {
+						/* 總排名 */
+						vTable = vTable + "<td>";
+						vTable = vTable + "";
+						vTable = vTable + "</td>";
+						/* 姓名 */
+						vTable = vTable + "<td>";
+						vTable = vTable + "";
+						vTable = vTable + "</td>";
+						/* 成績 */
+						vTable = vTable + "<td>";
+						vTable = vTable + gRacingTimeArray[j];
+						vTable = vTable + "</td>";
+						/* 場次 */
+						vTable = vTable + "<td>";
+						vTable = vTable + gRacingDateArray[j];
+						vTable = vTable + "</td>";
+						
+						vTable = vTable + "</tr>";
+					}
+				}
+
+				$("#showTable2").html(vTable);
 			}
 		});
+		return vTable;
 	}
 	
 	</script>
