@@ -31,40 +31,41 @@
 <style type="text/css">
 	.words{font-size: 48px;
 			position: absolute;
-			color: #0F0F0F;
+			color: #be482b;
 			font-weight: 600;
-			font-family: Microsoft JhengHei;	
-			top:1045px;
-			left: 500px;			
-			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
-			color: #0F0F0F;}
+			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;	
+			top: 1060px;
+			left: 370px;			
+			<!-- text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF; -->
+			<!-- color: #0F0F0F;} -->
 	.group{font-size: 48px;
 			position: absolute;
-			color: #0F0F0F;
+			color: #be482b;
 			font-weight: 600;
-			font-family: Microsoft JhengHei;	
-			top:1125px;
-			left: 500px;			
-			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
-			color: #0F0F0F;}
+			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;	
+			top: 1135px;
+			left: 370px;			
+			<!-- text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF; -->
+			<!-- color: #0F0F0F;} -->
 	.time{font-size: 45px;
 			position: absolute;
-			color: #0F0F0F;
+			color: #be482b;
 			font-weight: 600;
-			font-family: Microsoft JhengHei;
-			top: 1210px;
-			left: 460px;
-			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
-			color: #0F0F0F;}
-	.racing{font-size: 15px;
+			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+			top: 1215px;
+			left: 325px;
+			<!-- text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF; -->
+			<!-- color: #0F0F0F;} -->
+	.racing{font-size: 21px;
+			line-height: 30px;
 			position: absolute;
-			color: #0F0F0F;
+			color: #be482b;
 			font-weight: 600;
-			font-family:Microsoft JhengHei;
-			top: 1030px;
-			left: 800px;
-			text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
-			color: #0F0F0F;}
+			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+			top: 1040px;
+			left: 635px;
+			<!-- text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF; -->
+			<!-- color: #0F0F0F;} -->
 	.imgw{
 		position: relative;
 	}
@@ -77,7 +78,7 @@
 </style>
 <body onload="QueryUsername()">
 	<div class="imgw">
-		<img src="certificate-20190901.jpg" alt= "" width="950px">
+		<img src="certificate-20191006.jpg" alt= "" width="950px">
 		<div class="words">
 			<div id="nameString"></div>
 		</div>
@@ -96,7 +97,7 @@
 	function ChangeString(username){
 		var parameter = {
 			url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-			name: "20190901",
+			name: "20191006",
 			uuid: username,
 			method: "record",
 		};
@@ -139,18 +140,20 @@
 		});
 		db.ref("/20191006/"+username).once('value', function (snapshot) {
 			document.getElementById("racingInfoString").innerHTML += "Lap01: "+snapshot.val().lap13+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap02: "+snapshot.val().lap12+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap03: "+snapshot.val().lap11+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap04: "+snapshot.val().lap10+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap05: "+snapshot.val().lap9+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap06: "+snapshot.val().lap8+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap07: "+snapshot.val().lap7+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap08: "+snapshot.val().lap6+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap09: "+snapshot.val().lap5+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap10: "+snapshot.val().lap4+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap11: "+snapshot.val().lap3+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap12: "+snapshot.val().lap2+"</br>";
-			document.getElementById("racingInfoString").innerHTML += "Lap13: "+snapshot.val().lap1+"</br>";
+			
+			document.getElementById("racingInfoString").innerHTML += "Lap02: "+snapshot.val().lap12+"　　Lap08: "+snapshot.val().lap6+"</br>";
+			document.getElementById("racingInfoString").innerHTML += "Lap03: "+snapshot.val().lap11+"　　Lap09: "+snapshot.val().lap5+"</br>";
+			document.getElementById("racingInfoString").innerHTML += "Lap04: "+snapshot.val().lap10+"　　Lap10: "+snapshot.val().lap4+"</br>";
+			document.getElementById("racingInfoString").innerHTML += "Lap05: "+ snapshot.val().lap9+"　　Lap11: "+snapshot.val().lap3+"</br>";
+			document.getElementById("racingInfoString").innerHTML += "Lap06: "+ snapshot.val().lap8+"　　Lap12: "+snapshot.val().lap2+"</br>";
+			document.getElementById("racingInfoString").innerHTML += "Lap07: "+ snapshot.val().lap7+"　　Lap13: "+snapshot.val().lap1+"</br>";
+			
+			<!-- document.getElementById("racingInfoString").innerHTML += "Lap08: "+snapshot.val().lap6+"</br>"; -->
+			<!-- document.getElementById("racingInfoString").innerHTML += "Lap09: "+snapshot.val().lap5+"</br>"; -->
+			<!-- document.getElementById("racingInfoString").innerHTML += "Lap10: "+snapshot.val().lap4+"</br>"; -->
+			<!-- document.getElementById("racingInfoString").innerHTML += "Lap11: "+snapshot.val().lap3+"</br>"; -->
+			<!-- document.getElementById("racingInfoString").innerHTML += "Lap12: "+snapshot.val().lap2+"</br>"; -->
+			<!-- document.getElementById("racingInfoString").innerHTML += "Lap13: "+snapshot.val().lap1+"</br>"; -->
 		});
 	}
 
