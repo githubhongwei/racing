@@ -34,8 +34,8 @@
 	<div class="title"><input class="title" type="button" onclick="signUp()" value="城中実業団" style="border:0;background-color:white;"/></div>
 	<!-- <div class="title">城中実業団</div> -->
 	<div class="title">五千公尺挑戰賽排行榜</div>
+	<br />
 	
-	<hr>
 	<!-- Slider main container -->
 	<div class="swiper-container">
 	<!-- Additional required wrapper -->
@@ -53,23 +53,24 @@
 		</div>
 	</div>
 	<!-- If we need pagination -->
-	<div class="swiper-pagination"></div>
+	<!-- <div class="swiper-pagination"></div> -->
 
 	<!-- If we need navigation buttons -->
-	<div class="swiper-button-prev"></div>
-	<div class="swiper-button-next"></div>
+	<!-- <div class="swiper-button-prev"></div> -->
+	<!-- <div class="swiper-button-next"></div> -->
 
 	<!-- If we need scrollbar -->
 	<!-- <div class="swiper-scrollbar"></div> -->
 	</div>
-	<hr>
+	<br />
 	
 	<script>
 	var mySwiper = new Swiper('.swiper-container',{
 		pagination: '.pagination',
 		loop:false,
 		grabCursor: true,
-		paginationClickable: true
+		paginationClickable: true,
+		autoHeight: true
 	})
 	$('.arrow-left').on('click', function(e){
 		e.preventDefault()
@@ -197,7 +198,7 @@
 				姓名 = entry.gsx$姓名.$t;
 				成績 = entry.gsx$成績.$t;
 				場次 = entry.gsx$場次.$t;
-							
+				
 				/* 總排名 */
 				vTable1 = vTable1 + "<td>";
 				vTable1 = vTable1 + 總排名;
@@ -217,7 +218,7 @@
 				
 				vTable1 = vTable1 + "</tr>";
 				
-				$("#showTable1").html(vTable1);
+				$("#showTable2").html(vTable1);
 			}
 			
 			/* Table 2 */
@@ -276,7 +277,7 @@
 					}
 				}
 
-				$("#showTable2").html(vTable);
+				$("#showTable1").html(vTable);
 			}
 		});
 	}
