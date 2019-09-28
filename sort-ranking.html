@@ -78,7 +78,6 @@
 	})
 	
 	function signUp() {
-		<!-- alert("signUp 2019-09-28 16:43"); -->
 		swal({
 			type: 'info', 
 			title: '城中実業団 LINE＠ 會員查詢', 
@@ -106,7 +105,7 @@
 						type: 'question',
 						title: '您還不是城中 LINE＠ 會員？',
 						input: 'text',
-						html: '請填您真實姓名進行註冊，將以此 ID 作為識別碼！',
+						html: '請填您真實姓名進行註冊！',
 						customClass: 'my-swal',
 						showCancelButton: true,
 						confirmButtonText: '　確認　',
@@ -114,7 +113,6 @@
 						inputValidator: function(value) {
 							return new Promise(function(resolve, reject) {
 								if (value.length == 3) {
-									postSignUpInfo(value);
 									resolve();
 								} else {
 									reject('請輸入您真實姓名');
@@ -122,9 +120,10 @@
 							});
 						}
 					}).then(function(result) {
+						postSignUpInfo(result);
 						swal({
 							type: 'success',
-							title: '註冊資訊已送出！',
+							title: result + '，您的註冊已送出！',
 							confirmButtonText: '　確認　',
 							customClass: 'my-swal',
 						});
