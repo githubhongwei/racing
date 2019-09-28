@@ -87,7 +87,6 @@
 			confirmButtonText: '　確認　',
 		});
 		liff.init(function (data) {
-			<!-- alert(data.context.userId); -->
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 				name: "member",
@@ -96,22 +95,21 @@
 			};
 			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
 				if(e.username.indexOf("??????") < 0){
-					<!-- alert("YES"); -->
 					swal({
-						type: 'success', 
-						title: e.username + ' 已是城中 LINE＠ 會員！', 
+						type: 'success',
+						title: e.username + '，您已是城中実業団會員！',
 						customClass: 'my-swal',
 						confirmButtonText: '　確認　',
 					});
 				} else {
-					<!-- alert("NO"); -->
 					swal({
+						type: 'question',
 						title: '您還不是城中 LINE＠ 會員？',
 						input: 'text',
 						html: '請填您真實姓名進行註冊，將以此 ID 作為識別碼！',
 						customClass: 'my-swal',
 						showCancelButton: true,
-						confirmButtonText: '　確認　', 
+						confirmButtonText: '　確認　',
 						cancelButtonText: '　取消　',
 						inputValidator: function(value) {
 							return new Promise(function(resolve, reject) {
@@ -123,6 +121,7 @@
 							});
 						}
 					}).then(function(result) {
+						postSignUpInfo();
 						swal({
 							type: 'success',
 							title: '已送出！',
@@ -133,6 +132,25 @@
 				}
 			});
         });	
+	}
+	
+	/* 將使用者填妥的[註冊資訊]存到 member 數據庫 */
+	function postSignUpInfo() {
+		let data = [];
+		var datetime = new Date();
+		liff.getProfile().then(function (profile) {
+			data = [[profile.userId, profile.displayName, $('#username').val(), datetime]];
+			parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "member",
+				method: "addMember",
+				data: data.toString(),
+				row: data.length,
+				column: data[0].length,
+				insertType: "merge"
+			};
+			$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+		});	
 	}
 	
 	function start() {
