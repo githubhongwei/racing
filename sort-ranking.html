@@ -78,7 +78,9 @@
 	})
 	
 	function signUp() {
+		alert("signUp");
 		liff.init(function (data) {
+			alert(data.context.userId);
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 				name: "member",
@@ -87,6 +89,7 @@
 			};
 			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
 				if(e.username.indexOf("??????") < 0){
+					alert("OK");
 					swal({
 						type: 'success', 
 						title: e.username + '，您已完成註冊！', 
@@ -94,6 +97,7 @@
 						confirmButtonText: '　確認　',
 					});
 				} else {
+					alert("NG");
 					swal({
 						type: 'warning', 
 						title: '您還沒完成報到！', 
