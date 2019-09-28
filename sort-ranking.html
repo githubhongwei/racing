@@ -79,6 +79,13 @@
 	
 	function signUp() {
 		alert("signUp 2019-09-28 16:08");
+		swal({
+			type: 'info', 
+			title: '城中実業団 LINE＠ 會員查詢', 
+			text: '查詢中，請稍後。。。', 
+			customClass: 'my-swal',
+			confirmButtonText: '　確認　',
+		});
 		liff.init(function (data) {
 			alert(data.context.userId);
 			var parameter = {
@@ -92,19 +99,37 @@
 					alert("YES");
 					swal({
 						type: 'success', 
-						title: e.username + '，您已完成註冊！', 
+						title: e.username + '，您已是城中 LINE＠ 會員！', 
 						customClass: 'my-swal',
 						confirmButtonText: '　確認　',
 					});
 				} else {
 					alert("NO");
 					swal({
-						type: 'warning', 
-						title: '您還沒完成報到！', 
-						text: '請填與報名時相同的姓名。', 
+						title: '您還不是城中 LINE＠ 會員？',
+						input: 'text',
+						html: '請填您真實姓名進行註冊，將以此 ID 作為識別碼！',
 						customClass: 'my-swal',
-						confirmButtonText: '　確認　',
-					});
+						showCancelButton: true,
+						confirmButtonText: '　確認　', 
+						cancelButtonText: '　取消　',
+						inputValidator: function(value) {
+							<!-- return new Promise(function(resolve, reject) { -->
+								<!-- if (value == 168) { -->
+									<!-- resolve(); -->
+								<!-- } else { -->
+									<!-- reject('請輸入正確密碼'); -->
+								<!-- } -->
+							<!-- }); -->
+						}
+					}).then(function(result) {
+						swal({
+							type: 'success',
+							title: '已送出！',
+							confirmButtonText: '　確認　',
+							customClass: 'my-swal',
+						});
+					}).catch(swal.noop);
 				}
 			});
         });	
