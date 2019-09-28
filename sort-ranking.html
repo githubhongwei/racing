@@ -31,7 +31,10 @@
 </head>
 
 <body onload="start()">
-	<div class="title"><input class="title" type="button" onclick="signUp()" value="城中実業団" style="border:0;background-color:white;"/></div>
+	<div class="title">
+		<input class="title" type="button" onclick="signUp()" value="城中実業団" style="border:0;background-color:white;"/>
+		<img src=touch.png height="55px" onclick="signUp()">
+	</div>
 	<!-- <div class="title">城中実業団</div> -->
 	<div class="title">五千公尺挑戰賽排行榜</div>
 	<br />
@@ -109,7 +112,7 @@
 						type: 'question',
 						title: '您還不是城中 LINE＠ 會員？',
 						input: 'text',
-						html: '請填您真實姓名進行註冊！',
+						html: '請填您的真實姓名進行註冊！',
 						customClass: 'my-swal',
 						showCancelButton: true,
 						confirmButtonText: '　確認　',
