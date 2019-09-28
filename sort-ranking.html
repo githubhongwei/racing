@@ -14,6 +14,9 @@
 			font-size: 65px;
 			text-align: center;
 			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+			-webkit-appearance: none;  /* Safari 和 Chrome，常用於iOS下移除內建樣式 */
+			-moz-appearance: none;     /* FireFox */
+			appearance: none;
 		}
 		.table {
 			font-size: 50px;
@@ -96,7 +99,7 @@
 				if(e.username.indexOf("??????") < 0){
 					swal({
 						type: 'success',
-						title: e.username + '，您已是會員囉！',
+						title: e.username + '，您已是城中會員囉！',
 						customClass: 'my-swal',
 						confirmButtonText: '　確認　',
 					});
