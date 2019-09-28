@@ -2,24 +2,34 @@
 <html lang="zh-TW">
 <head>
 	<meta name="viewport" content="user-scalable=0">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/css/swiper.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/css/swiper.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.min.js"></script>
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
 	<style>
-	.title {
-		font-size: 65px;
-		text-align: center;
-		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
-	}
-	.table {
-		font-size: 50px;
-		text-align: center;
-		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
-	}
+		.title {
+			font-size: 65px;
+			text-align: center;
+			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+		}
+		.table {
+			font-size: 50px;
+			text-align: center;
+			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+		}
+		.my-swal{
+			zoom: 1.6 !important;
+			width:80% !important;
+		}
 	</style>
 </head>
+
 <body onload="start()">
-	<div class="title">城中実業団</div>
+	<div class="title"><input class="title" type="button" onclick="signUp()" value="城中実業団" style="border:0;background-color:white;"/></div>
+	<!-- <div class="title">城中実業団</div> -->
 	<div class="title">五千公尺挑戰賽排行榜</div>
 	
 	<hr>
@@ -65,7 +75,40 @@
 	$('.arrow-right').on('click', function(e){
 		e.preventDefault()
 		mySwiper.swipeNext()
-	})	
+	})
+	
+	function signUp() {
+		liff.init(function (data) {
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "member",
+				uuid: data.context.userId,
+				method: "member",
+			};
+			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+				if(e.username.indexOf("??????") < 0){
+					$('#username').val(e.username);
+					swal({
+						type: 'success', 
+						title: e.username + '，您已完成註冊！', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+				} else {
+					$('#sendBtn').show();
+					$('#username').removeAttr('disabled');
+					//alert("您還沒完成報到，請填報名時相同的姓名");
+					swal({
+						type: 'warning', 
+						title: '您還沒完成報到！', 
+						text: '請填與報名時相同的姓名。', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+				}
+			});
+        });	
+	}
 	
 	function start() {
 		var Table = LoadTable();
