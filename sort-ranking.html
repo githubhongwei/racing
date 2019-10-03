@@ -216,14 +216,23 @@
 				vTable1 = vTable1 + "<td>";
 				vTable1 = vTable1 + 姓名;
 				vTable1 = vTable1 + "</td>";
-				/* 成績 */
-				vTable1 = vTable1 + "<td>";
-				vTable1 = vTable1 + 成績;
-				vTable1 = vTable1 + "</td>";
-				/* 場次 */
-				vTable1 = vTable1 + "<td>";
-				vTable1 = vTable1 + 場次;
-				vTable1 = vTable1 + "</td>";
+				
+				/* 成績 & 場次, 當刷新個人最佳成績時為藍色 */
+				if (場次 == gRacingDateArray[gRacingDateArray.length-1]) {
+					vTable1 = vTable1 + "<td style='color:blue;'>";
+					vTable1 = vTable1 + 成績;
+					vTable1 = vTable1 + "</td>";
+					vTable1 = vTable1 + "<td style='color:blue;'>";
+					vTable1 = vTable1 + 場次;
+					vTable1 = vTable1 + "</td>";
+				} else {
+					vTable1 = vTable1 + "<td>";
+					vTable1 = vTable1 + 成績;
+					vTable1 = vTable1 + "</td>";
+					vTable1 = vTable1 + "<td>";
+					vTable1 = vTable1 + 場次;
+					vTable1 = vTable1 + "</td>";
+				}
 				
 				vTable1 = vTable1 + "</tr>";
 				
@@ -265,14 +274,23 @@
 				vTable = vTable + "<td>";
 				vTable = vTable + 姓名;
 				vTable = vTable + "</td>";
-				/* 成績 */
-				vTable = vTable + "<td>";
-				vTable = vTable + 成績;
-				vTable = vTable + "</td>";
-				/* 場次 */
-				vTable = vTable + "<td>";
-				vTable = vTable + 場次;
-				vTable = vTable + "</td>";
+				
+				/* 成績 & 場次, 當刷新個人最佳成績時為藍色 */
+				if (場次 == gRacingDateArray[gRacingDateArray.length-1]) {
+					vTable = vTable + "<td style='color:blue;'>";
+					vTable = vTable + 成績;
+					vTable = vTable + "</td>";
+					vTable = vTable + "<td style='color:blue;'>";
+					vTable = vTable + 場次;
+					vTable = vTable + "</td>";
+				} else {
+					vTable = vTable + "<td>";
+					vTable = vTable + 成績;
+					vTable = vTable + "</td>";
+					vTable = vTable + "<td>";
+					vTable = vTable + 場次;
+					vTable = vTable + "</td>";
+				}
 				
 				vTable = vTable + "</tr>";
 				
