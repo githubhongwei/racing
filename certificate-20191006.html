@@ -63,7 +63,7 @@
 			font-weight: 600;
 			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 			top: 1040px;
-			left: 635px;
+			left: 632px;
 			<!-- text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF; -->
 			<!-- color: #0F0F0F;} -->
 	.imgw{
@@ -139,7 +139,7 @@
 			document.getElementById("racingInfoString").innerHTML += "結束時間: "+timeString(0, gFinishTime)+"</br>";
 		});
 		db.ref("/20191006/"+username).once('value', function (snapshot) {
-			document.getElementById("racingInfoString").innerHTML += "Lap01: "+snapshot.val().lap13+"</br>";
+			document.getElementById("racingInfoString").innerHTML += "Lap01: "+snapshot.val().lap13+" ( Half Circle )"+"</br>";
 			
 			document.getElementById("racingInfoString").innerHTML += "Lap02: "+snapshot.val().lap12+"　　Lap08: "+snapshot.val().lap6+"</br>";
 			document.getElementById("racingInfoString").innerHTML += "Lap03: "+snapshot.val().lap11+"　　Lap09: "+snapshot.val().lap5+"</br>";
