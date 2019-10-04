@@ -1,16 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
 	<style>
 		.view {
 			width:100%;
 			height: 1230px;
 		}
+		.title {
+			font-size: 65px;
+			text-align: center;
+			font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+		}
+		.my-swal{
+			zoom: 1.6 !important;
+			width:80% !important;
+		}
 	</style>	
 </head>
-<body>
+<body onload="signUp()">
 	<iframe class="view" scrolling="no" frameborder="0" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtAuTuWEyuSol3A2DhuyBUIVFNazdQSSXvlxvhJWiL6mARLO3l9ajzf0JUEuFBsKW9JqlQl733QLfd/pubhtml?gid=1532982914&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
 	
-	<a href="http://nav.cx/eXuYgYE"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36" border="0"></a>
+	<img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" onclick="signUp()" alt="加入友" height="36" border="0">
+	<!-- <div class="title" onclick="signUp()">城中実業団 <img src=touch.png height="55px" onclick="signUp()"></div> -->
+	
+	<script>
+	function signUp() {
+		swal({
+			type: 'info', 
+			title: '城中実業団 LINE＠ 會員查詢', 
+			text: '查詢中，請稍後。', 
+			customClass: 'my-swal',
+			confirmButtonText: '　確認　',
+		});
+		liff.init(function (data) {
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "member",
+				uuid: data.context.userId,
+				method: "isMember",
+			};
+			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+				if(e.username.indexOf("??????") < 0){
+					swal({
+						type: 'success',
+						title: e.username + '，您已是城中會員囉！',
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+				} else {
+					swal({
+						type: 'question',
+						title: '您還不是城中 LINE＠ 會員？',
+						input: 'text',
+						html: '請填您的真實姓名進行註冊！',
+						customClass: 'my-swal',
+						showCancelButton: true,
+						confirmButtonText: '　確認　',
+						cancelButtonText: '　取消　',
+						inputValidator: function(value) {
+							return new Promise(function(resolve, reject) {
+								if (value.length == 3) {
+									resolve();
+								} else {
+									reject('請輸入您真實姓名');
+								}
+							});
+						}
+					}).then(function(result) {
+						postSignUpInfo(result);
+						swal({
+							type: 'success',
+							title: result + '，您的註冊已送出！',
+							confirmButtonText: '　確認　',
+							customClass: 'my-swal',
+						});
+					}).catch(swal.noop);
+				}
+			});
+        });	
+	}
+	
+	/* 將使用者填妥的[註冊資訊]存到 member 數據庫 */
+	function postSignUpInfo(username) {
+		let data = [];
+		var datetime = new Date();
+		liff.getProfile().then(function (profile) {
+			data = [[profile.userId, profile.displayName, username, datetime]];
+			parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: "member",
+				method: "addMember",
+				data: data.toString(),
+				row: data.length,
+				column: data[0].length,
+				insertType: "merge"
+			};
+			$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+		});	
+	}
+	</script>
 </body>
 </html>
