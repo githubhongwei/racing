@@ -153,7 +153,8 @@
 	}
 	
 	function start() {
-		var Table = LoadTable();
+		signUp();
+		LoadTable();
 	}
 	
 	function LoadTable() {
@@ -189,7 +190,7 @@
 			var vTable1 = vTable;
 			
 			/* Table for 總排, 收合個人場次 */
-			男子組 = 女子組 = 0;			
+			男子組 = 女子組 = 0;
 			for (i = 0; i < gLength; i++) {
 				entry = e[i];
 				總排 = i + 1;
