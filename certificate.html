@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset = "utf-8" name="viewport" content="user-scalable=0">
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+	<!--引用SweetAlert2-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+	<script>
+	  // Your web app's Firebase configuration
+	  var firebaseConfig = {
+		apiKey: "AIzaSyAReWVyHupYjqvDOVw7y4iQ-4raNrccASA",
+		authDomain: "racing-86f50.firebaseapp.com",
+		databaseURL: "https://racing-86f50.firebaseio.com",
+		projectId: "racing-86f50",
+		storageBucket: "racing-86f50.appspot.com",
+		messagingSenderId: "73612947849",
+		appId: "1:73612947849:web:ca1d6ae60943949f"
+	  };
+	  // Initialize Firebase
+	  firebase.initializeApp(firebaseConfig);
+	</script>	
+	
+</head>
+<style type="text/css">
+	/* 紅茶盃樣式 */
+	.name-20191006 { 
+		font-size: 48px;
+		position: absolute;
+		color: #be482b;
+		font-weight: 600;
+		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;	
+		top: 1060px;
+		left: 370px;
+	}
+	.group-20191006 { 
+		font-size: 48px;
+		position: absolute;
+		color: #be482b;
+		font-weight: 600;
+		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;	
+		top: 1135px;
+		left: 370px;
+	}
+	.time-20191006 { 
+		font-size: 45px;
+		position: absolute;
+		color: #be482b;
+		font-weight: 600;
+		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+		top: 1215px;
+		left: 325px;
+	}
+	.racing-20191006 { 
+		font-size: 21px;
+		line-height: 30px;
+		position: absolute;
+		color: #be482b;
+		font-weight: 600;
+		font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+		top: 1040px;
+		left: 632px;
+	}
+	/* 愛跑盃樣式 */
+	.name-20190901 {
+		font-size: 48px;
+		position: absolute;
+		color: #0F0F0F;
+		font-weight: 600;
+		font-family: Microsoft JhengHei;
+		top:1045px;
+		left: 500px;			
+		text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+		color: #0F0F0F;
+	}
+	.group-20190901 {
+		font-size: 48px;
+		position: absolute;
+		color: #0F0F0F;
+		font-weight: 600;
+		font-family: Microsoft JhengHei;
+		top:1125px;
+		left: 500px;			
+		text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+		color: #0F0F0F;
+	}
+	.time-20190901 {
+		font-size: 45px;
+		position: absolute;
+		color: #0F0F0F;
+		font-weight: 600;
+		font-family: Microsoft JhengHei;
+		top: 1210px;
+		left: 460px;
+		text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+		color: #0F0F0F;
+	}
+	
+	.imgw{
+		position: relative;
+	}
+	.my-swal{
+		zoom: 1.6 !important;
+	}
+	input, textarea {
+		font-size: initial;
+	}
+</style>
+<body onload="QueryUsername()">
+	<div class="imgw">
+		<img id="certificateImg" alt= "" width="950px">
+		<div id="nameString"></div>
+		<div id="groupString"></div>
+		<div id="timeString"></div>
+		<div id="racingInfoString"></div>
+	</div>
+	
+	<script type="text/javascript">
+		var racingDate;
+		function ChangeString(username){
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: racingDate,
+				uuid: username,
+				method: "record",
+			};
+			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+				if (e.username != username) {
+					swal({
+						type: 'warning', 
+						title: '查無您的報名資訊！', 
+						text: '請確認填妥報名時相同的姓名，或請工作人員協助。', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+				}
+
+				if(e.status == "順利完賽") {
+					e.second = e.second < 10 ? ('0' + e.second) : e.second;
+					document.getElementById("timeString").innerHTML = e.minute + " 分 " + e.second + " 秒";
+					<!-- 紅茶盃後才加入的每圈秒數資訊 -->
+					if (racingDate >= "20191006") {
+						QueryUserRacingInfo(e.groupname, e.username);
+					}
+				}
+				document.getElementById("nameString").innerHTML = e.username;
+				document.getElementById("groupString").innerHTML = e.groupname;
+				
+				postCheckInInfo(e.username);
+			});
+		}
+		
+		/* 將使用者填妥的[報到資訊]存到數據庫 */
+		function postCheckInInfo(username) {
+			let data = [];
+			var datetime = new Date();
+			liff.getProfile().then(function (profile) {
+				data = [[profile.userId, profile.displayName, username, datetime]];
+				parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: racingDate,
+					method: "checkIn",
+					data: data.toString(),
+					row: data.length,
+					column: data[0].length,
+					insertType: "merge"
+				};
+				$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+			});
+		}
+
+		function QueryUserRacingInfo(groupname, username) {
+			var db = firebase.database();
+			var gStartTime = new Date(2019, 1, 1, 00, 00, 00);
+			var gFinishTime = new Date(2019, 1, 1, 00, 00, 00);
+			
+			db.ref("/"+racingDate+"/"+groupname).once('value', function (snapshot) {
+				gStartTime.setTime(snapshot.val().startTime);
+				gFinishTime.setTime(snapshot.val().finishTime);
+				document.getElementById("racingInfoString").innerHTML += "起跑時間: "+timeString(0, gStartTime)+"</br>";
+				document.getElementById("racingInfoString").innerHTML += "結束時間: "+timeString(0, gFinishTime)+"</br>";
+			});
+			db.ref("/"+racingDate+"/"+username).once('value', function (snapshot) {
+				document.getElementById("racingInfoString").innerHTML += "Lap01: "+snapshot.val().lap13+" ( Half Circle )"+"</br>";
+				
+				document.getElementById("racingInfoString").innerHTML += "Lap02: "+snapshot.val().lap12+"　　Lap08: "+snapshot.val().lap6+"</br>";
+				document.getElementById("racingInfoString").innerHTML += "Lap03: "+snapshot.val().lap11+"　　Lap09: "+snapshot.val().lap5+"</br>";
+				document.getElementById("racingInfoString").innerHTML += "Lap04: "+snapshot.val().lap10+"　　Lap10: "+snapshot.val().lap4+"</br>";
+				document.getElementById("racingInfoString").innerHTML += "Lap05: "+ snapshot.val().lap9+"　　Lap11: "+snapshot.val().lap3+"</br>";
+				document.getElementById("racingInfoString").innerHTML += "Lap06: "+ snapshot.val().lap8+"　　Lap12: "+snapshot.val().lap2+"</br>";
+				document.getElementById("racingInfoString").innerHTML += "Lap07: "+ snapshot.val().lap7+"　　Lap13: "+snapshot.val().lap1+"</br>";
+				
+				<!-- document.getElementById("racingInfoString").innerHTML += "Lap08: "+snapshot.val().lap6+"</br>"; -->
+				<!-- document.getElementById("racingInfoString").innerHTML += "Lap09: "+snapshot.val().lap5+"</br>"; -->
+				<!-- document.getElementById("racingInfoString").innerHTML += "Lap10: "+snapshot.val().lap4+"</br>"; -->
+				<!-- document.getElementById("racingInfoString").innerHTML += "Lap11: "+snapshot.val().lap3+"</br>"; -->
+				<!-- document.getElementById("racingInfoString").innerHTML += "Lap12: "+snapshot.val().lap2+"</br>"; -->
+				<!-- document.getElementById("racingInfoString").innerHTML += "Lap13: "+snapshot.val().lap1+"</br>"; -->
+			});
+		}
+
+		function timeString(id, time) {
+			var hh = time.getHours();
+			var mm = time.getMinutes();
+			var ss = time.getSeconds();
+
+			hh = hh < 10 ? ('0' + hh) : hh;
+			mm = mm < 10 ? ('0' + mm) : mm;
+			ss = ss < 10 ? ('0' + ss) : ss;
+			
+			return (hh+':'+mm+':'+ss);
+		}
+
+		function QueryUsername(){
+			var strUrl = location.search;
+			var getPara, ParaVal;
+			var aryPara = [];
+
+			if (strUrl.indexOf("?") != -1) {
+				var getSearch = strUrl.split("?");
+				getPara = getSearch[1].split("&");
+				for (i = 0; i < getPara.length; i++) {
+					ParaVal = getPara[i].split("=");
+					aryPara.push(ParaVal[0]);
+					aryPara[ParaVal[0]] = ParaVal[1];
+				}
+				<!-- alert(decodeURIComponent(aryPara.date)); -->
+				<!-- alert(decodeURIComponent(aryPara.username)); -->
+			}
+			
+			<!-- 依照日期切換不同場次的成績證明樣式 -->
+			switch (aryPara.date) {
+				case "20191006":
+				case "20190901":
+					racingDate = aryPara.date;
+					$("#certificateImg").attr('src','certificate-'+aryPara.date+'.jpg');
+					$("#nameString").addClass('name-'+aryPara.date);
+					$("#groupString").addClass('group-'+aryPara.date);
+					$("#timeString").addClass('time-'+aryPara.date);
+					$("#racingInfoString").addClass('racing-'+aryPara.date);
+					break;
+				default:
+					swal({
+						type: 'error',
+						title: '查無 '+aryPara.date+' 場次', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+			}
+			
+			if (aryPara.username) {
+				ChangeString(decodeURIComponent(aryPara.username));		
+			} else {
+				swal({
+					title: '請輸入你的姓名',
+					input: 'text',
+					showCancelButton: true, 
+					confirmButtonText: '　確認　', 
+					cancelButtonText: '　取消　',
+					customClass: 'my-swal',
+					inputValidator: function (value) {
+						return new Promise(function (resolve, reject) {
+						if (value) {
+							resolve()
+						} else {
+							reject('你需要輸入姓名')
+						}
+					})
+				}
+				}).then(function (result) {
+					swal({
+						type: 'success',
+						html: '你輸入的姓名是：' + result,
+						confirmButtonText: '　確認　', 
+						customClass: 'my-swal',
+					})
+					ChangeString(result);
+				})
+			}
+		}
+	</script>
+
+</body>
+</html>
