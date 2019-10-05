@@ -101,6 +101,40 @@
 		text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
 		color: #0F0F0F;
 	}
+	/* 大魚盃樣式 */
+	.name-20190803 {
+		font-size: 42px;
+		position: absolute;
+		color: #0F0F0F;
+		font-weight: 600;
+		font-family: Microsoft JhengHei;
+		top:1040px;
+		left: 530px;
+		text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+		color: #0F0F0F;
+	}
+	.group-20190803 { 
+		font-size: 42px;
+		position: absolute;
+		color: #0F0F0F;
+		font-weight: 600;
+		font-family: Microsoft JhengHei;
+		top:1122px;
+		left: 455px;
+		text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+		color: #0F0F0F;
+	}
+	.time-20190803 { 
+		font-size: 42px;
+		position: absolute;
+		color: #0F0F0F;
+		font-weight: 600;
+		font-family: Microsoft JhengHei;
+		top: 1204px;
+		left: 480px;
+		text-shadow: 2px 2px 0 #FFFFFF, 2px -2px 0 #FFFFFF, -2px 2px 0 #FFFFFF, -2px -2px 0 #FFFFFF, 2px 0px 0 #FFFFFF, 0px 2px 0 #FFFFFF, -2px 0px 0 #FFFFFF, 0px -2px 0 #FFFFFF;
+		color: #0F0F0F;
+	}
 	
 	.imgw{
 		position: relative;
@@ -141,7 +175,7 @@
 					});
 				}
 
-				if(e.status == "順利完賽") {
+				if (e.status == "順利完賽") {
 					e.second = e.second < 10 ? ('0' + e.second) : e.second;
 					document.getElementById("timeString").innerHTML = e.minute + " 分 " + e.second + " 秒";
 					<!-- 紅茶盃後才加入的每圈秒數資訊 -->
@@ -149,8 +183,17 @@
 						QueryUserRacingInfo(e.groupname, e.username);
 					}
 				}
+				
 				document.getElementById("nameString").innerHTML = e.username;
-				document.getElementById("groupString").innerHTML = e.groupname;
+				if (racingDate == "20190803") {
+					if (e.groupname == "第三組") {
+						document.getElementById("groupString").innerHTML = e.groupname + "(測三千)";
+					} else {
+						document.getElementById("groupString").innerHTML = e.groupname + "(測五千)";
+					}
+				} else {
+					document.getElementById("groupString").innerHTML = e.groupname;
+				}
 				
 				postCheckInInfo(e.username);
 			});
@@ -238,6 +281,7 @@
 			switch (aryPara.date) {
 				case "20191006":
 				case "20190901":
+				case "20190803":
 					racingDate = aryPara.date;
 					$("#certificateImg").attr('src','certificate-'+aryPara.date+'.jpg');
 					$("#nameString").addClass('name-'+aryPara.date);
