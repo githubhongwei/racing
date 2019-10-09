@@ -249,12 +249,12 @@
 				姓名 = entry.gsx$姓名.$t;
 				成績 = entry.gsx$成績.$t;
 				場次 = entry.gsx$場次.$t;
-				if (entry.gsx$性別.$t == "男") {
-					男子組 += 1;
-					分組 = 男子組;
-				} else {
+				if (entry.gsx$性別.$t == "女") {
 					女子組 += 1;
 					分組 = 女子組;
+				} else {
+					男子組 += 1;
+					分組 = 男子組;
 				}
 				
 				gRacingTimeArray[0] = entry.gsx$_clrrx ? entry.gsx$_clrrx.$t : 0;	/*20190601*/
