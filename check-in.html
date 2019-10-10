@@ -69,7 +69,7 @@
 	</style>
 </head>
 
-<body onload="getCheckInInfo()">
+<body onload="getRacingDate()">
 	<div style="text-align:center;">
 		<h1 id="racingDate"></h1>
 		<h2>城中実業団 t</h2>
@@ -83,15 +83,19 @@
 	<script type="text/javascript">
 	var gSpreadsheetsName;
 	
-	/* 檢查此UserId是否在[報到資訊]數據庫中 */
-	function getCheckInInfo(){
+	function getRacingDate() {
 		/* 動態取得最新活動日期設定 */
 		var db = firebase.database();
 		db.ref("/timer/setting/").once('value', function (snapshot) {
 			//gSpreadsheetsName = snapshot.val().spreadsheetName;
 			gSpreadsheetsName = "20191006";
 			document.getElementById("racingDate").innerHTML = gSpreadsheetsName;
+			getCheckInInfo();
 		});
+	}
+	
+	/* 檢查此UserId是否在[報到資訊]數據庫中 */
+	function getCheckInInfo(){
 		liff.init(function (data) {
 			alert(data.context.userId);
 			var parameter = {
