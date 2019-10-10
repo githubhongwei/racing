@@ -89,7 +89,7 @@
 		var db = firebase.database();
 		db.ref("/timer/setting/").once('value', function (snapshot) {
 			//gSpreadsheetsName = snapshot.val().spreadsheetName;
-			gSpreadsheetsName = 20191006;
+			gSpreadsheetsName = "20191006";
 			document.getElementById("racingDate").innerHTML = gSpreadsheetsName;
 		});
 		liff.init(function (data) {
