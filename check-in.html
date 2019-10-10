@@ -9,6 +9,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+	
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+	<script>
+	  // Your web app's Firebase configuration
+	  var firebaseConfig = {
+		apiKey: "AIzaSyAReWVyHupYjqvDOVw7y4iQ-4raNrccASA",
+		authDomain: "racing-86f50.firebaseapp.com",
+		databaseURL: "https://racing-86f50.firebaseio.com",
+		projectId: "racing-86f50",
+		storageBucket: "racing-86f50.appspot.com",
+		messagingSenderId: "73612947849",
+		appId: "1:73612947849:web:ca1d6ae60943949f"
+	  };
+	  // Initialize Firebase
+	  firebase.initializeApp(firebaseConfig);
+	</script>
+	
 	<style>
 		h1 {
 			font-size: 60px;
@@ -51,8 +71,8 @@
 
 <body onload="getCheckInInfo()">
 	<div style="text-align:center;">
-		<h1>20191006</h1>
-		<h2>城中実業団</h2>
+		<h1 id="racingDate"></h1>
+		<h2>城中実業団 t</h2>
 		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/>
 		<input id="groupname" maxlength="5" placeholder="組別" disabled hidden><br/>
 		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
@@ -61,13 +81,22 @@
 	</div>
 	
 	<script type="text/javascript">
+	var gSpreadsheetsName;
+	
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
 	function getCheckInInfo(){
+		/* 動態取得最新活動日期設定 */
+		var db = firebase.database();
+		db.ref("/timer/setting/").once('value', function (snapshot) {
+			//gSpreadsheetsName = snapshot.val().spreadsheetName;
+			gSpreadsheetsName = 20191006;
+			document.getElementById("racingDate").innerHTML = gSpreadsheetsName;
+		});
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "20191006",
+				name: gSpreadsheetsName,
 				uuid: data.context.userId,
 				method: "checkIn",
 			};
@@ -103,7 +132,7 @@
 	function getSignUpInfo() {
 		var parameter = {
 			url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-			name: "20191006",
+			name: gSpreadsheetsName,
 			uuid: $("#username").val(),
 			method: "signUp",
 		};
@@ -142,7 +171,7 @@
 			//alert("data: " + JSON.stringify(data));
 			parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-				name: "20191006",
+				name: gSpreadsheetsName,
 				method: "checkIn",
 				data: data.toString(),
 				row: data.length,
@@ -182,7 +211,7 @@
 	var certificateBtn = $('#certificateBtn');
 	var username = 0;
 	certificateBtn.on('click', function() {
-		window.open('https://githubhongwei.github.io/racing/certificate-20191006.html?username=' + username);
+		window.open('https://githubhongwei.github.io/racing/certificate.html?username=' + username + '&date=' + gSpreadsheetsName);
 	});
 	
 	var sendBtn = $('#sendBtn');
@@ -211,7 +240,7 @@
 				/* 檢查此姓名是否在[活動報名]數據庫中 */
 				var parameter = {
 					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
-					name: "20191006",
+					name: gSpreadsheetsName,
 					uuid: $("#username").val(),
 					method: "signUp",
 				};
