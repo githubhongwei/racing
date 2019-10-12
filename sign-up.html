@@ -52,8 +52,18 @@
 			font-family:Microsoft JhengHei;
 			text-align:center
 		}
-		.my-button {
+		.custom-select {
+			position: relative;
 			width:90%;
+			font-size:50px;
+			font-family:Microsoft JhengHei;
+			text-align:center;
+			text-align-last:center;
+			margin: 6px 0px;
+			padding: 10px 5px;
+		}
+		.my-button {
+			width:96%;
 			font-size:50px;
 			font-family:Microsoft JhengHei;	
 			margin: 15px 0px;
@@ -73,10 +83,23 @@
 		<h1 id="racingDate"></h1>
 		<h2>城中実業団</h2>
 		<input id="nickname" maxlength="5" placeholder="請填暱稱" disabled><br/>
-		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/>
-		<input id="groupname" maxlength="5" placeholder="組別" disabled><br/>
-		<input id="minute" maxlength="2" type="number" placeholder="分鐘" disabled><br/>
-		<input id="second" maxlength="2" type="number" placeholder="秒數" disabled><br/>
+		<input id="username" maxlength="3" placeholder="請填報名時相同的姓名" disabled><br/>
+		<input id="minute" maxlength="2" placeholder="目標成績（分鐘）" disabled><br/>
+		<input id="second" maxlength="2" placeholder="目標成績（秒數）" disabled><br/>
+		<!-- <input id="groupname" maxlength="3" placeholder="組別" disabled><br/> -->
+		<select class="custom-select" name="YourLocation">
+			<option value="第一組">第一組</option>
+			<option value="第二組">第二組</option>
+			<option value="等候補">等候補</option>
+		</select><br/>
+		<!-- <input id="attend" maxlength="5" placeholder="出席狀況" disabled><br/> -->
+		<select class="custom-select" name="YourLocation">
+			<option value="準時出席">準時出席</option>
+			<option value="出席不跑">出席不跑</option>
+			<option value="無法出席">無法出席</option>
+			<option value="沒有完成">沒有完成</option>
+		</select><br/>
+		<input id="phone" maxlength="10" placeholder="請填手機" disabled><br/>
 		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
 		<button id="sendBtn" class="my-button" hidden>送出報名資料</button><br/>
 		<button id="certificateBtn" class="my-button" hidden>成績證明</button><br/>
