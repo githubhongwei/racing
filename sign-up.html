@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+	<meta charset="UTF-8" name="viewport" content="user-scalable=0">
+	<title>報名專區</title>
+	<!--引用SweetAlert2-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+	
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+	<script>
+	  // Your web app's Firebase configuration
+	  var firebaseConfig = {
+		apiKey: "AIzaSyAReWVyHupYjqvDOVw7y4iQ-4raNrccASA",
+		authDomain: "racing-86f50.firebaseapp.com",
+		databaseURL: "https://racing-86f50.firebaseio.com",
+		projectId: "racing-86f50",
+		storageBucket: "racing-86f50.appspot.com",
+		messagingSenderId: "73612947849",
+		appId: "1:73612947849:web:ca1d6ae60943949f"
+	  };
+	  // Initialize Firebase
+	  firebase.initializeApp(firebaseConfig);
+	</script>
+	
+	<style>
+		h1 {
+			font-size: 60px;
+			margin: 2px 0px;
+			padding: 2px 5px;
+			color:#143F4F;
+			font-family:Microsoft JhengHei;
+		}
+		h2 {
+			font-size: 50px;
+			margin: 2px 0px;
+			padding: 2px 5px;
+			color:#143F4F;
+			font-family:Microsoft JhengHei;
+		}
+		input {
+			width: 90%;
+			font-size: 50px;
+			margin: 6px 0px;
+			padding: 10px 5px;
+			font-family:Microsoft JhengHei;
+			text-align:center
+		}
+		.my-button {
+			width:90%;
+			font-size:50px;
+			font-family:Microsoft JhengHei;	
+			margin: 15px 0px;
+			padding: 10px 5px;
+			color: #FFFFFF;
+			background-color:#176394;	
+		}
+		.my-swal{
+			zoom: 1.6 !important;
+			width:80% !important;
+		}
+	</style>
+</head>
+
+<body onload="getRacingDate()">
+	<div style="text-align:center;">
+		<h1 id="racingDate"></h1>
+		<h2>城中実業団</h2>
+		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/>
+		<input id="groupname" maxlength="5" placeholder="組別" disabled hidden><br/>
+		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
+		<button id="sendBtn" class="my-button" hidden>送出報名資料</button><br/>
+		<button id="certificateBtn" class="my-button" hidden>成績證明</button><br/>
+	</div>
+	
+	<script type="text/javascript">
+	var gSpreadsheetsName;
+	
+	function getRacingDate() {
+		/* 動態取得最新活動日期設定 */
+		var db = firebase.database();
+		db.ref("/timer/setting/").once('value', function (snapshot) {
+			gSpreadsheetsName = snapshot.val().spreadsheetName;
+			document.getElementById("racingDate").innerHTML = gSpreadsheetsName;
+			getCheckInInfo();
+		});
+	}
+	
+	function postSingUpInfo() {
+		swal.setDefaults({
+			customClass: 'my-swal',
+			confirmButtonText: '　下一個 &rarr;　',
+			cancelButtonText: '　取消　',
+			showCancelButton: true,
+			animation: false,
+			progressSteps: ['1', '2', '3', '4', '5', '6', '7'],
+			inputValidator: function(value) {
+				return new Promise(function(resolve, reject) {
+					if (value) {
+						resolve();
+					} else {
+						reject('請輸入報名資料');
+					}
+				});
+			}
+		})
+
+		var steps = [
+			{
+				title: '暱稱',
+				text: '請填暱稱',
+				input: 'text',
+			}, {
+				title: '姓名',
+				text: '請填真實姓名',
+				input: 'text',
+			}, { 
+				title: '完成時間(mm)',
+				text: '請填(分鐘)數字, 如: 23',
+				input: 'range',
+				inputAttributes: {
+					min: 15,
+					max: 30,
+					step: 1
+				},
+			}, {
+				title: '完成時間(ss)',
+				text: '請填(秒數)數字, 如: 11',
+				input: 'range',
+				inputAttributes: {
+					min: 0,
+					max: 59,
+					step: 1
+				},
+			}, {
+				title: '組別',
+				text: '各組限額 20 位',
+				input: 'select',
+				inputOptions: {
+					'第一組': '第一組',
+					'第二組': '第二組',
+					'等候補': '等候補',
+				},
+			}, {
+				title: '參賽狀況',
+				text: '請自行依個人實際狀況隨時更新，方便快速統計',
+				input: 'select',
+				inputOptions: {
+					'準時出席': '準時出席',
+					'出席不跑': '出席不跑',
+					'無法出席': '無法出席',
+					'沒有完成': '沒有完成',
+				},
+			}, {
+				title: '備註',
+				text: '怕找不到人, 請留下您的聯絡方式',
+				input: 'tel',
+			}
+		]
+
+		swal.queue(steps).then(function (result) {
+			swal.resetDefaults()
+			swal({
+				customClass: 'my-swal',
+				type: 'info',
+				title: result[0] + '，歡迎你報名！',
+				html: result[1] + '，' + result[2] + '分' + result[3] + '，' + result[4] + '秒<br>' + result[5] + '，' + result[6],
+				confirmButtonText: '　確認報名　',
+				cancelButtonText: '　取消　',
+				showCancelButton: true
+			}).catch(swal.noop)
+			<!-- alert(result[1]); -->
+		}, function () {
+			swal.resetDefaults()
+		})
+	}
+	
+	/* 檢查此UserId是否在[報到資訊]數據庫中 */
+	function getCheckInInfo(){
+		liff.init(function (data) {
+			//alert(data.context.userId);
+			var parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: gSpreadsheetsName,
+				uuid: data.context.userId,
+				method: "checkIn",
+			};
+			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+				//alert(e.username);
+				if(e.username.indexOf("??????") < 0){
+					$('#username').val(e.username);
+					getSignUpInfo();
+					//alert("您已完成報到");
+					swal({
+						type: 'success', 
+						title: e.username + '，您已完成報名！', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
+				} else {
+					postSingUpInfo();
+					<!-- $('#sendBtn').show(); -->
+					<!-- $('#username').removeAttr('disabled'); -->
+					<!-- //alert("您還沒完成報到，請填報名時相同的姓名"); -->
+					<!-- swal({ -->
+						<!-- type: 'warning',  -->
+						<!-- title: '您還沒完成報到！',  -->
+						<!-- text: '請填與報名時相同的姓名。',  -->
+						<!-- customClass: 'my-swal', -->
+						<!-- confirmButtonText: '　確認　', -->
+					<!-- }); -->
+				}
+			});
+        });
+	}
+	
+	/* 取得報名資訊 */
+	function getSignUpInfo() {
+		var parameter = {
+			url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+			name: gSpreadsheetsName,
+			uuid: $("#username").val(),
+			method: "signUp",
+		};
+		//alert("uuid: " + parameter.uuid);
+		$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+			//alert(e.username);
+			if(e.username.indexOf("??????") < 0){
+				/* 可顯示報名相關資訊 */
+				$('#groupname').val(e.groupname);
+				$('#finishtime').val(e.minute + " 分 " + e.second + " 秒");
+				$('#groupname').show();
+				$('#finishtime').show();
+				username = e.username;
+				if(e.status == "順利完賽"){
+					$('#certificateBtn').show();
+				}
+			}  else {
+				//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+				swal({
+					type: 'warning', 
+					title: '查無您的報名資訊！', 
+					text: '請確認填妥報名時相同的姓名，或請工作人員協助。', 
+					customClass: 'my-swal',
+					confirmButtonText: '　確認　',
+				});
+			}
+		});	
+	}
+	
+	/* 將使用者填妥的[報到資訊]存到數據庫 */
+	function postCheckInInfo() {
+		let data = [];
+		var datetime = new Date();
+		liff.getProfile().then(function (profile) {
+			data = [[profile.userId, profile.displayName, $('#username').val(), datetime]];
+			//alert("data: " + JSON.stringify(data));
+			parameter = {
+				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+				name: gSpreadsheetsName,
+				method: "checkIn",
+				data: data.toString(),
+				row: data.length,
+				column: data[0].length,
+				insertType: "merge"
+			};
+			$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+			
+			/* 系統回應報到狀況, 對策一: 透過幫使用者送出文字, 取得關鍵字回覆, 但實測透過 QRCode 掃 LIFF 連結時會無法送出 */
+			//liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
+			
+			/* 系統回應報到狀況, 對策二: 使用 Push Message 送出報到專區訊息, 提供使用者確認報到資訊, 但會耗用免費訊息則數 */
+			parameter = {
+				uuid: profile.userId,
+			};
+			$.get("https://script.google.com/macros/s/AKfycbwZkujtVPZYhRdsox1_N_IQHcpLSVpAjz57Es0vN0K9oUZd9eEP/exec", parameter);
+			
+			/* 完成會員註冊, 關閉視窗 */
+			swal.queue([{
+				type: 'success', 
+				title: '活動報到資訊已送出！',
+				confirmButtonText: '　確認　',
+				text: '點選確認後將關閉視窗。',
+				showLoaderOnConfirm: true,
+				customClass: 'my-swal',
+				preConfirm: function () {
+					/* 關閉視窗 */
+					liff.closeWindow();
+				}
+			}]);
+		});	
+	}
+	</script>
+	
+	<script>
+	/* 開啟成績證明頁面 */
+	var certificateBtn = $('#certificateBtn');
+	var username = 0;
+	certificateBtn.on('click', function() {
+		window.open('https://githubhongwei.github.io/racing/certificate.html?username=' + username + '&date=' + gSpreadsheetsName);
+	});
+	
+	var sendBtn = $('#sendBtn');
+	var parameter = {};
+	
+	sendBtn.on('click', function() {
+		/* 表單驗證 */
+        if ($("#username").val()==""){
+            //alert("您尚未填寫姓名");
+			swal({
+				type: 'warning', 
+				title: '您尚未填寫姓名！', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
+            eval("document.form1['username'].focus()");
+		} else {
+			swal({
+				type: 'question',
+				title: '是否確認送出？', 
+				showCancelButton: true, 
+				confirmButtonText: '　確認　', 
+				cancelButtonText: '　取消　',
+				customClass: 'my-swal',
+			}).then(function() {
+				/* 檢查此姓名是否在[活動報名]數據庫中 */
+				var parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: gSpreadsheetsName,
+					uuid: $("#username").val(),
+					method: "signUp",
+				};
+				//alert("uuid: " + parameter.uuid);
+				$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
+					//alert(e.username);
+					if(e.username.indexOf("??????") < 0){
+						/* 將使用者填妥的[報到資訊]存到數據庫 */
+						postCheckInInfo();
+					}  else {
+						//alert("查無您的報名資訊，請確認填妥報名時相同的姓名，或請工作人員協助");
+						swal({
+							type: 'warning', 
+							title: '查無您的報名資訊！', 
+							text: '請確認填妥報名時相同的姓名，或請工作人員協助。', 
+							customClass: 'my-swal',
+							confirmButtonText: '　確認　',
+						});
+					}
+				});
+			});
+		}
+	});
+	</script>	
+</body>
+</html>
