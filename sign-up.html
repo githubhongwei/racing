@@ -45,7 +45,7 @@
 			font-family:Microsoft JhengHei;
 		}
 		input {
-			width: 90%;
+			width: 88.7%;
 			font-size: 50px;
 			margin: 6px 0px;
 			padding: 10px 5px;
@@ -76,24 +76,27 @@
 			width:80% !important;
 		}
 	</style>
+	
 </head>
 
 <body onload="getRacingDate()">
 	<div style="text-align:center;">
 		<h1 id="racingDate"></h1>
-		<h2>城中実業団</h2>
-		<input id="nickname" maxlength="5" placeholder="請填暱稱" disabled><br/>
-		<input id="username" maxlength="3" placeholder="請填報名時相同的姓名" disabled><br/>
+		<h2>城中実業団 - 報名專區</h2>
+		<input id="nickname" maxlength="5" placeholder="請填暱稱" type="text" required disabled><br/>
+		<input id="username" maxlength="3" placeholder="請填真實姓名" disabled><br/>
 		<input id="minute" maxlength="2" placeholder="目標成績（分鐘）" disabled><br/>
 		<input id="second" maxlength="2" placeholder="目標成績（秒數）" disabled><br/>
 		<!-- <input id="groupname" maxlength="3" placeholder="組別" disabled><br/> -->
-		<select class="custom-select" name="YourLocation">
+		<select class="custom-select" id="groupname" disabled>
+			<option value="組別">組別</option>
 			<option value="第一組">第一組</option>
 			<option value="第二組">第二組</option>
 			<option value="等候補">等候補</option>
 		</select><br/>
 		<!-- <input id="attend" maxlength="5" placeholder="出席狀況" disabled><br/> -->
-		<select class="custom-select" name="YourLocation">
+		<select class="custom-select" id="attend" disabled>
+			<option value="出席狀況">出席狀況</option>
 			<option value="準時出席">準時出席</option>
 			<option value="出席不跑">出席不跑</option>
 			<option value="無法出席">無法出席</option>
@@ -113,7 +116,7 @@
 		var db = firebase.database();
 		db.ref("/timer/setting/").once('value', function (snapshot) {
 			gSpreadsheetsName = snapshot.val().spreadsheetName;
-			document.getElementById("racingDate").innerHTML = gSpreadsheetsName;
+			document.getElementById("racingDate").innerHTML = gSpreadsheetsName + " 五千公尺挑戰賽";
 			getCheckInInfo();
 		});
 	}
@@ -214,6 +217,8 @@
 		$('#groupname').removeAttr('disabled');
 		$('#minute').removeAttr('disabled');
 		$('#second').removeAttr('disabled');
+		$('#attend').removeAttr('disabled');
+		$('#phone').removeAttr('disabled');
 		//alert("您還沒完成報到，請填報名時相同的姓名");
 		swal({
 			type: 'warning', 
@@ -364,6 +369,54 @@
 				confirmButtonText: '　確認　',
 			});
             eval("document.form1['username'].focus()");
+		} else if ($("#nickname").val()==""){
+			swal({
+				type: 'warning', 
+				title: '您尚未填寫暱稱！', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
+            eval("document.form1['nickname'].focus()");
+		} else if ($("#minute").val()==""){
+			swal({
+				type: 'warning', 
+				title: '您尚未填寫目標成績（分鐘）！', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
+            eval("document.form1['minute'].focus()");
+		} else if ($("#second").val()==""){
+			swal({
+				type: 'warning', 
+				title: '您尚未填寫目標成績（秒數）！', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
+            eval("document.form1['second'].focus()");
+		} else if ($("#groupname").val()=="組別"){
+			swal({
+				type: 'warning', 
+				title: '您尚未選擇組別！', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
+            eval("document.form1['groupname'].focus()");
+		} else if ($("#attend").val()=="出席狀況"){
+			swal({
+				type: 'warning', 
+				title: '您尚未選擇出席狀況！', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
+            eval("document.form1['attend'].focus()");
+		} else if ($("#phone").val()==""){
+			swal({
+				type: 'warning', 
+				title: '您尚未填寫手機！', 
+				customClass: 'my-swal',
+				confirmButtonText: '　確認　',
+			});
+            eval("document.form1['phone'].focus()");
 		} else {
 			swal({
 				type: 'question',
