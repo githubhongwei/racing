@@ -72,8 +72,11 @@
 	<div style="text-align:center;">
 		<h1 id="racingDate"></h1>
 		<h2>城中実業団</h2>
+		<input id="nickname" maxlength="5" placeholder="請填暱稱" disabled><br/>
 		<input id="username" maxlength="5" placeholder="請填報名時相同的姓名" disabled><br/>
-		<input id="groupname" maxlength="5" placeholder="組別" disabled hidden><br/>
+		<input id="groupname" maxlength="5" placeholder="組別" disabled><br/>
+		<input id="minute" maxlength="2" type="number" placeholder="分鐘" disabled><br/>
+		<input id="second" maxlength="2" type="number" placeholder="秒數" disabled><br/>
 		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
 		<button id="sendBtn" class="my-button" hidden>送出報名資料</button><br/>
 		<button id="certificateBtn" class="my-button" hidden>成績證明</button><br/>
@@ -92,7 +95,7 @@
 		});
 	}
 	
-	function postSingUpInfo() {
+	function postSingUpInfo_SweetAlert2() {
 		swal.setDefaults({
 			customClass: 'my-swal',
 			confirmButtonText: '　下一個 &rarr;　',
@@ -181,8 +184,26 @@
 		})
 	}
 	
+	function postSingUpInfo() {
+		$('#sendBtn').show();
+		$('#username').removeAttr('disabled');
+		$('#nickname').removeAttr('disabled');
+		$('#groupname').removeAttr('disabled');
+		$('#minute').removeAttr('disabled');
+		$('#second').removeAttr('disabled');
+		//alert("您還沒完成報到，請填報名時相同的姓名");
+		swal({
+			type: 'warning', 
+			title: '您還沒完成報到！', 
+			text: '請填與報名時相同的姓名。', 
+			customClass: 'my-swal',
+			confirmButtonText: '　確認　',
+		});
+	}
+	
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
 	function getCheckInInfo(){
+		postSingUpInfo();
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
@@ -204,17 +225,17 @@
 						confirmButtonText: '　確認　',
 					});
 				} else {
-					postSingUpInfo();
-					<!-- $('#sendBtn').show(); -->
-					<!-- $('#username').removeAttr('disabled'); -->
-					<!-- //alert("您還沒完成報到，請填報名時相同的姓名"); -->
-					<!-- swal({ -->
-						<!-- type: 'warning',  -->
-						<!-- title: '您還沒完成報到！',  -->
-						<!-- text: '請填與報名時相同的姓名。',  -->
-						<!-- customClass: 'my-swal', -->
-						<!-- confirmButtonText: '　確認　', -->
-					<!-- }); -->
+					<!-- postSingUpInfo(); -->
+					$('#sendBtn').show();
+					$('#username').removeAttr('disabled');
+					//alert("您還沒完成報到，請填報名時相同的姓名");
+					swal({
+						type: 'warning', 
+						title: '您還沒完成報到！', 
+						text: '請填與報名時相同的姓名。', 
+						customClass: 'my-swal',
+						confirmButtonText: '　確認　',
+					});
 				}
 			});
         });
