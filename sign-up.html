@@ -235,8 +235,8 @@
 					});
 				} else {
 					$('#sendBtn').show();
-					$('#username').removeAttr('disabled');
 					$('#nickname').removeAttr('disabled');
+					$('#username').removeAttr('disabled');
 					$('#groupname').removeAttr('disabled');
 					$('#minute').removeAttr('disabled');
 					$('#second').removeAttr('disabled');
@@ -290,7 +290,21 @@
 	
 	/* 將使用者填妥的[報名資訊]存到數據庫 */
 	function postSingUpInfo() {
-
+		let data = [];
+		var datetime = new Date();
+		data = [[datetime, $('#nickname').val(), $('#username').val(), $('#minute').val(), $('#second').val(), 
+				$('#groupname').val(), $('#attend').val(), $('#phone').val()]];
+		alert("data: " + JSON.stringify(data));
+		parameter = {
+			url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+			name: gSpreadsheetsName,
+			method: "SignUp",
+			data: data.toString(),
+			row: data.length,
+			column: data[0].length,
+			insertType: "merge"
+		};
+		$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
 	}	
 
 	/* 將使用者填妥的[報到資訊]存到數據庫 */
@@ -310,30 +324,7 @@
 				insertType: "merge"
 			};
 			$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
-			
-			/* 系統回應報到狀況, 對策一: 透過幫使用者送出文字, 取得關鍵字回覆, 但實測透過 QRCode 掃 LIFF 連結時會無法送出 */
-			//liff.sendMessages([{type: 'text', text: "活動報到資訊已送出"}]);
-			
-			/* 系統回應報到狀況, 對策二: 使用 Push Message 送出報到專區訊息, 提供使用者確認報到資訊, 但會耗用免費訊息則數 */
-			parameter = {
-				uuid: profile.userId,
-			};
-			$.get("https://script.google.com/macros/s/AKfycbwZkujtVPZYhRdsox1_N_IQHcpLSVpAjz57Es0vN0K9oUZd9eEP/exec", parameter);
-			
-			/* 完成會員註冊, 關閉視窗 */
-			swal.queue([{
-				type: 'success', 
-				title: '活動報到資訊已送出！',
-				confirmButtonText: '　確認　',
-				text: '點選確認後將關閉視窗。',
-				showLoaderOnConfirm: true,
-				customClass: 'my-swal',
-				preConfirm: function () {
-					/* 關閉視窗 */
-					liff.closeWindow();
-				}
-			}]);
-		});	
+		});
 	}
 	</script>
 	
@@ -419,10 +410,30 @@
 				postSingUpInfo();
 				/* 將使用者填妥的[報到資訊]存到數據庫 */
 				postCheckInInfo();
+				
+				/* 系統回應報到狀況, 使用 Push Message 送出報到專區訊息, 提供使用者確認報到資訊, 但會耗用免費訊息則數 */
+				parameter = {
+					uuid: profile.userId,
+				};
+				$.get("https://script.google.com/macros/s/AKfycbwZkujtVPZYhRdsox1_N_IQHcpLSVpAjz57Es0vN0K9oUZd9eEP/exec", parameter);
+				
+				/* 完成活動報名+報到, 關閉視窗 */
+				swal.queue([{
+					type: 'success', 
+					title: '活動報名資訊已送出！',
+					confirmButtonText: '　確認　',
+					text: '點選確認後將關閉視窗。',
+					showLoaderOnConfirm: true,
+					customClass: 'my-swal',
+					preConfirm: function () {
+						/* 關閉視窗 */
+						liff.closeWindow();
+					}
+				}]);
 			
 			});
 		}
 	});
-	</script>	
+	</script>
 </body>
 </html>
