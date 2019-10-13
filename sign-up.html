@@ -88,14 +88,12 @@
 		<input id="username" maxlength="3" placeholder="請填姓名" disabled><br/>
 		<input id="minute" maxlength="2" placeholder="目標成績（分鐘）" disabled><br/>
 		<input id="second" maxlength="2" placeholder="目標成績（秒數）" disabled><br/>
-		<!-- <input id="groupname" maxlength="3" placeholder="組別" disabled><br/> -->
 		<select class="custom-select" id="groupname" disabled>
 			<option value="組別">請選組別</option>
 			<option value="第一組">第一組</option>
 			<option value="第二組">第二組</option>
 			<option value="等候補">等候補</option>
 		</select><br/>
-		<!-- <input id="attend" maxlength="5" placeholder="出席狀況" disabled><br/> -->
 		<select class="custom-select" id="attend" disabled>
 			<option value="出席狀況">出席狀況</option>
 			<option value="準時出席">準時出席</option>
@@ -341,7 +339,7 @@
 				customClass: 'my-swal',
 			}).then(function() {
 				/* 將使用者填妥的[報名資訊]存到數據庫 */
-				postSingUpInfo();
+				//postSingUpInfo();
 			});
 		}
 	});
