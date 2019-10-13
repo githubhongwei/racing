@@ -122,95 +122,6 @@
 		});
 	}
 	
-	function postSingUpInfo_SweetAlert2() {
-		swal.setDefaults({
-			customClass: 'my-swal',
-			confirmButtonText: '　下一個 &rarr;　',
-			cancelButtonText: '　取消　',
-			showCancelButton: true,
-			animation: false,
-			progressSteps: ['1', '2', '3', '4', '5', '6', '7'],
-			inputValidator: function(value) {
-				return new Promise(function(resolve, reject) {
-					if (value) {
-						resolve();
-					} else {
-						reject('請輸入報名資料');
-					}
-				});
-			}
-		})
-
-		var steps = [
-			{
-				title: '暱稱',
-				text: '請填暱稱',
-				input: 'text',
-			}, {
-				title: '姓名',
-				text: '請填真實姓名',
-				input: 'text',
-			}, { 
-				title: '完成時間(mm)',
-				text: '請填(分鐘)數字, 如: 23',
-				input: 'range',
-				inputAttributes: {
-					min: 15,
-					max: 30,
-					step: 1
-				},
-			}, {
-				title: '完成時間(ss)',
-				text: '請填(秒數)數字, 如: 11',
-				input: 'range',
-				inputAttributes: {
-					min: 0,
-					max: 59,
-					step: 1
-				},
-			}, {
-				title: '組別',
-				text: '各組限額 20 位',
-				input: 'select',
-				inputOptions: {
-					'第一組': '第一組',
-					'第二組': '第二組',
-					'等候補': '等候補',
-				},
-			}, {
-				title: '參賽狀況',
-				text: '請自行依個人實際狀況隨時更新，方便快速統計',
-				input: 'select',
-				inputOptions: {
-					'準時出席': '準時出席',
-					'出席不跑': '出席不跑',
-					'無法出席': '無法出席',
-					'沒有完成': '沒有完成',
-				},
-			}, {
-				title: '備註',
-				text: '怕找不到人, 請留下您的聯絡方式',
-				input: 'tel',
-			}
-		]
-
-		swal.queue(steps).then(function (result) {
-			swal.resetDefaults()
-			swal({
-				customClass: 'my-swal',
-				type: 'info',
-				title: result[0] + '，歡迎你報名！',
-				html: result[1] + '，' + result[2] + '分' + result[3] + '，' + result[4] + '秒<br>' + result[5] + '，' + result[6],
-				confirmButtonText: '　確認報名　',
-				cancelButtonText: '　取消　',
-				showCancelButton: true
-			}).catch(swal.noop)
-			<!-- alert(result[1]); -->
-		}, function () {
-			swal.resetDefaults()
-		})
-	}
-	
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
 	function getCheckInInfo(){
 		liff.init(function (data) {
@@ -294,7 +205,7 @@
 		var datetime = new Date();
 		data = [[datetime, $('#nickname').val(), $('#username').val(), $('#minute').val(), $('#second').val(), 
 				$('#groupname').val(), $('#attend').val(), $('#phone').val()]];
-		alert("data: " + JSON.stringify(data));
+		<!-- alert("data: " + JSON.stringify(data)); -->
 		parameter = {
 			url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 			name: gSpreadsheetsName,
@@ -302,7 +213,7 @@
 			data: data.toString(),
 			row: data.length,
 			column: data[0].length,
-			insertType: "merge"
+			insertType: "merge",
 		};
 		$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
 		
@@ -316,7 +227,7 @@
 		var datetime = new Date();
 		liff.getProfile().then(function (profile) {
 			data = [[profile.userId, profile.displayName, $('#username').val(), datetime]];
-			//alert("data: " + JSON.stringify(data));
+			<!-- alert("data: " + JSON.stringify(data)); -->
 			parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 				name: gSpreadsheetsName,
@@ -431,9 +342,6 @@
 			}).then(function() {
 				/* 將使用者填妥的[報名資訊]存到數據庫 */
 				postSingUpInfo();
-
-				
-			
 			});
 		}
 	});
