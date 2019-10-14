@@ -84,25 +84,27 @@
 		<h1>城中実業団 - 報名專區</h1>
 		<h2 id="racingDate"></h2>
 
-		<input id="nickname" maxlength="5" placeholder="請填暱稱" type="text" required disabled><br/>
-		<input id="username" maxlength="3" placeholder="請填姓名" disabled><br/>
-		<input id="minute" maxlength="2" placeholder="目標成績（分鐘）" disabled><br/>
-		<input id="second" maxlength="2" placeholder="目標成績（秒數）" disabled><br/>
-		<select class="custom-select" id="groupname" disabled>
-			<option value="組別">請選組別</option>
-			<option value="第一組">第一組</option>
-			<option value="第二組">第二組</option>
-			<option value="等候補">等候補</option>
-		</select><br/>
-		<select class="custom-select" id="attend" disabled>
-			<option value="出席狀況">出席狀況</option>
-			<option value="準時出席">準時出席</option>
-			<option value="出席不跑">出席不跑</option>
-			<option value="無法出席">無法出席</option>
-			<option value="沒有完成">沒有完成</option>
-		</select><br/>
-		<input id="phone" maxlength="10" placeholder="請填手機" disabled><br/>
-		<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
+		<form id="form1" name="form1" method="post" action="" onclick="return false">
+			<input id="nickname" maxlength="5" placeholder="請填暱稱" type="text" required disabled><br/>
+			<input id="username" maxlength="3" placeholder="請填姓名" disabled><br/>
+			<input id="minute" maxlength="2" placeholder="目標成績（分鐘）" disabled><br/>
+			<input id="second" maxlength="2" placeholder="目標成績（秒數）" disabled><br/>
+			<select class="custom-select" id="groupname" disabled>
+				<option value="組別">請選組別</option>
+				<option value="第一組">第一組</option>
+				<option value="第二組">第二組</option>
+				<option value="等候補">等候補</option>
+			</select><br/>
+			<select class="custom-select" id="attend" disabled>
+				<option value="出席狀況">出席狀況</option>
+				<option value="準時出席">準時出席</option>
+				<option value="出席不跑">出席不跑</option>
+				<option value="無法出席">無法出席</option>
+				<option value="沒有完成">沒有完成</option>
+			</select><br/>
+			<input id="phone" maxlength="10" placeholder="請填手機" disabled><br/>
+			<input id="finishtime" maxlength="20" placeholder="完成時間" disabled hidden><br/>
+		</form>
 		<button id="sendBtn" class="my-button" hidden>送出報名資料</button><br/>
 		<button id="certificateBtn" class="my-button" hidden>成績證明</button><br/>
 	</div>
@@ -122,6 +124,14 @@
 	
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
 	function getCheckInInfo(){
+		$('#sendBtn').show();
+		$('#nickname').removeAttr('disabled');
+		$('#username').removeAttr('disabled');
+		$('#groupname').removeAttr('disabled');
+		$('#minute').removeAttr('disabled');
+		$('#second').removeAttr('disabled');
+		$('#attend').removeAttr('disabled');
+		$('#phone').removeAttr('disabled');
 		liff.init(function (data) {
 			//alert(data.context.userId);
 			var parameter = {
@@ -339,7 +349,7 @@
 				customClass: 'my-swal',
 			}).then(function() {
 				/* 將使用者填妥的[報名資訊]存到數據庫 */
-				//postSingUpInfo();
+				postSingUpInfo();
 			});
 		}
 	});
