@@ -226,7 +226,7 @@
 		$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
 		
 		/* 將使用者填妥的[報到資訊]存到數據庫 */
-		//postCheckInInfo();
+		postCheckInInfo();
 	}	
 
 	/* 將使用者填妥的[報到資訊]存到數據庫 */
@@ -290,7 +290,7 @@
 				customClass: 'my-swal',
 				confirmButtonText: '　確認　',
 			});
-            //eval("document.form1['username'].focus()");
+			eval("document.form1['username'].focus()");
 		} else if ($("#nickname").val()==""){
 			swal({
 				type: 'warning', 
@@ -298,7 +298,7 @@
 				customClass: 'my-swal',
 				confirmButtonText: '　確認　',
 			});
-            //eval("document.form1['nickname'].focus()");
+			eval("document.form1['nickname'].focus()");
 		} else if ($("#minute").val()==""){
 			swal({
 				type: 'warning', 
@@ -306,7 +306,7 @@
 				customClass: 'my-swal',
 				confirmButtonText: '　確認　',
 			});
-            //eval("document.form1['minute'].focus()");
+			eval("document.form1['minute'].focus()");
 		} else if ($("#second").val()==""){
 			swal({
 				type: 'warning', 
@@ -314,7 +314,7 @@
 				customClass: 'my-swal',
 				confirmButtonText: '　確認　',
 			});
-           // eval("document.form1['second'].focus()");
+			eval("document.form1['second'].focus()");
 		} else if ($("#groupname").val()=="請選組別"){
 			swal({
 				type: 'warning', 
@@ -322,7 +322,7 @@
 				customClass: 'my-swal',
 				confirmButtonText: '　確認　',
 			});
-           // eval("document.form1['groupname'].focus()");
+			eval("document.form1['groupname'].focus()");
 		} else if ($("#attend").val()=="出席狀況"){
 			swal({
 				type: 'warning', 
@@ -330,7 +330,7 @@
 				customClass: 'my-swal',
 				confirmButtonText: '　確認　',
 			});
-            //eval("document.form1['attend'].focus()");
+			eval("document.form1['attend'].focus()");
 		} else if ($("#phone").val()==""){
 			swal({
 				type: 'warning', 
@@ -338,7 +338,7 @@
 				customClass: 'my-swal',
 				confirmButtonText: '　確認　',
 			});
-            //eval("document.form1['phone'].focus()");
+			eval("document.form1['phone'].focus()");
 		} else {
 			swal({
 				type: 'question',
