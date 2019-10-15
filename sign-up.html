@@ -213,7 +213,7 @@
 		var datetime = new Date();
 		data = [[datetime, $('#nickname').val(), $('#username').val(), $('#minute').val(), $('#second').val(), 
 				$('#groupname').val(), $('#attend').val(), $('#phone').val()]];
-		alert("data: " + JSON.stringify(data));
+		<!-- alert("data: " + JSON.stringify(data)); -->
 		parameter = {
 			url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 			name: gSpreadsheetsName,
@@ -224,7 +224,7 @@
 			insertType: "merge",
 		};
 		$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
-		alert("postSingUpInfo post done.");
+
 		/* 將使用者填妥的[報到資訊]存到數據庫 */
 		postCheckInInfo();
 	}	
@@ -350,7 +350,25 @@
 			}).then(function() {
 				/* 將使用者填妥的[報名資訊]存到數據庫 */
 				alert("確認送出");
-				postSingUpInfo();
+				let data = [];
+				var datetime = new Date();
+				data = [[datetime, $('#nickname').val(), $('#username').val(), $('#minute').val(), $('#second').val(), 
+						$('#groupname').val(), $('#attend').val(), $('#phone').val()]];
+				<!-- alert("data: " + JSON.stringify(data)); -->
+				parameter = {
+					url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
+					name: gSpreadsheetsName,
+					method: "SignUp",
+					data: data.toString(),
+					row: data.length,
+					column: data[0].length,
+					insertType: "merge",
+				};
+				$.post("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter);
+
+				/* 將使用者填妥的[報到資訊]存到數據庫 */
+				postCheckInInfo();
+				<!-- postSingUpInfo(); -->
 			});
 		}
 	});
