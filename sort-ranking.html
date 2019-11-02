@@ -161,7 +161,7 @@
 		var gSpreadsheetsLink = "https://spreadsheets.google.com/feeds/list/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/";
 		var gSpreadsheetsName = "onhmc4d/public/values?alt=json-in-script&callback=?"
 		var gSpreadsheetsQuery = "&sq=場次>1&orderby=column:成績&reverse=false";
-		var gRacingDateArray = ["20190601", "20190706", "20190803", "20190901", "20191006"];
+		var gRacingDateArray = ["20190601", "20190706", "20190803", "20190901", "20191006", "20191102"];
 		var gRacingTimeArray = new Array();
 		
 		$.getJSON(gSpreadsheetsLink + gSpreadsheetsName + gSpreadsheetsQuery, function(json){
@@ -262,6 +262,7 @@
 				gRacingTimeArray[2] = entry.gsx$_cztg3 ? entry.gsx$_cztg3.$t : 0;	/*20190803*/
 				gRacingTimeArray[3] = entry.gsx$_d180g ? entry.gsx$_d180g.$t : 0;	/*20190901*/
 				gRacingTimeArray[4] = entry.gsx$_d2mkx ? entry.gsx$_d2mkx.$t : 0;	/*20191006*/
+				gRacingTimeArray[5] = entry.gsx$_cssly ? entry.gsx$_cssly.$t : 0;	/*20191102*/
 				
 				/* 總排 */
 				vTable = vTable + "<td>";
