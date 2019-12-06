@@ -100,13 +100,13 @@
 			if (!liff.isLoggedIn()) {
 				// set `redirectUri` to redirect the user to a URL other than the front page of your LIFF app.
 				liff.login();
-				data.context = liff.getContext();
-				console.log(context);
+				var context = liff.getContext();
 			}
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 				name: gSpreadsheetsName,
-				uuid: data.context.userId,
+				//uuid: data.context.userId,
+				uuid: context.userId,
 				method: "checkIn",
 			};
 			$.get("https://script.google.com/macros/s/AKfycbyw_TkcMZAqnpuy0BXmpdfUgeHo7pMBHUgBiHp_gQq1KtG_aBU/exec", parameter, function(e){
