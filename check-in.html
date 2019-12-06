@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
-	<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+	<script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 	
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
@@ -96,8 +96,13 @@
 	
 	/* 檢查此UserId是否在[報到資訊]數據庫中 */
 	function getCheckInInfo(){
-		liff.init(function (data) {
-			//alert(data.context.userId);
+		liff.init({ liffId: "1566117365-BbRD3n6D" }, function (data) {
+			if (!liff.isLoggedIn()) {
+				// set `redirectUri` to redirect the user to a URL other than the front page of your LIFF app.
+				liff.login();
+				const context = liff.getContext();
+				console.log(context);
+			}
 			var parameter = {
 				url: "https://docs.google.com/spreadsheets/d/1L0JDjocOddl2LaRCEwi5MnqN6q-XCflOcl8UYR-kims/edit#gid=0",
 				name: gSpreadsheetsName,
