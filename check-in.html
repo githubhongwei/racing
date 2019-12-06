@@ -100,7 +100,7 @@
 			if (!liff.isLoggedIn()) {
 				// set `redirectUri` to redirect the user to a URL other than the front page of your LIFF app.
 				liff.login();
-				const context = liff.getContext();
+				data.context = liff.getContext();
 				console.log(context);
 			}
 			var parameter = {
