@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="tw">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			button {
+				width:96%;
+				font-size:50px;
+				font-family:Microsoft JhengHei;	
+				margin: 15px 0px;
+				padding: 10px 5px;
+				color: #FFFFFF;
+				background-color:#176394;	
+			}
+		</style>
+        <script>
+        function oAuth2() {
+            var URL = 'https://notify-bot.line.me/oauth/authorize?';
+            URL += 'response_type=code';
+            URL += '&client_id=qnX9glPB0lEFwuGb8EDbr6';
+            URL += '&redirect_uri=https://script.google.com/macros/s/AKfycbwUVqPPczfDlJIxczqTSwJ90RTkaI8UyeAfJb6-G5sx39vJGW0/exec';
+            URL += '&scope=notify';
+            URL += '&state=NO_STATE'; <!-- todo: send LINE user ID to identify an account-->
+            window.location.href = URL;
+        }
+    </script>
+    </head>
+    <body>
+		<div style="text-align:center;">
+			<button onclick="oAuth2();"> 連結到 LINE Notify 按鈕 </button>
+		<div>
+    </body>
+</html>
