@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="user-scalable=0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<style>
+		h1 {
+			font-size: 50px;
+			margin: 2px 0px;
+			padding: 2px 5px;
+			color:#143F4F;
+			font-family:Microsoft JhengHei;
+		}
+		input {
+			width: 88.7%;
+			font-size: 50px;
+			margin: 6px 0px;
+			padding: 10px 5px;
+			font-family:Microsoft JhengHei;
+			text-align:center
+		}
+		select {
+			position: relative;
+			width:90%;
+			font-size:50px;
+			font-family:Microsoft JhengHei;
+			text-align:center;
+			text-align-last:center;
+			margin: 6px 0px;
+			padding: 10px 5px;
+		}
+		button {
+			width:90%;
+			font-size:50px;
+			font-family:Microsoft JhengHei;	
+			margin: 15px 0px;
+			padding: 10px 5px;
+			color: #FFFFFF;
+			background-color:#176394;	
+		}
+        .my-swal{
+			zoom: 1.6 !important;
+			width:80% !important;
+		}
+	</style>
+</head>
+
+<body>
+	<div style="text-align:center;">
+		<h1>WiSleep LINE Notify</h1>
+		<form id="form1" name="form1" method="post" action="" onclick="return false">
+            <input id="room" maxlength="5" placeholder="請填房號"><br/>
+			<input id="bed" maxlength="5" placeholder="請填床號"><br/>
+            <input id="name" maxlength="5" placeholder="請填受照護者資訊"><br/>
+			<select id="event">
+				<option value="離床過久">離床過久</option>
+				<option value="Vital異常">Vital異常</option>
+                <option value="離床警示">離床警示</option>
+                <option value="跌倒警示">跌倒警示</option>
+                <option value="翻身一次">翻身一次</option>
+			</select><br/>
+		</form>
+		<button onclick="myFunction()" id="sendNotify">測試推播提醒</button><br/>
+	</div>
+
+	<script type="text/javascript">
+		function myFunction() {
+          swal({
+              title: '請先輸入密碼',
+              input: 'text',
+              customClass: 'my-swal',
+              showCancelButton: true,
+              confirmButtonText: '　確認　', 
+              cancelButtonText: '　取消　',
+              inputValidator: function(value) {
+                  return new Promise(function(resolve, reject) {
+                      if (value == 168) {
+                          resolve();
+                      } else {
+                          reject('請輸入正確密碼');
+                      }
+                  });
+              }
+          }).then(function(result) {
+              swal({
+                  type: 'success',
+                  title: '送出推播！',
+                  confirmButtonText: '　確認　',
+                  customClass: 'my-swal',
+              });
+
+              parameter = {
+                  event: $('#event').val(),
+                  name: $('#name').val(),
+                  bed: $('#bed').val(),
+                  room: $('#room').val(),
+              };
+              $.post('https://script.google.com/macros/s/AKfycbwUVqPPczfDlJIxczqTSwJ90RTkaI8UyeAfJb6-G5sx39vJGW0/exec', parameter);
+          }).catch(swal.noop);
+        
+        
+        
+        
+
+		}
+	</script>
+</body>
+</html>
